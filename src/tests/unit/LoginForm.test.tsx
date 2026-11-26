@@ -11,6 +11,33 @@ describe("LoginForm validation & authentication flow", () => {
     useUserStore.getState().reset();
   });
 
+  it("hides Akses Cepat Akun Demo section and demo credentials", () => {
+    render(
+      <MemoryRouter initialEntries={["/login"]}>
+        <LoginForm />
+      </MemoryRouter>
+    );
+
+    expect(
+      screen.queryByText(/akses cepat akun demo/i)
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: /demo peserta/i })
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: /demo admin/i })
+    ).not.toBeInTheDocument();
+    expect(screen.queryByText(/peserta123/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/admin123/i)).not.toBeInTheDocument();
+    expect(screen.getByText(/ingat saya/i)).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /lupa password\?/i })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /^masuk$/i })
+    ).toBeInTheDocument();
+  });
+
   it("shows localized validation messages on empty or invalid submit", async () => {
     const user = userEvent.setup();
     render(
@@ -36,7 +63,7 @@ describe("LoginForm validation & authentication flow", () => {
     ).toBeInTheDocument();
   });
 
-  it("logs in Demo Peserta and redirects to /participant/dashboard", async () => {
+  it("logs in Participant with email/password and redirects to /participant/dashboard", async () => {
     const user = userEvent.setup();
     render(
       <MemoryRouter initialEntries={["/login"]}>
@@ -50,7 +77,8 @@ describe("LoginForm validation & authentication flow", () => {
       </MemoryRouter>
     );
 
-    await user.click(screen.getByRole("button", { name: /demo peserta/i }));
+    await user.type(screen.getByLabelText(/email/i), "peserta@maganghub.id");
+    await user.type(screen.getByLabelText(/^password$/i), "peserta123");
     await user.click(screen.getByRole("button", { name: /^masuk$/i }));
 
     await waitFor(() => {
@@ -59,7 +87,7 @@ describe("LoginForm validation & authentication flow", () => {
     expect(useUserStore.getState().currentUser?.role).toBe("participant");
   });
 
-  it("logs in Demo Admin and redirects to /admin/dashboard", async () => {
+  it("logs in Admin with email/password and redirects to /admin/dashboard", async () => {
     const user = userEvent.setup();
     render(
       <MemoryRouter initialEntries={["/login"]}>
@@ -70,7 +98,8 @@ describe("LoginForm validation & authentication flow", () => {
       </MemoryRouter>
     );
 
-    await user.click(screen.getByRole("button", { name: /demo admin/i }));
+    await user.type(screen.getByLabelText(/email/i), "admin@maganghub.id");
+    await user.type(screen.getByLabelText(/^password$/i), "admin123");
     await user.click(screen.getByRole("button", { name: /^masuk$/i }));
 
     await waitFor(() => {

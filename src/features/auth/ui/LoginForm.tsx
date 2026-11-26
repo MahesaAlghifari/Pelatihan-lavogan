@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeOff, Lock, LogIn, Mail, Shield, UserCheck } from "lucide-react";
+import { Eye, EyeOff, Lock, LogIn, Mail } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "../hooks";
 import { Button } from "@/shared/components/ui/button";
@@ -37,7 +37,6 @@ export function LoginForm() {
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
@@ -46,18 +45,6 @@ export function LoginForm() {
       password: "",
     },
   });
-
-  const fillDemoAccount = (role: "participant" | "admin") => {
-    if (role === "participant") {
-      setValue("email", "peserta@maganghub.id", { shouldValidate: true });
-      setValue("password", "peserta123", { shouldValidate: true });
-      toast.info("Akun demo Peserta diisikan. Klik Masuk untuk melanjutkan.");
-    } else {
-      setValue("email", "admin@maganghub.id", { shouldValidate: true });
-      setValue("password", "admin123", { shouldValidate: true });
-      toast.info("Akun demo Admin diisikan. Klik Masuk untuk melanjutkan.");
-    }
-  };
 
   const onSubmit = async (values: FormValues) => {
     try {
@@ -175,7 +162,7 @@ export function LoginForm() {
               type="button"
               onClick={() =>
                 toast.info(
-                  "Silakan hubungi admin MagangHub atau gunakan akun demo di bawah."
+                  "Silakan hubungi admin MagangHub untuk bantuan reset password."
                 )
               }
               className="text-xs font-semibold text-primary hover:underline"
@@ -193,36 +180,6 @@ export function LoginForm() {
             {loading ? "Memproses..." : "Masuk"}
           </Button>
         </form>
-
-        {/* Demo Quick Fill */}
-        <div className="pt-4 border-t border-slate-100 space-y-3">
-          <p className="text-xs font-semibold uppercase tracking-wider text-slate-400 text-center">
-            Akses Cepat Akun Demo
-          </p>
-          <div className="grid grid-cols-2 gap-2.5">
-            <button
-              type="button"
-              onClick={() => fillDemoAccount("participant")}
-              className="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-teal-50 hover:border-primary/40 text-xs font-semibold text-slate-700 transition-colors"
-            >
-              <UserCheck className="w-3.5 h-3.5 text-primary" />
-              Demo Peserta
-            </button>
-            <button
-              type="button"
-              onClick={() => fillDemoAccount("admin")}
-              className="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-blue-50 hover:border-blue-300 text-xs font-semibold text-slate-700 transition-colors"
-            >
-              <Shield className="w-3.5 h-3.5 text-blue-600" />
-              Demo Admin
-            </button>
-          </div>
-          <p className="text-[11px] text-slate-400 text-center leading-relaxed">
-            Peserta: <span className="font-mono text-slate-600">peserta@maganghub.id</span> / <span className="font-mono text-slate-600">peserta123</span>
-            <br />
-            Admin: <span className="font-mono text-slate-600">admin@maganghub.id</span> / <span className="font-mono text-slate-600">admin123</span>
-          </p>
-        </div>
       </CardContent>
     </Card>
   );
