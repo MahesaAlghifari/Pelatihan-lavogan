@@ -23,8 +23,8 @@ function figmaAssetResolver() {
   };
 }
 
-export default defineConfig({
-  base: "/Pelatihan-lavogan/",
+export default defineConfig(({ command }) => ({
+  base: command === "build" ? "/Pelatihan-lavogan/" : "/",
 
   plugins: [
     figmaAssetResolver(),
@@ -93,4 +93,4 @@ export default defineConfig({
       },
     },
   },
-});
+}));

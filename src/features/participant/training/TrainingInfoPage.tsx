@@ -15,6 +15,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import { learningPaths, schemes, trainingsData } from '@/data/datadummy';
 import { useSchemeEnrollment } from '@/features/participant/schemes/schemeEnrollmentStorage';
+import { DASHBOARD_TOKENS } from '@/features/participant/shared/dashboardTokens';
 
 export function TrainingInfoPage() {
   const { id } = useParams();
@@ -62,50 +63,44 @@ export function TrainingInfoPage() {
       : learningPaths['full-stack'] ?? []);
 
   return (
-    <div className="w-full space-y-6">
+    <div className="w-full space-y-4">
       <button
         type="button"
         onClick={() => navigate('/participant/schemes')}
-        className="inline-flex items-center gap-2 text-sm font-semibold hover:underline"
-        style={{ color: 'var(--text-secondary)' }}
+        className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-[#667085] hover:text-[#1677F9] transition-colors"
       >
         <ArrowLeft className="w-4 h-4" /> Kembali ke Program Pelatihan
       </button>
 
-      <div className="bg-card p-6 sm:p-8 rounded-2xl border border-border flex flex-col md:flex-row md:items-start justify-between gap-6">
+      <div className={`${DASHBOARD_TOKENS.card} p-5 sm:p-6 flex flex-col md:flex-row md:items-start justify-between gap-6`}>
         <div className="space-y-3">
           <div className="flex flex-wrap items-center gap-2">
             <span
-              className="px-3 py-1 rounded-full text-xs font-bold"
-              style={{
-                backgroundColor: isAvailable
-                  ? 'var(--success-light)'
-                  : 'var(--warning-light)',
-                color: isAvailable ? 'var(--success)' : 'var(--warning)',
-              }}
+              className={
+                isAvailable
+                  ? DASHBOARD_TOKENS.badgeSuccess
+                  : DASHBOARD_TOKENS.badgeWarning
+              }
             >
               {isAvailable ? 'Program Tersedia' : 'Segera Hadir'}
             </span>
-            <span className="inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-full bg-muted" style={{ color: 'var(--text-secondary)' }}>
-              <Clock className="w-3.5 h-3.5 text-primary" /> {duration}
+            <span className={DASHBOARD_TOKENS.badgeNeutral}>
+              <Clock className="w-3.5 h-3.5 text-[#1677F9]" /> {duration}
             </span>
-            <span className="inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-full bg-muted" style={{ color: 'var(--text-secondary)' }}>
-              <BarChart className="w-3.5 h-3.5 text-primary" /> {level}
+            <span className={DASHBOARD_TOKENS.badgeNeutral}>
+              <BarChart className="w-3.5 h-3.5 text-[#1677F9]" /> {level}
             </span>
             {participantsCount !== undefined && (
-              <span className="inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-full bg-muted" style={{ color: 'var(--text-secondary)' }}>
-                <Users className="w-3.5 h-3.5 text-primary" /> {participantsCount} Peserta
+              <span className={DASHBOARD_TOKENS.badgeNeutral}>
+                <Users className="w-3.5 h-3.5 text-[#1677F9]" /> {participantsCount} Peserta
               </span>
             )}
           </div>
 
-          <h1
-            className="text-2xl sm:text-3xl font-bold"
-            style={{ color: 'var(--text-primary)' }}
-          >
+          <h1 className={DASHBOARD_TOKENS.pageTitle}>
             {title}
           </h1>
-          <p className="text-base leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+          <p className={`${DASHBOARD_TOKENS.pageSubtitle} leading-relaxed`}>
             {description}
           </p>
         </div>
@@ -116,15 +111,15 @@ export function TrainingInfoPage() {
               <button
                 type="button"
                 disabled
-                className="flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-bold bg-muted text-slate-500 border border-border cursor-not-allowed"
+                className="h-9 px-4 rounded-xl text-xs font-semibold bg-[#F3F6FB] text-[#667085] border border-[#E7ECF3] inline-flex items-center justify-center gap-1.5 cursor-not-allowed"
               >
-                <Lock className="w-4 h-4" />
+                <Lock className="w-3.5 h-3.5" />
                 Terkunci (Terdaftar di {currentEnrolledName})
               </button>
               <button
                 type="button"
                 onClick={() => navigate('/participant/schemes')}
-                className="text-xs font-semibold text-primary hover:underline"
+                className="text-xs font-semibold text-[#1677F9] hover:underline"
               >
                 Ajukan perubahan program ke Admin di Program Pelatihan
               </button>
@@ -148,11 +143,7 @@ export function TrainingInfoPage() {
                   id ? `/participant/learning?scheme=${id}` : '/participant/learning'
                 );
               }}
-              className="shrink-0 flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold transition-opacity hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
-              style={{
-                backgroundColor: 'var(--primary)',
-                color: 'var(--primary-foreground)',
-              }}
+              className={`${DASHBOARD_TOKENS.btnPrimary} shrink-0`}
             >
               {!isAvailable
                 ? 'Belum Tersedia'
@@ -161,7 +152,7 @@ export function TrainingInfoPage() {
                   : matchedScheme
                     ? 'Pilih & Mulai Program'
                     : 'Mulai Belajar'}
-              {isAvailable && <ArrowRight className="w-4 h-4" />}
+              {isAvailable && <ArrowRight className="w-3.5 h-3.5" />}
             </button>
           )}
         </div>
@@ -169,10 +160,12 @@ export function TrainingInfoPage() {
 
       {/* Syllabus / Learning Path */}
       {syllabus.length > 0 && (
-        <div className="bg-card p-6 rounded-2xl border border-border space-y-4">
+        <div className={`${DASHBOARD_TOKENS.card} p-5 sm:p-6 space-y-4`}>
           <div className="flex items-center gap-2.5">
-            <Layers className="w-5 h-5 text-primary" />
-            <h2 className="text-lg font-bold" style={{ color: 'var(--text-primary)' }}>
+            <div className={DASHBOARD_TOKENS.iconBoxSm}>
+              <Layers className="w-4 h-4" />
+            </div>
+            <h2 className={DASHBOARD_TOKENS.cardTitle}>
               Kurikulum & Learning Path ({syllabus.length} Tahap)
             </h2>
           </div>
@@ -180,20 +173,17 @@ export function TrainingInfoPage() {
             {syllabus.map((item, idx) => (
               <div
                 key={item.id ?? idx}
-                className="p-4 rounded-xl bg-muted/40 border border-border flex items-center justify-between gap-3"
+                className={`${DASHBOARD_TOKENS.subcard} p-3.5 flex items-center justify-between gap-3`}
               >
                 <div className="flex items-center gap-3 min-w-0">
-                  <span className="w-7 h-7 rounded-lg bg-primary/10 text-primary text-xs font-bold flex items-center justify-center shrink-0">
+                  <span className="w-7 h-7 rounded-lg bg-[#EAF3FF] text-[#1677F9] text-xs font-semibold flex items-center justify-center shrink-0">
                     {idx + 1}
                   </span>
-                  <span
-                    className="text-sm font-semibold truncate"
-                    style={{ color: 'var(--text-primary)' }}
-                  >
+                  <span className="text-sm font-semibold text-[#171C2B] truncate">
                     {item.title}
                   </span>
                 </div>
-                <span className="text-xs font-medium shrink-0" style={{ color: 'var(--text-secondary)' }}>
+                <span className="text-xs font-normal text-[#667085] shrink-0">
                   {item.modules} Modul
                 </span>
               </div>
@@ -202,53 +192,59 @@ export function TrainingInfoPage() {
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-card p-6 rounded-2xl border border-border">
-          <Target className="w-8 h-8 text-primary mb-4" />
-          <h3 className="font-bold text-lg mb-4" style={{ color: 'var(--text-primary)' }}>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className={`${DASHBOARD_TOKENS.card} p-5`}>
+          <div className={`${DASHBOARD_TOKENS.iconBox} mb-3.5`}>
+            <Target className="w-4 h-4" />
+          </div>
+          <h3 className={`${DASHBOARD_TOKENS.cardTitle} mb-3`}>
             Tujuan Pembelajaran
           </h3>
-          <ul className="space-y-2 text-sm" style={{ color: 'var(--text-secondary)' }}>
+          <ul className="space-y-2 text-xs sm:text-sm font-normal text-[#667085]">
             <li className="flex items-start gap-2">
-              <CheckCircle className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+              <CheckCircle className="w-4 h-4 text-[#1677F9] shrink-0 mt-0.5" />
               Memahami konsep fundamental pada skema {title}
             </li>
             <li className="flex items-start gap-2">
-              <CheckCircle className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+              <CheckCircle className="w-4 h-4 text-[#1677F9] shrink-0 mt-0.5" />
               Mampu menerapkan standar industri melalui praktik langsung
             </li>
           </ul>
         </div>
 
-        <div className="bg-card p-6 rounded-2xl border border-border">
-          <BookOpen className="w-8 h-8 text-warning mb-4" />
-          <h3 className="font-bold text-lg mb-4" style={{ color: 'var(--text-primary)' }}>
+        <div className={`${DASHBOARD_TOKENS.card} p-5`}>
+          <div className="w-9 h-9 rounded-lg bg-[#FEF3C7] text-[#B45309] flex items-center justify-center mb-3.5">
+            <BookOpen className="w-4 h-4" />
+          </div>
+          <h3 className={`${DASHBOARD_TOKENS.cardTitle} mb-3`}>
             Aturan Pelatihan
           </h3>
-          <ul className="space-y-2 text-sm" style={{ color: 'var(--text-secondary)' }}>
+          <ul className="space-y-2 text-xs sm:text-sm font-normal text-[#667085]">
             <li className="flex items-start gap-2">
-              <span className="text-warning shrink-0 mt-0.5">•</span>
+              <span className="text-[#B45309] shrink-0 mt-0.5">•</span>
               Menyelesaikan seluruh materi video dan modul dokumen
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-warning shrink-0 mt-0.5">•</span>
+              <span className="text-[#B45309] shrink-0 mt-0.5">•</span>
               Lulus semua quiz evaluasi modul
             </li>
           </ul>
         </div>
 
-        <div className="bg-card p-6 rounded-2xl border border-border">
-          <FileCheck className="w-8 h-8 text-success mb-4" />
-          <h3 className="font-bold text-lg mb-4" style={{ color: 'var(--text-primary)' }}>
+        <div className={`${DASHBOARD_TOKENS.card} p-5`}>
+          <div className="w-9 h-9 rounded-lg bg-[#ECFDF3] text-[#16A34A] flex items-center justify-center mb-3.5">
+            <FileCheck className="w-4 h-4" />
+          </div>
+          <h3 className={`${DASHBOARD_TOKENS.cardTitle} mb-3`}>
             Syarat Sertifikat
           </h3>
-          <ul className="space-y-2 text-sm" style={{ color: 'var(--text-secondary)' }}>
+          <ul className="space-y-2 text-xs sm:text-sm font-normal text-[#667085]">
             <li className="flex items-start gap-2">
-              <span className="text-success shrink-0 mt-0.5">•</span>
+              <span className="text-[#16A34A] shrink-0 mt-0.5">•</span>
               Progres pembelajaran mencapai 100%
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-success shrink-0 mt-0.5">•</span>
+              <span className="text-[#16A34A] shrink-0 mt-0.5">•</span>
               Seluruh tugas praktik & quiz dinyatakan lulus
             </li>
           </ul>
