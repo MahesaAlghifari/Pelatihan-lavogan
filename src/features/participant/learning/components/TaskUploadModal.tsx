@@ -24,7 +24,7 @@ export function TaskUploadModal({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!taskLink && !taskFile) {
-      alert('Harap lampirkan link tugas atau unggah file terlebih dahulu.');
+      alert('Please attach a submission URL or upload a file first.');
       return;
     }
 
@@ -44,7 +44,7 @@ export function TaskUploadModal({
         onClose();
       }
     } catch (error) {
-      alert('Gagal mengirim tugas. Silakan coba lagi.');
+      alert('Failed to submit assignment. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -59,8 +59,8 @@ export function TaskUploadModal({
               <Upload className="w-4 h-4" />
             </div>
             <div>
-              <h3 className={DASHBOARD_TOKENS.cardTitle}>Pengumpulan Tugas</h3>
-              <p className="text-xs font-normal text-[#667085]">{material.title || material.name}</p>
+              <h3 className={DASHBOARD_TOKENS.sectionHeading}>Assignment Submission</h3>
+              <p className={DASHBOARD_TOKENS.metaText}>{material.title || material.name}</p>
             </div>
           </div>
           <button
@@ -74,15 +74,15 @@ export function TaskUploadModal({
 
         <div className="p-5 sm:p-6 space-y-5">
           <div className={`${DASHBOARD_TOKENS.subcard} p-4`}>
-            <h4 className="font-semibold text-sm text-[#171C2B] mb-1">Instruksi Praktik</h4>
-            <p className="text-xs sm:text-sm font-normal leading-relaxed text-[#667085]">
-              {material.assignment?.description || 'Silakan kerjakan instruksi praktik berdasarkan materi dan unggah hasilnya berupa URL atau dokumen PDF/ZIP.'}
+            <h4 className={`${DASHBOARD_TOKENS.subheading} mb-1`}>Practical Instructions</h4>
+            <p className={DASHBOARD_TOKENS.description}>
+              {material.assignment?.description || 'Complete the practical assignment based on this module and upload your work via URL or PDF/ZIP archive.'}
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-xs font-semibold text-[#171C2B] mb-1.5">URL Hasil Tugas (Drive / Figma / GitHub)</label>
+              <label className={DASHBOARD_TOKENS.fieldLabel}>Submission URL (Drive / Figma / GitHub)</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
                   <LinkIcon className="h-4 w-4 text-[#98A2B3]" />
@@ -99,27 +99,27 @@ export function TaskUploadModal({
 
             <div className="flex items-center gap-4">
               <hr className="flex-1 border-[#E7ECF3]" />
-              <span className={DASHBOARD_TOKENS.mutedMetaLabel}>Atau Unggah File</span>
+              <span className={DASHBOARD_TOKENS.mutedMetaLabel}>Or Upload File</span>
               <hr className="flex-1 border-[#E7ECF3]" />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-[#171C2B] mb-1.5">File Dokumen Tugas (PDF / ZIP)</label>
+              <label className={DASHBOARD_TOKENS.fieldLabel}>Assignment Document (PDF / ZIP)</label>
               <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-[#D0D9E8] bg-[#F9FBFE] rounded-xl cursor-pointer hover:bg-[#F3F6FB] transition-colors">
                 <div className="flex flex-col items-center justify-center pt-4 pb-4">
                   {taskFile ? (
                     <>
                       <FileText className="w-7 h-7 mb-2 text-[#1677F9]" />
                       <p className="text-sm font-medium px-4 text-center truncate max-w-xs text-[#171C2B]">{taskFile.name}</p>
-                      <p className="text-xs mt-1 text-[#667085]">Klik untuk mengganti file</p>
+                      <p className="text-xs mt-1 text-[#667085]">Click to replace file</p>
                     </>
                   ) : (
                     <>
                       <Upload className="w-6 h-6 mb-2 text-[#98A2B3]" />
                       <p className="mb-1 text-sm text-center px-4 text-[#667085]">
-                        <span className="font-semibold text-[#1677F9]">Klik untuk unggah</span> atau drag and drop
+                        <span className="font-semibold text-[#1677F9]">Click to upload</span> or drag and drop
                       </p>
-                      <p className="text-xs text-[#98A2B3]">Maksimal 10MB</p>
+                      <p className="text-xs text-[#98A2B3]">Maximum 10MB</p>
                     </>
                   )}
                 </div>
@@ -129,14 +129,14 @@ export function TaskUploadModal({
 
             <div className="pt-4 border-t border-[#E7ECF3] flex gap-2.5 justify-end">
               <button type="button" onClick={onClose} className={DASHBOARD_TOKENS.btnOutline}>
-                Batal
+                Cancel
               </button>
               <button
                 type="submit"
                 disabled={isSubmitting || (!taskLink && !taskFile)}
                 className={DASHBOARD_TOKENS.btnPrimary}
               >
-                {isSubmitting ? 'Mengirim...' : 'Kumpulkan Tugas'}
+                {isSubmitting ? 'Submitting...' : 'Submit Assignment'}
               </button>
             </div>
           </form>

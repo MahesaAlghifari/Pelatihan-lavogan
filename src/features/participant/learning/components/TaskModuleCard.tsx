@@ -23,21 +23,21 @@ export function TaskModuleCard({
 }: TaskModuleCardProps) {
   const statusConfig = !submittedTask
     ? {
-        label: 'Belum Dikumpulkan',
+        label: 'Not Submitted',
         badgeClass: DASHBOARD_TOKENS.badgeNeutral,
         Icon: Clock,
       }
     : submittedTask.status === 'approved'
       ? {
-          label: 'Disetujui',
+          label: 'Approved',
           badgeClass: DASHBOARD_TOKENS.badgeSuccess,
           Icon: CheckCircle2,
         }
       : {
           label:
             submittedTask.status === 'revision'
-              ? 'Perlu Revisi'
-              : 'Menunggu Penilaian',
+              ? 'Needs Revision'
+              : 'Pending Review',
           badgeClass: DASHBOARD_TOKENS.badgeWarning,
           Icon: Clock,
         };
@@ -51,17 +51,17 @@ export function TaskModuleCard({
           <div className="w-12 h-12 rounded-xl bg-[#EAF3FF] text-[#1677F9] flex items-center justify-center shrink-0">
             <FileCheck2 className="w-6 h-6" />
           </div>
-          <div>
+          <div className="space-y-1">
             <span className={DASHBOARD_TOKENS.sectionLabel}>
-              Penugasan Praktik Modul
+              Module Practical Assignment
             </span>
-            <h2 className="text-lg font-semibold text-[#171C2B] tracking-tight mt-0.5">
+            <h2 className="text-lg font-semibold tracking-[-0.015em] leading-snug text-[#171C2B]">
               {material.name}
             </h2>
-            <p className="text-xs sm:text-sm font-normal text-[#667085] mt-1 leading-relaxed">
+            <p className={DASHBOARD_TOKENS.bodyText}>
               {material.assignment?.description ??
                 material.description ??
-                'Kerjakan tugas praktik sesuai materi modul ini lalu kumpulkan tautan repositori/dokumen atau file hasil pengerjaan Anda.'}
+                'Complete the practical assignment for this module and submit your repository/document URL or archive file.'}
             </p>
           </div>
         </div>
@@ -75,27 +75,27 @@ export function TaskModuleCard({
       {/* Assignment Guidelines */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
         <div className={`${DASHBOARD_TOKENS.subcard} p-3.5`}>
-          <p className="text-[11px] font-normal text-[#667085]">
-            Format Pengumpulan
+          <p className={DASHBOARD_TOKENS.metaText}>
+            Submission Format
           </p>
-          <p className="text-sm font-semibold text-[#171C2B] mt-1">
-            URL (GitHub/Drive) atau PDF/ZIP
-          </p>
-        </div>
-        <div className={`${DASHBOARD_TOKENS.subcard} p-3.5`}>
-          <p className="text-[11px] font-normal text-[#667085]">
-            Estimasi Pengerjaan
-          </p>
-          <p className="text-sm font-semibold text-[#171C2B] mt-1">
-            {material.duration ?? '45 Menit'}
+          <p className={`${DASHBOARD_TOKENS.subheading} mt-1`}>
+            URL (GitHub/Drive) or PDF/ZIP
           </p>
         </div>
         <div className={`${DASHBOARD_TOKENS.subcard} p-3.5`}>
-          <p className="text-[11px] font-normal text-[#667085]">
-            Penilai
+          <p className={DASHBOARD_TOKENS.metaText}>
+            Estimated Duration
           </p>
-          <p className="text-sm font-semibold text-[#171C2B] mt-1">
-            {material.instructor ?? 'Instruktur MagangHub'}
+          <p className={`${DASHBOARD_TOKENS.subheading} mt-1`}>
+            {material.duration ?? '45 min'}
+          </p>
+        </div>
+        <div className={`${DASHBOARD_TOKENS.subcard} p-3.5`}>
+          <p className={DASHBOARD_TOKENS.metaText}>
+            Reviewer
+          </p>
+          <p className={`${DASHBOARD_TOKENS.subheading} mt-1`}>
+            {material.instructor ?? 'MagangHub Instructor'}
           </p>
         </div>
       </div>
@@ -104,10 +104,10 @@ export function TaskModuleCard({
       {submittedTask && (
         <div className={`${DASHBOARD_TOKENS.subcard} p-4 space-y-2`}>
           <p className={DASHBOARD_TOKENS.mutedMetaLabel}>
-            Riwayat Pengumpulan Terakhir
+            Latest Submission History
           </p>
           <div className="flex flex-wrap items-center gap-4 text-xs text-[#667085]">
-            <span>Dikumpulkan: {submittedTask.submittedAt}</span>
+            <span>Submitted: {submittedTask.submittedAt}</span>
             {submittedTask.fileName && (
               <span className="inline-flex items-center gap-1 font-semibold text-[#171C2B]">
                 <FileText className="w-3.5 h-3.5 text-[#1677F9]" />
@@ -142,11 +142,11 @@ export function TaskModuleCard({
         >
           {submittedTask ? (
             <>
-              <RefreshCw className="w-3.5 h-3.5" /> Perbarui Tugas
+              <RefreshCw className="w-3.5 h-3.5" /> Update Assignment
             </>
           ) : (
             <>
-              <Upload className="w-3.5 h-3.5" /> Kumpulkan Tugas
+              <Upload className="w-3.5 h-3.5" /> Submit Assignment
             </>
           )}
         </button>

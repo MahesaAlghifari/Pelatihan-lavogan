@@ -96,22 +96,22 @@ const participantNavigation = [
     icon: LayoutDashboard,
   },
   {
-    title: "Program Pelatihan",
+    title: "Training Programs",
     href: "/participant/schemes",
     icon: GraduationCap,
   },
   {
-    title: "Materi Belajar",
+    title: "Learning Materials",
     href: "/participant/learning",
     icon: BookOpen,
   },
   {
-    title: "Sertifikat",
+    title: "Certificates",
     href: "/participant/certificate",
     icon: Award,
   },
   {
-    title: "Profil",
+    title: "Profile",
     href: "/participant/profile",
     icon: User,
   },

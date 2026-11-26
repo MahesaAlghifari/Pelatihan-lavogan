@@ -30,9 +30,11 @@ describe('SchemesPage single selection lock & admin change request', () => {
     renderSchemesPage();
 
     // Initially unselected: can pick 1 program
-    expect(screen.getByText(/pilih 1 program pelatihan/i)).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { name: /select 1 training program/i })
+    ).toBeInTheDocument();
     const pickButtons = screen.getAllByRole('button', {
-      name: /pilih program ini/i,
+      name: /select this program/i,
     });
     expect(pickButtons.length).toBe(2);
 
@@ -41,16 +43,16 @@ describe('SchemesPage single selection lock & admin change request', () => {
     const confirmDialog = screen.getByRole('dialog');
     await user.click(
       within(confirmDialog).getByRole('button', {
-        name: /konfirmasi & kunci program/i,
+        name: /confirm & lock program/i,
       })
     );
 
     // Locked status banner and card lock appear, persisted in localStorage
     expect(
-      screen.getByText(/program terkunci \(maks\. 1 program\)/i)
+      screen.getByText(/locked program \(max\. 1 program\)/i)
     ).toBeInTheDocument();
     expect(
-      screen.getByRole('button', { name: /terkunci \(hanya 1 program\)/i })
+      screen.getByRole('button', { name: /locked \(max 1 program\)/i })
     ).toBeDisabled();
     expect(localStorage.getItem(ENROLLED_SCHEME_STORAGE_KEY)).toContain(
       'full-stack'
@@ -58,33 +60,35 @@ describe('SchemesPage single selection lock & admin change request', () => {
 
     // Open change request modal for the other scheme
     await user.click(
-      screen.getByRole('button', { name: /ajukan pindah ke program ini/i })
+      screen.getByRole('button', { name: /request switch to this program/i })
     );
     const requestDialog = screen.getByRole('dialog');
 
     // Empty / too-short reason shows validation message
     await user.click(
       within(requestDialog).getByRole('button', {
-        name: /kirim pengajuan ke admin/i,
+        name: /submit request to admin/i,
       })
     );
     expect(
-      within(requestDialog).getByText(/alasan pengajuan perubahan minimal 10 karakter/i)
+      within(requestDialog).getByText(
+        /change request reason must be at least 10 characters/i
+      )
     ).toBeInTheDocument();
 
     // Valid reason submits pending request
     await user.type(
-      within(requestDialog).getByLabelText(/alasan pengajuan perubahan/i),
-      'Ingin fokus mendalami analisis data dan machine learning sesuai penempatan magang.'
+      within(requestDialog).getByLabelText(/reason for change request/i),
+      'I want to focus on data analysis and machine learning for my internship placement.'
     );
     await user.click(
       within(requestDialog).getByRole('button', {
-        name: /kirim pengajuan ke admin/i,
+        name: /submit request to admin/i,
       })
     );
 
     expect(
-      screen.getByText(/menunggu persetujuan admin: pindah ke/i)
+      screen.getByText(/pending admin approval: switch to/i)
     ).toBeInTheDocument();
     const storedRequests = JSON.parse(
       localStorage.getItem(SCHEME_CHANGE_REQUESTS_KEY) || '[]'

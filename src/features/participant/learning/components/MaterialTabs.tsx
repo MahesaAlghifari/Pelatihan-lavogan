@@ -34,9 +34,9 @@ function buildResourceContent(resource: MaterialResource, material: Material) {
   if (resource.previewContent) return resource.previewContent;
 
   if (resource.type.toUpperCase() === 'ZIP') {
-    return `// Starter Code & Latihan - ${material.name}
+    return `// Starter Code & Practice - ${material.name}
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -44,24 +44,24 @@ function buildResourceContent(resource: MaterialResource, material: Material) {
 </head>
 <body>
   <header>
-    <h1>MagangHub - Latihan ${material.name}</h1>
+    <h1>MagangHub - Practice ${material.name}</h1>
   </header>
   <main>
-    <p>Mulai tulis kode latihan Anda di bagian ini.</p>
+    <p>Start writing your practice code here.</p>
   </main>
 </body>
 </html>`;
   }
 
-  return `MATERI PENDUKUNG MAGANGHUB
-Judul Materi : ${material.name}
-Dokumen      : ${resource.label}
-Instruktur   : ${material.instructor ?? 'Tim Pengajar MagangHub'}
+  return `MAGANGHUB SUPPORTING MATERIAL
+Material Title : ${material.name}
+Document       : ${resource.label}
+Instructor     : ${material.instructor ?? 'MagangHub Teaching Team'}
 
-RINGKASAN POIN UTAMA:
-1. Pahami struktur dasar dan konvensi penulisan pada materi "${material.name}".
-2. Ikuti langkah praktik di video/panduan secara berurutan.
-3. Setelah selesai menonton atau membaca materi, kerjakan Quiz evaluasi atau Tugas Praktik.`;
+KEY TAKEAWAYS:
+1. Understand the core structure and coding conventions for "${material.name}".
+2. Follow the practice steps in the video/guide sequentially.
+3. After finishing the material, take the evaluation quiz or complete the practical assignment.`;
 }
 
 function triggerResourceDownload(resource: MaterialResource, material: Material) {
@@ -83,7 +83,7 @@ function triggerResourceDownload(resource: MaterialResource, material: Material)
   document.body.removeChild(anchor);
   URL.revokeObjectURL(url);
 
-  toast.success(`Mengunduh "${resource.label}" (${fileName}).`);
+  toast.success(`Downloading "${resource.label}" (${fileName}).`);
 }
 
 export function MaterialTabs({
@@ -114,7 +114,7 @@ export function MaterialTabs({
 
   const handleSaveNote = () => {
     onSaveNote(material.id, draftNote);
-    toast.success('Catatan pribadi berhasil disimpan.');
+    toast.success('Personal study notes saved.');
   };
 
   const handlePostComment = (e: React.FormEvent) => {
@@ -123,7 +123,7 @@ export function MaterialTabs({
     if (!trimmed) return;
     onAddDiscussion(material.id, trimmed);
     setCommentText('');
-    toast.success('Pertanyaan / komentar berhasil dikirim.');
+    toast.success('Question / comment posted.');
   };
 
   const tabs: Array<{
@@ -132,30 +132,30 @@ export function MaterialTabs({
     icon: typeof BookOpen;
     badge?: number;
   }> = [
-    { key: 'summary', label: 'Ringkasan', icon: BookOpen },
-    { key: 'notes', label: 'Catatan', icon: StickyNote },
+    { key: 'summary', label: 'Summary', icon: BookOpen },
+    { key: 'notes', label: 'Notes', icon: StickyNote },
     {
       key: 'discussion',
-      label: 'Diskusi',
+      label: 'Discussion',
       icon: MessageSquare,
       badge: discussions.length,
     },
   ];
 
   const keyPoints = material.keyPoints ?? [
-    `Memahami konsep inti dari materi "${material.name}".`,
-    'Menerapkan praktik standar industri pada studi kasus latihan.',
-    'Menyiapkan pemahaman sebelum mengerjakan quiz evaluasi atau tugas praktik.',
+    `Understand the core concepts of "${material.name}".`,
+    'Apply industry-standard practices to hands-on exercises.',
+    'Prepare your understanding before taking the evaluation quiz or practical assignment.',
   ];
 
   const resources: MaterialResource[] = material.resources ?? [
     {
-      label: `Slide & Ringkasan - ${material.name}`,
+      label: `Slides & Summary - ${material.name}`,
       size: '1.4 MB',
       type: 'PDF',
     },
     {
-      label: 'Starter Code & Contoh Latihan',
+      label: 'Starter Code & Practice Examples',
       size: '420 KB',
       type: 'ZIP',
     },
@@ -174,10 +174,10 @@ export function MaterialTabs({
                 key={tab.key}
                 type="button"
                 onClick={() => setActiveTab(tab.key)}
-                className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2.5 text-xs sm:text-sm font-semibold rounded-t-xl border-b-2 transition-colors whitespace-nowrap ${
+                className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2.5 text-xs sm:text-[13px] rounded-t-xl border-b-2 transition-colors whitespace-nowrap ${
                   isSelected
-                    ? 'bg-white text-[#1677F9] border-[#1677F9]'
-                    : 'border-transparent text-[#667085] hover:text-[#171C2B] hover:bg-white/70'
+                    ? 'bg-white text-[#1677F9] border-[#1677F9] font-semibold'
+                    : 'border-transparent text-[#667085] hover:text-[#171C2B] hover:bg-white/70 font-medium'
                 }`}
               >
                 <Icon className="w-4 h-4" />
@@ -196,26 +196,26 @@ export function MaterialTabs({
         <div className="p-4 sm:p-6">
           {activeTab === 'summary' && (
             <div className="space-y-5">
-              <div>
-                <h3 className={`${DASHBOARD_TOKENS.cardTitle} mb-1.5`}>
-                  Tentang Materi Ini
+              <div className="space-y-1.5">
+                <h3 className={DASHBOARD_TOKENS.sectionHeading}>
+                  About This Material
                 </h3>
-                <p className="text-xs sm:text-sm font-normal text-[#667085] leading-relaxed">
+                <p className={DASHBOARD_TOKENS.bodyText}>
                   {material.description ??
-                    `Sesi ini membahas topik "${material.name}" secara terstruktur agar peserta magang mampu memahami konsep dasar hingga implementasi praktis di proyek nyata.`}
+                    `This session covers "${material.name}" in a structured format so participants can connect foundational concepts with practical implementation.`}
                 </p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className={`${DASHBOARD_TOKENS.subcard} p-4 space-y-3`}>
-                  <h4 className="text-sm font-semibold text-[#171C2B]">
-                    Poin Pembelajaran
+                  <h4 className={DASHBOARD_TOKENS.cardTitle}>
+                    Key Takeaways
                   </h4>
                   <ul className="space-y-2.5">
                     {keyPoints.map((point, idx) => (
                       <li
                         key={idx}
-                        className="flex items-start gap-2.5 text-xs sm:text-sm font-normal text-[#667085]"
+                        className={`flex items-start gap-2.5 ${DASHBOARD_TOKENS.description}`}
                       >
                         <CheckCircle2 className="w-4 h-4 text-[#1677F9] shrink-0 mt-0.5" />
                         <span>{point}</span>
@@ -225,13 +225,13 @@ export function MaterialTabs({
                 </div>
 
                 <div className={`${DASHBOARD_TOKENS.subcard} p-4 space-y-3`}>
-                  <h4 className="text-sm font-semibold text-[#171C2B]">
-                    Materi Pendukung & Informasi
+                  <h4 className={DASHBOARD_TOKENS.cardTitle}>
+                    Supporting Materials & Info
                   </h4>
-                  <p className="text-xs font-normal text-[#667085]">
-                    Instruktur:{' '}
-                    <span className="font-semibold text-[#171C2B]">
-                      {material.instructor ?? 'Tim Pengajar MagangHub'}
+                  <p className={DASHBOARD_TOKENS.metaText}>
+                    Instructor:{' '}
+                    <span className="font-medium text-[#171C2B]">
+                      {material.instructor ?? 'MagangHub Teaching Team'}
                     </span>
                   </p>
                   <div className="space-y-2">
@@ -240,11 +240,11 @@ export function MaterialTabs({
                         key={idx}
                         className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 p-3 rounded-xl bg-white border border-[#E7ECF3]"
                       >
-                        <div className="min-w-0">
-                          <p className="text-xs font-semibold text-[#171C2B] truncate">
+                        <div className="min-w-0 space-y-0.5">
+                          <p className="text-[13px] font-medium text-[#171C2B] truncate leading-snug">
                             {res.label}
                           </p>
-                          <p className="text-[11px] font-normal text-[#667085] mt-0.5">
+                          <p className="text-[11px] font-normal text-[#667085] leading-normal">
                             {res.type} • {res.size}
                           </p>
                         </div>
@@ -262,11 +262,11 @@ export function MaterialTabs({
                           <button
                             type="button"
                             onClick={() => triggerResourceDownload(res, material)}
-                            aria-label={`Unduh ${res.label}`}
+                            aria-label={`Download ${res.label}`}
                             className="h-8 px-2.5 rounded-lg text-xs font-semibold bg-[#1677F9] hover:bg-[#1262D4] text-white inline-flex items-center gap-1 transition-colors"
                           >
                             <Download className="w-3.5 h-3.5" />
-                            Unduh
+                            Download
                           </button>
                         </div>
                       </div>
@@ -280,16 +280,16 @@ export function MaterialTabs({
           {activeTab === 'notes' && (
             <div className="space-y-4">
               <div className="flex items-center justify-between gap-3">
-                <div>
-                  <h3 className={DASHBOARD_TOKENS.cardTitle}>
-                    Catatan Belajar Pribadi
+                <div className="space-y-0.5">
+                  <h3 className={DASHBOARD_TOKENS.sectionHeading}>
+                    Personal Study Notes
                   </h3>
-                  <p className="text-xs font-normal text-[#667085]">
-                    Catatan tersimpan otomatis per materi di browser Anda.
+                  <p className={DASHBOARD_TOKENS.description}>
+                    Notes are stored per material in your browser.
                   </p>
                 </div>
-                <span className="text-xs font-medium text-[#667085] tabular-nums">
-                  {draftNote.length} karakter
+                <span className={`${DASHBOARD_TOKENS.metaText} font-medium tabular-nums`}>
+                  {draftNote.length} characters
                 </span>
               </div>
 
@@ -297,15 +297,15 @@ export function MaterialTabs({
                 rows={5}
                 value={draftNote}
                 onChange={(e) => setDraftNote(e.target.value)}
-                placeholder={`Tulis rangkuman atau poin penting untuk "${material.name}"...`}
+                placeholder={`Write a summary or key points for "${material.name}"...`}
                 className={DASHBOARD_TOKENS.input}
               />
 
               <div className="flex items-center justify-between">
                 <span className="text-xs font-normal text-[#667085]">
                   {draftNote === noteValue && noteValue.length > 0
-                    ? 'Semua perubahan tersimpan'
-                    : 'Klik simpan untuk menyimpan catatan'}
+                    ? 'All changes saved'
+                    : 'Click Save Notes to keep your changes'}
                 </span>
                 <button
                   type="button"
@@ -313,7 +313,7 @@ export function MaterialTabs({
                   className={DASHBOARD_TOKENS.btnPrimary}
                 >
                   <Save className="w-3.5 h-3.5" />
-                  Simpan Catatan
+                  Save Notes
                 </button>
               </div>
             </div>
@@ -322,15 +322,15 @@ export function MaterialTabs({
           {activeTab === 'discussion' && (
             <div className="space-y-5">
               <form onSubmit={handlePostComment} className="space-y-2.5">
-                <label className="block text-sm font-semibold text-[#171C2B]">
-                  Tanya Instruktur atau Diskusi Materi
+                <label className={`block ${DASHBOARD_TOKENS.subheading}`}>
+                  Ask Instructor or Discuss Material
                 </label>
                 <div className="flex flex-col sm:flex-row gap-2.5">
                   <input
                     type="text"
                     value={commentText}
                     onChange={(e) => setCommentText(e.target.value)}
-                    placeholder="Tulis pertanyaan atau tanggapan mengenai materi ini..."
+                    placeholder="Write a question or comment about this material..."
                     className={`${DASHBOARD_TOKENS.input} flex-1 h-9`}
                   />
                   <button
@@ -339,7 +339,7 @@ export function MaterialTabs({
                     className={`${DASHBOARD_TOKENS.btnPrimary} whitespace-nowrap`}
                   >
                     <Send className="w-3.5 h-3.5" />
-                    Kirim
+                    Post
                   </button>
                 </div>
               </form>
@@ -347,8 +347,7 @@ export function MaterialTabs({
               <div className="space-y-3 pt-3 border-t border-[#E7ECF3]">
                 {discussions.length === 0 ? (
                   <p className="text-sm font-normal text-[#667085] text-center py-6">
-                    Belum ada diskusi pada materi ini. Jadilah yang pertama
-                    bertanya!
+                    No discussions on this material yet. Be the first to ask!
                   </p>
                 ) : (
                   discussions.map((item) => (
@@ -372,8 +371,8 @@ export function MaterialTabs({
                             }
                           >
                             {item.role === 'instructor'
-                              ? 'Instruktur'
-                              : 'Peserta'}
+                              ? 'Instructor'
+                              : 'Participant'}
                           </span>
                         </div>
                         <span className="text-xs font-normal text-[#667085]">
@@ -423,11 +422,11 @@ export function MaterialTabs({
                   className={DASHBOARD_TOKENS.btnPrimary}
                 >
                   <Download className="w-3.5 h-3.5" />
-                  Unduh
+                  Download
                 </button>
                 <button
                   type="button"
-                  aria-label="Tutup pratinjau materi pendukung"
+                  aria-label="Close supporting material preview"
                   onClick={() => setPreviewResource(null)}
                   className="p-2 rounded-xl text-[#667085] hover:bg-[#F3F6FB] transition-colors"
                 >

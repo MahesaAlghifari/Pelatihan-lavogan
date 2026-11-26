@@ -5,7 +5,7 @@ export const submitTaskData = async (submission: TaskSubmission): Promise<{ succ
   return new Promise((resolve) => {
     setTimeout(() => {
       console.log('Task submitted to backend:', submission);
-      resolve({ success: true, message: 'Tugas berhasil dikumpulkan!' });
+      resolve({ success: true, message: 'Assignment submitted successfully!' });
     }, 1500); // Simulasi delay network
   });
 };

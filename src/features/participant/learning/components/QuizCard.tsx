@@ -25,7 +25,7 @@ export function QuizCard({
         <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
           <div className="min-w-0">
             <p className={DASHBOARD_TOKENS.mutedMetaLabel}>
-              Pertanyaan {currentNumber} dari {totalQuestions}
+              Question {currentNumber} of {totalQuestions}
             </p>
             <h3 className="mt-1 text-base font-semibold text-[#171C2B] leading-snug">
               {question.question}
@@ -42,10 +42,10 @@ export function QuizCard({
             {selectedAnswer !== null ? (
               <>
                 <Check className="w-3 h-3" />
-                Terjawab
+                Answered
               </>
             ) : (
-              '○ Belum Dijawab'
+              '○ Unanswered'
             )}
           </span>
         </div>

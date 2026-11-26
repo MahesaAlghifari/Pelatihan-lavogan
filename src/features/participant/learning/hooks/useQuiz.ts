@@ -90,7 +90,7 @@ export const useQuiz = (
     if (unansweredIndices.length > 0) {
       const firstUnansweredIndex = unansweredIndices[0]!;
       setValidationError(
-        `Masih ada ${unansweredIndices.length} soal yang belum dijawab (lihat soal #${firstUnansweredIndex + 1}).`
+        `There are still ${unansweredIndices.length} unanswered questions (see question #${firstUnansweredIndex + 1}).`
       );
       setCurrentQuestionIdx(firstUnansweredIndex);
       return {

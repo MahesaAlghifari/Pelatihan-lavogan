@@ -65,7 +65,7 @@ export function selectAndLockScheme(
     return {
       ok: false,
       error:
-        'Anda sudah memilih 1 program dan pilihan terkunci. Ajukan perubahan ke Admin untuk mengganti program.',
+        'You have already selected a training program and your selection is locked. Submit a change request to the Admin to switch.',
     };
   }
 
@@ -73,7 +73,7 @@ export function selectAndLockScheme(
   if (!target || !target.available) {
     return {
       ok: false,
-      error: 'Program pelatihan yang dipilih tidak tersedia.',
+      error: 'The selected training program is unavailable.',
     };
   }
 
@@ -101,14 +101,14 @@ export function submitSchemeChangeRequest(params: {
   if (!enrollment) {
     return {
       ok: false,
-      error: 'Pilih 1 program terlebih dahulu sebelum mengajukan perubahan.',
+      error: 'Select a training program before submitting a change request.',
     };
   }
 
   if (params.requestedSchemeId === enrollment.schemeId) {
     return {
       ok: false,
-      error: 'Program tujuan harus berbeda dengan program yang sedang diikuti.',
+      error: 'The requested program must differ from your current program.',
     };
   }
 
@@ -117,7 +117,7 @@ export function submitSchemeChangeRequest(params: {
     return {
       ok: false,
       error:
-        'Masih ada pengajuan perubahan program yang menunggu persetujuan Admin.',
+        'You already have a program change request awaiting Admin approval.',
     };
   }
 
@@ -125,7 +125,7 @@ export function submitSchemeChangeRequest(params: {
   if (trimmedReason.length < 10) {
     return {
       ok: false,
-      error: 'Alasan pengajuan perubahan minimal 10 karakter.',
+      error: 'Change request reason must be at least 10 characters.',
     };
   }
 
@@ -135,13 +135,13 @@ export function submitSchemeChangeRequest(params: {
   if (!requestedScheme || !requestedScheme.available) {
     return {
       ok: false,
-      error: 'Program tujuan tidak tersedia untuk dipilih.',
+      error: 'The requested training program is unavailable.',
     };
   }
 
   const request: SchemeChangeRequest = {
     id: `req-${Date.now()}`,
-    participantName: params.participantName || 'Peserta Magang',
+    participantName: params.participantName || 'Participant',
     participantEmail: params.participantEmail || 'peserta@maganghub.id',
     currentSchemeId: enrollment.schemeId,
     currentSchemeName: currentScheme?.name ?? enrollment.schemeId,

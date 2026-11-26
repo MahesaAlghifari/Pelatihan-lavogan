@@ -31,8 +31,8 @@ const DEFAULT_DISCUSSIONS: Record<string, DiscussionComment[]> = {
       author: 'Muhammad Zacky',
       role: 'instructor',
       message:
-        'Selamat datang di modul HTML Basics! Pastikan Anda mencoba menulis struktur dasar <!DOCTYPE html> secara langsung di code editor sambil menonton video.',
-      createdAt: '2 hari lalu',
+        'Welcome to the HTML Basics module! Make sure to try writing the basic <!DOCTYPE html> structure directly in your code editor while watching the video.',
+      createdAt: '2 days ago',
     },
     {
       id: 'disc-2',
@@ -40,8 +40,8 @@ const DEFAULT_DISCUSSIONS: Record<string, DiscussionComment[]> = {
       author: 'Ahmad Sudirman',
       role: 'participant',
       message:
-        'Pak, apakah tag <header> dan <main> wajib digunakan di HTML5 untuk SEO yang lebih baik?',
-      createdAt: '1 hari lalu',
+        'Should <header> and <main> tags always be used in HTML5 for better SEO?',
+      createdAt: '1 day ago',
     },
   ],
   'css-fund-video': [
@@ -51,8 +51,8 @@ const DEFAULT_DISCUSSIONS: Record<string, DiscussionComment[]> = {
       author: 'Rizki Darmawan, S.Kom.',
       role: 'instructor',
       message:
-        'Gunakan DevTools (Inspect Element) untuk melihat box-model margin, border, dan padding secara visual saat latihan.',
-      createdAt: '3 hari lalu',
+        'Use DevTools (Inspect Element) to visually inspect box-model margin, border, and padding while practicing.',
+      createdAt: '3 days ago',
     },
   ],
 };
@@ -144,7 +144,7 @@ export const useLearningProgress = (learningPath: Module[]) => {
         materialId,
         link: payload.link || undefined,
         fileName: payload.fileName || undefined,
-        submittedAt: new Date().toLocaleString('id-ID', {
+        submittedAt: new Date().toLocaleString('en-US', {
           day: 'numeric',
           month: 'short',
           year: 'numeric',
@@ -152,7 +152,7 @@ export const useLearningProgress = (learningPath: Module[]) => {
           minute: '2-digit',
         }),
         status: 'pending',
-        feedback: 'Tugas sedang menunggu pemeriksaan dari instruktur.',
+        feedback: 'Assignment is awaiting review from the instructor.',
       };
       setSubmittedTasks((prev) => ({ ...prev, [materialId]: info }));
       markAsCompleted(materialId);
@@ -172,7 +172,7 @@ export const useLearningProgress = (learningPath: Module[]) => {
         author,
         role: 'participant',
         message,
-        createdAt: 'Baru saja',
+        createdAt: 'Just now',
       };
       setDiscussions((prev) => ({
         ...prev,

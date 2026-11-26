@@ -41,7 +41,7 @@ export function VideoPlayer({ material }: VideoPlayerProps) {
         <div className="w-full aspect-video max-h-[calc(100dvh-14.5rem)] relative mx-auto">
           {hideEmbedForDrawer ? (
             <div className="absolute inset-0 flex items-center justify-center bg-slate-950 text-xs text-slate-400">
-              Menu navigasi terbuka
+              Navigation menu is open
             </div>
           ) : (
             <iframe
@@ -55,7 +55,7 @@ export function VideoPlayer({ material }: VideoPlayerProps) {
           )}
           <button
             type="button"
-            aria-label="Layar penuh"
+            aria-label="Fullscreen"
             onClick={toggleFullScreen}
             className="absolute bottom-4 right-4 p-2 bg-black/60 hover:bg-black/80 text-white rounded-lg opacity-0 group-hover:opacity-100 transition-opacity z-10 flex items-center gap-2 backdrop-blur-sm"
           >
@@ -79,28 +79,28 @@ export function VideoPlayer({ material }: VideoPlayerProps) {
                 onClick={() => setShowDocPreview(false)}
                 className={DASHBOARD_TOKENS.btnOutline}
               >
-                Tutup Pratinjau
+                Close Preview
               </button>
             </div>
             <div className="space-y-3 text-sm leading-relaxed text-[#667085]">
               <p className="font-semibold text-[#171C2B]">
-                Ringkasan Materi Dokumen ({material.pages ? `${material.pages} Halaman` : 'Referensi'})
+                Document Summary ({material.pages ? `${material.pages} Pages` : 'Reference'})
               </p>
               <p>
-                Dokumen ini membahas konsep inti, sintaks standar industri, dan praktik terbaik yang digunakan pada modul terkait.
+                This document covers core concepts, industry-standard syntax, and best practices used throughout the related module.
               </p>
               <ul className="space-y-2 pt-1">
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-[#1677F9] shrink-0" />
-                  <span>Struktur dasar dan konvensi penulisan kode yang rapi.</span>
+                  <span>Clean code structure and writing conventions.</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-[#1677F9] shrink-0" />
-                  <span>Contoh penerapan komponen dan atribut yang paling sering dipakai.</span>
+                  <span>Practical examples of commonly used components and attributes.</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-[#1677F9] shrink-0" />
-                  <span>Checklist verifikasi mandiri sebelum melanjutkan ke tugas atau quiz.</span>
+                  <span>Self-review checklist before moving on to the assignment or quiz.</span>
                 </li>
               </ul>
             </div>
@@ -110,10 +110,10 @@ export function VideoPlayer({ material }: VideoPlayerProps) {
             <div className="w-16 h-16 rounded-2xl bg-[#EAF3FF] text-[#1677F9] flex items-center justify-center">
               <FileText className="w-8 h-8" />
             </div>
-            <div>
-              <h3 className="text-lg font-semibold text-[#171C2B] tracking-tight">Dokumen Materi (PDF)</h3>
-              <p className="text-xs sm:text-sm font-normal text-[#667085] mt-1 max-w-md">
-                {material.name} {material.pages ? `• ${material.pages} Halaman` : ''} — Silakan baca dokumen panduan ini untuk menyelesaikan sesi materi terkait.
+            <div className="space-y-1.5">
+              <h3 className={DASHBOARD_TOKENS.sectionHeading}>Document Material (PDF)</h3>
+              <p className={`${DASHBOARD_TOKENS.description} max-w-md`}>
+                {material.name} {material.pages ? `• ${material.pages} Pages` : ''} — Please review this guide to complete the material session.
               </p>
             </div>
             {hasValidExternalPdf ? (
@@ -123,7 +123,7 @@ export function VideoPlayer({ material }: VideoPlayerProps) {
                 rel="noopener noreferrer"
                 className={`${DASHBOARD_TOKENS.btnPrimary} mt-1`}
               >
-                Buka Dokumen PDF <ExternalLink className="w-3.5 h-3.5" />
+                Open PDF Document <ExternalLink className="w-3.5 h-3.5" />
               </a>
             ) : (
               <button
@@ -131,7 +131,7 @@ export function VideoPlayer({ material }: VideoPlayerProps) {
                 onClick={() => setShowDocPreview(true)}
                 className={`${DASHBOARD_TOKENS.btnPrimary} mt-1`}
               >
-                Baca Dokumen PDF <ExternalLink className="w-3.5 h-3.5" />
+                Read PDF Document <ExternalLink className="w-3.5 h-3.5" />
               </button>
             )}
           </div>
@@ -139,7 +139,7 @@ export function VideoPlayer({ material }: VideoPlayerProps) {
       ) : (
         <div className="flex flex-col items-center justify-center w-full min-h-[280px] sm:min-h-[340px] lg:h-[calc(100dvh-16rem)] max-h-[520px] text-[#667085]">
           <PlayCircle className="w-14 h-14 mb-3 text-[#98A2B3]" />
-          <p className="text-sm font-normal">Format materi tidak dikenali</p>
+          <p className="text-sm font-normal">Unrecognized material format</p>
         </div>
       )}
     </div>

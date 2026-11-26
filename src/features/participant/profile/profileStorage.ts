@@ -85,18 +85,18 @@ export function getDefaultParticipantProfile(): ParticipantProfile {
     nomor_telepon: defaultPhone,
     tempat_lahir: 'Bandung',
     tanggal_lahir: '2001-05-14',
-    jenis_kelamin: 'Laki-laki',
-    domisili: 'Jakarta Selatan, DKI Jakarta',
+    jenis_kelamin: 'Male',
+    domisili: 'South Jakarta, DKI Jakarta',
 
     riwayat_pendidikan: [
       {
         id: 'edu-1',
         nama_institusi: 'Institut Teknologi Bandung',
-        jenjang: 'S1',
-        jurusan: 'Teknik Informatika',
+        jenjang: 'Bachelor (S1)',
+        jurusan: 'Informatics Engineering',
         periode_tahun: '2019 - 2023',
-        nilai_akhir: 'IPK 3.78 / 4.00',
-        lokasi_institusi: 'Bandung, Jawa Barat',
+        nilai_akhir: 'GPA 3.78 / 4.00',
+        lokasi_institusi: 'Bandung, West Java',
       },
     ],
 
@@ -106,23 +106,23 @@ export function getDefaultParticipantProfile(): ParticipantProfile {
         posisi: 'Frontend Developer Intern',
         nama_perusahaan: 'PT Inovasi Digital Nusantara',
         periode_kerja: 'Jan 2025 - Jun 2025',
-        tipe_pekerjaan: 'Magang',
-        lokasi_kerja: 'Jakarta Selatan',
+        tipe_pekerjaan: 'Internship',
+        lokasi_kerja: 'South Jakarta',
         deskripsi_pekerjaan:
-          'Mengembangkan antarmuka dashboard berbasis React dan TypeScript serta melakukan integrasi REST API dengan tim backend.',
+          'Developed React and TypeScript dashboard interfaces and integrated REST APIs with the backend engineering team.',
       },
     ],
 
     riwayat_pelatihan: [
       {
         id: 'train-1',
-        nama_pelatihan: 'Bootcamp Full Stack Web Development',
+        nama_pelatihan: 'Full Stack Web Development Bootcamp',
         penyelenggara: 'MagangHub Academy',
-        periode_pelatihan: 'Agu 2025 - Nov 2025',
+        periode_pelatihan: 'Aug 2025 - Nov 2025',
         kategori_bidang: 'Web Development',
-        lokasi_pelatihan: 'Daring (Online)',
+        lokasi_pelatihan: 'Online',
         deskripsi_pelatihan:
-          'Pelatihan intensif HTML5, CSS3, JavaScript modern, React, Node.js, dan deployment aplikasi web.',
+          'Intensive training in HTML5, CSS3, modern JavaScript, React, Node.js, and web application deployment.',
       },
     ],
 
@@ -130,9 +130,9 @@ export function getDefaultParticipantProfile(): ParticipantProfile {
       {
         id: 'cert-1',
         nama_sertifikasi: 'Junior Web Developer',
-        lembaga_penerbit: 'BNSP / LSP Teknologi Digital',
-        masa_berlaku: 'Okt 2025 - Okt 2028',
-        lampiran_dokumen: 'sertifikat-jwd-ahmad-sudirman.pdf',
+        lembaga_penerbit: 'BNSP / Digital Technology LSP',
+        masa_berlaku: 'Oct 2025 - Oct 2028',
+        lampiran_dokumen: 'certificate-jwd-ahmad-sudirman.pdf',
       },
     ],
 

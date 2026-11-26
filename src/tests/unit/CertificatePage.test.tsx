@@ -23,8 +23,13 @@ describe("CertificatePage graduation & claim flow", () => {
     expect(screen.getByText("0 / 5")).toBeInTheDocument();
     expect(screen.getByText("0 / 2")).toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: /lanjutkan belajar/i })
+      screen.getByRole("button", { name: /continue learning/i })
     ).toBeInTheDocument();
+    // Single certificate focus: no duplicate/dummy certificates and no search bar
+    expect(screen.queryByText(/Budi Santoso/i)).not.toBeInTheDocument();
+    expect(
+      screen.queryByPlaceholderText(/search/i)
+    ).not.toBeInTheDocument();
   });
 
   it("allows claiming a new certificate once all required materials and quizzes are completed", async () => {
@@ -66,21 +71,23 @@ describe("CertificatePage graduation & claim flow", () => {
       </MemoryRouter>
     );
 
-    expect(screen.getByText("Memenuhi Syarat")).toBeInTheDocument();
+    expect(screen.getByText("Eligible")).toBeInTheDocument();
     expect(screen.getByText("5 / 5")).toBeInTheDocument();
     expect(screen.getByText("2 / 2")).toBeInTheDocument();
 
     const claimButton = screen.getByRole("button", {
-      name: /klaim sertifikat sekarang/i,
+      name: /claim certificate now/i,
     });
     await user.click(claimButton);
 
     expect(
-      screen.getByText("Pratinjau Sertifikat Pelatihan")
+      screen.getByText("Training Certificate Preview")
     ).toBeInTheDocument();
-    expect(screen.getByText("CERT-FSW-2026-101")).toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: /sertifikat sudah diklaim/i })
+      screen.getAllByText("CERT-FSW-2026-101").length
+    ).toBeGreaterThanOrEqual(1);
+    expect(
+      screen.getByRole("button", { name: /certificate claimed/i })
     ).toBeInTheDocument();
   });
 });

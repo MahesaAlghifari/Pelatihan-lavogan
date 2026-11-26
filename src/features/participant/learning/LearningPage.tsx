@@ -49,16 +49,16 @@ const MODULE_TASK_MAP: Record<
 > = {
   'html-basics': {
     id: 'task-html-basics',
-    name: 'Tugas Praktik: HTML Basics',
+    name: 'Practical Assignment: HTML Basics',
     description:
-      'Buat halaman profil web statis menggunakan elemen HTML5 semantik (header, main, section, form, footer) dan kumpulkan link repositori GitHub atau file ZIP.',
+      'Build a static web profile page using semantic HTML5 elements (header, main, section, form, footer) and submit a GitHub repository URL or ZIP archive.',
     duration: '45 min',
   },
   'css-styling': {
     id: 'task-css-styling',
-    name: 'Tugas Praktik: CSS Styling',
+    name: 'Practical Assignment: CSS Styling',
     description:
-      'Terapkan styling Flexbox & Grid responsif pada halaman profil HTML Anda, lalu unggah hasil proyek dalam bentuk URL atau arsip ZIP.',
+      'Apply responsive Flexbox & Grid styling to your HTML profile page, then upload the completed project as a URL or ZIP archive.',
     duration: '60 min',
   },
 };
@@ -100,20 +100,20 @@ export function LearningPage() {
           modules: [
             {
               id: `ds-${stage.id}-video`,
-              name: `Pengantar ${stage.title}`,
+              name: `Introduction to ${stage.title}`,
               type: 'video',
               duration: '20:00',
               contentUrl: 'rfscVS0vtbw',
               quizId: videoQuizId,
               status: 'active',
               instructor: 'Dr. Rina Wijaya, M.Kom.',
-              description: `Materi pengenalan dan implementasi praktis untuk topik ${stage.title}.`,
+              description: `Introductory concepts and practical implementation for ${stage.title}.`,
             },
             {
               id: `ds-${stage.id}-pdf`,
-              name: `Ringkasan & Dataset ${stage.title}.pdf`,
+              name: `Summary & Dataset: ${stage.title}.pdf`,
               type: 'pdf',
-              duration: '15 hal',
+              duration: '15 pages',
               pages: 15,
               contentUrl: '',
               quizId: videoQuizId,
@@ -122,15 +122,15 @@ export function LearningPage() {
             },
             {
               id: `task-ds-${stage.id}`,
-              name: `Tugas Praktik: ${stage.title}`,
+              name: `Practical Assignment: ${stage.title}`,
               type: 'task',
               contentUrl: '',
               duration: '45 min',
               status: 'active',
               instructor: 'Dr. Rina Wijaya, M.Kom.',
               assignment: {
-                title: `Tugas Praktik: ${stage.title}`,
-                description: `Selesaikan studi kasus notebook untuk topik ${stage.title} dan kumpulkan link Colab/GitHub atau file PDF/ZIP.`,
+                title: `Practical Assignment: ${stage.title}`,
+                description: `Complete the notebook case study for ${stage.title} and submit your Colab/GitHub URL or PDF/ZIP file.`,
               },
             },
           ],
@@ -156,7 +156,7 @@ export function LearningPage() {
             type,
             duration:
               detail?.duration ??
-              (detail?.pages ? `${detail.pages} hal` : undefined),
+              (detail?.pages ? `${detail.pages} pages` : undefined),
             pages: detail?.pages,
             contentUrl:
               type === 'video' ? (VIDEO_IDS[mat.id] ?? 'UB1O30fR-EE') : '',
@@ -176,7 +176,7 @@ export function LearningPage() {
           contentUrl: '',
           duration: taskMeta.duration,
           status: 'active',
-          instructor: 'Tim Instruktur MagangHub',
+          instructor: 'MagangHub Instructors',
           description: taskMeta.description,
           assignment: {
             title: taskMeta.name,
@@ -259,10 +259,10 @@ export function LearningPage() {
     markAsCompleted(activeMaterial.id);
     toast.success(
       activeMaterial.type === 'video'
-        ? `"${activeMaterial.name}" selesai ditonton. Quiz sekarang terbuka!`
+        ? `"${activeMaterial.name}" finished watching. Quiz is now unlocked!`
         : activeMaterial.type === 'pdf'
-          ? `"${activeMaterial.name}" selesai dibaca. Quiz sekarang terbuka!`
-          : `"${activeMaterial.name}" ditandai selesai.`
+          ? `"${activeMaterial.name}" finished reading. Quiz is now unlocked!`
+          : `"${activeMaterial.name}" marked as completed.`
     );
   };
 
@@ -275,7 +275,7 @@ export function LearningPage() {
           <div className={`${DASHBOARD_TOKENS.card} flex flex-wrap items-center justify-between gap-3 px-4 py-2.5`}>
             <div className="min-w-0 flex items-center gap-2.5">
               <h1 className="text-sm sm:text-base font-semibold text-[#171C2B] tracking-tight truncate">
-                {activeMaterial?.name || 'Materi Pembelajaran'}
+                {activeMaterial?.name || 'Learning Material'}
               </h1>
               <span className={DASHBOARD_TOKENS.badgeBlue}>
                 {progressPercentage}%
@@ -289,7 +289,7 @@ export function LearningPage() {
               className={DASHBOARD_TOKENS.btnOutline}
             >
               <PanelRightOpen className="w-3.5 h-3.5 text-[#1677F9]" />
-              Tampilkan Daftar Modul
+              Show Module List
             </button>
           </div>
         )}
@@ -306,7 +306,7 @@ export function LearningPage() {
             activeMaterial && <VideoPlayer material={activeMaterial} />
           )}
 
-          {/* Action Bar: Prev/Next + Tandai Selesai + Quiz (khusus video, terkunci sebelum selesai) */}
+          {/* Action Bar: Prev/Next + Mark Completed + Quiz (locked until completed) */}
           <div className={`${DASHBOARD_TOKENS.card} p-4 space-y-3`}>
             <div className="flex flex-wrap items-center justify-between gap-2.5">
               <div className="flex flex-wrap items-center gap-2 min-w-0">
@@ -318,7 +318,7 @@ export function LearningPage() {
                   disabled={!prevMaterial}
                   className={DASHBOARD_TOKENS.btnOutline}
                 >
-                  <ArrowLeft className="w-3.5 h-3.5" /> Sebelumnya
+                  <ArrowLeft className="w-3.5 h-3.5" /> Previous
                 </button>
                 <button
                   type="button"
@@ -328,7 +328,7 @@ export function LearningPage() {
                   disabled={!nextMaterial}
                   className={DASHBOARD_TOKENS.btnOutline}
                 >
-                  Selanjutnya <ArrowRight className="w-3.5 h-3.5" />
+                  Next <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
 
@@ -345,7 +345,7 @@ export function LearningPage() {
                     }
                   >
                     <CheckCircle className="w-3.5 h-3.5 shrink-0" />
-                    {isCompleted ? 'Sudah Selesai' : 'Tandai Selesai'}
+                    {isCompleted ? 'Completed' : 'Mark as Completed'}
                   </button>
 
                   {(activeMaterial?.type === 'video' ||
@@ -360,12 +360,12 @@ export function LearningPage() {
                         }
                         title={
                           isCompleted
-                            ? 'Kerjakan quiz untuk materi ini'
-                            : `Selesaikan ${
+                            ? 'Take quiz for this material'
+                            : `Complete ${
                                 activeMaterial.type === 'pdf'
-                                  ? 'membaca dokumen'
-                                  : 'menonton video'
-                              } terlebih dahulu untuk membuka quiz`
+                                  ? 'reading this document'
+                                  : 'watching this video'
+                              } first to unlock the quiz`
                         }
                         className={
                           isCompleted
@@ -379,10 +379,10 @@ export function LearningPage() {
                           <Lock className="w-3.5 h-3.5 shrink-0" />
                         )}
                         {activeVideoQuizResult?.passed
-                          ? `Ulangi Quiz (Lulus ${activeVideoQuizResult.score}/${activeVideoQuizResult.total})`
+                          ? `Retake Quiz (Passed ${activeVideoQuizResult.score}/${activeVideoQuizResult.total})`
                           : activeVideoQuizResult
-                            ? `Kerjakan Quiz (${activeVideoQuizResult.score}/${activeVideoQuizResult.total})`
-                            : 'Kerjakan Quiz'}
+                            ? `Take Quiz (${activeVideoQuizResult.score}/${activeVideoQuizResult.total})`
+                            : 'Take Quiz'}
                       </button>
                     )}
                 </div>
@@ -392,20 +392,20 @@ export function LearningPage() {
             {(activeMaterial?.type === 'video' ||
               activeMaterial?.type === 'pdf') &&
               !isCompleted && (
-                <p className="text-xs font-normal text-[#667085] flex items-start sm:items-center gap-1.5 pt-2.5 border-t border-[#E7ECF3]">
+                <p className={`${DASHBOARD_TOKENS.metaText} flex items-start sm:items-center gap-1.5 pt-3 border-t border-[#E7ECF3]`}>
                   <Lock className="w-3.5 h-3.5 text-[#B45309] shrink-0 mt-0.5 sm:mt-0" />
                   <span>
-                    Quiz terkunci. Klik <strong className="font-semibold text-[#171C2B]">Tandai Selesai</strong> setelah{' '}
+                    Quiz is locked. Click <strong className="font-medium text-[#171C2B]">Mark as Completed</strong> after{' '}
                     {activeMaterial.type === 'pdf'
-                      ? 'membaca dokumen'
-                      : 'selesai menonton video'}{' '}
-                    untuk membuka quiz.
+                      ? 'reading this document'
+                      : 'watching this video'}{' '}
+                    to unlock the quiz.
                   </span>
                 </p>
               )}
           </div>
 
-          {/* Tab Ringkasan / Catatan / Diskusi */}
+          {/* Tab Summary / Notes / Discussion */}
           {activeMaterial && (
             <MaterialTabs
               material={activeMaterial}
@@ -424,20 +424,20 @@ export function LearningPage() {
         </div>
       </div>
 
-      {/* Sidebar Kanan: Info Materi + Daftar Modul Simpel (Split Sidebar, Dapat Disembunyikan) */}
+      {/* Right Sidebar: Material Info + Module List */}
       {showModuleList && (
         <aside className="w-full lg:w-80 2xl:w-96 shrink-0 border-t lg:border-t-0 lg:border-l border-[#E7ECF3] bg-white lg:sticky lg:top-14 lg:h-[calc(100vh-3.5rem)] flex flex-col">
           <div className="p-4 border-b border-[#E7ECF3] space-y-2.5 shrink-0 bg-white">
             <div className="flex items-start justify-between gap-2">
-              <div className="min-w-0">
+              <div className="min-w-0 space-y-1">
                 <p className={`${DASHBOARD_TOKENS.sectionLabel} truncate`}>
                   {activeSchemeInfo?.name ?? 'Full Stack Web Development'} •{' '}
                   {activeSchemeId === 'data-science'
-                    ? 'Kurikulum Data Science'
+                    ? 'Data Science Curriculum'
                     : 'HTML & CSS Fundamentals'}
                 </p>
-                <h1 className="text-base font-semibold text-[#171C2B] tracking-tight mt-0.5 leading-snug">
-                  {activeMaterial?.name || 'Materi Pembelajaran'}
+                <h1 className="text-[15px] sm:text-base font-semibold tracking-[-0.015em] leading-snug text-[#171C2B]">
+                  {activeMaterial?.name || 'Learning Material'}
                 </h1>
               </div>
 
@@ -445,8 +445,8 @@ export function LearningPage() {
                 type="button"
                 onClick={() => setShowModuleList(false)}
                 aria-expanded={true}
-                aria-label="Sembunyikan Daftar Modul"
-                title="Sembunyikan Daftar Modul"
+                aria-label="Hide Module List"
+                title="Hide Module List"
                 className="shrink-0 w-7 h-7 rounded-lg border border-[#E7ECF3] bg-white text-[#667085] hover:bg-[#F3F6FB] flex items-center justify-center transition-colors"
               >
                 <PanelRightClose className="w-4 h-4 text-[#1677F9]" />
@@ -455,11 +455,11 @@ export function LearningPage() {
 
             <div className="space-y-1.5">
               <div className="flex items-center justify-between text-xs gap-2">
-                <span className="font-semibold text-[#667085]">
-                  Daftar Modul
+                <span className="font-medium text-[#475467]">
+                  Module List
                 </span>
                 <span className="text-[#667085] font-normal tabular-nums">
-                  {completedCount} dari {totalMaterials} selesai •{' '}
+                  {completedCount} of {totalMaterials} completed •{' '}
                   <strong className="font-semibold text-[#1677F9]">{progressPercentage}%</strong>
                 </span>
               </div>
@@ -492,7 +492,7 @@ export function LearningPage() {
                     aria-expanded={isSectionOpen}
                     className="w-full px-4 py-2.5 bg-[#F9FBFE] hover:bg-[#F3F6FB] flex items-center justify-between gap-2 text-left transition-colors"
                   >
-                    <span className="text-xs font-semibold text-[#171C2B] truncate">
+                    <span className="text-[13px] font-semibold tracking-[-0.005em] text-[#171C2B] truncate">
                       {index + 1}. {section.title}
                     </span>
                     <span className="inline-flex items-center gap-1.5 shrink-0">
@@ -512,7 +512,7 @@ export function LearningPage() {
                   {isSectionOpen && (
                     section.modules.length === 0 ? (
                       <div className="px-4 py-3 text-xs font-normal text-[#667085]">
-                        Belum ada materi pada modul ini.
+                        No materials in this module yet.
                       </div>
                     ) : (
                       <div className="divide-y divide-[#EFF3F8]">
@@ -565,11 +565,11 @@ export function LearningPage() {
                                 <div className="flex flex-wrap items-center gap-1.5 mt-0.5 text-[11px]">
                                   <span className="font-normal text-[#667085]">
                                     {material.type === 'task'
-                                      ? `Tugas • ${material.duration ?? '45 min'}`
+                                      ? `Task • ${material.duration ?? '45 min'}`
                                       : `${material.type.toUpperCase()} • ${
                                           material.duration ??
                                           (material.type === 'pdf'
-                                            ? 'Dokumen'
+                                            ? 'Document'
                                             : '10 min')
                                         }`}
                                   </span>
@@ -578,7 +578,7 @@ export function LearningPage() {
                                     material.type === 'pdf') &&
                                     !quizInfo && (
                                       <span className="text-[#667085]">
-                                        • Ada Quiz
+                                        • Has Quiz
                                       </span>
                                     )}
 
@@ -592,14 +592,14 @@ export function LearningPage() {
                                     >
                                       •{' '}
                                       {quizInfo.passed
-                                        ? `Lulus ${quizInfo.score}/${quizInfo.total}`
+                                        ? `Passed ${quizInfo.score}/${quizInfo.total}`
                                         : `Quiz ${quizInfo.score}/${quizInfo.total}`}
                                     </span>
                                   )}
 
                                   {hasTask && (
                                     <span className="font-semibold text-[#1677F9]">
-                                      • Terkumpul
+                                      • Submitted
                                     </span>
                                   )}
                                 </div>
@@ -624,7 +624,7 @@ export function LearningPage() {
           onClose={() => setShowTaskModal(false)}
           onSuccess={(id, payload) => {
             recordTaskSubmission(id, payload);
-            toast.success('Tugas berhasil dikumpulkan dan menunggu penilaian!');
+            toast.success('Assignment submitted and awaiting review!');
           }}
         />
       )}

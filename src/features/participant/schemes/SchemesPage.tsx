@@ -46,18 +46,18 @@ const SCHEME_COVERS: Record<string, { image: string; gradient: string }> = {
 };
 
 const LEVEL_LABELS: Record<string, string> = {
-  Intermediate: 'Menengah',
-  Advanced: 'Lanjutan',
-  Beginner: 'Dasar',
+  Intermediate: 'Intermediate',
+  Advanced: 'Advanced',
+  Beginner: 'Beginner',
 };
 
 function formatDuration(duration: string) {
-  return duration.replace(/\bmonths?\b/gi, 'Bulan');
+  return duration.replace(/\bbulan\b/gi, 'Months');
 }
 
-function formatDateId(iso: string) {
+function formatDateEn(iso: string) {
   try {
-    return new Date(iso).toLocaleDateString('id-ID', {
+    return new Date(iso).toLocaleDateString('en-US', {
       day: '2-digit',
       month: 'short',
       year: 'numeric',
@@ -157,7 +157,7 @@ export function SchemesPage() {
       return;
     }
     toast.success(
-      `Program "${confirmScheme.name}" berhasil dipilih dan terkunci.`
+      `Program "${confirmScheme.name}" has been selected and locked.`
     );
     setConfirmSchemeId(null);
   };
@@ -165,7 +165,7 @@ export function SchemesPage() {
   const openChangeRequestModal = (targetSchemeId?: string) => {
     if (pendingRequest) {
       toast.info(
-        'Pengajuan perubahan Anda masih menunggu persetujuan Admin.'
+        'Your program change request is still awaiting Admin approval.'
       );
       return;
     }
@@ -191,21 +191,21 @@ export function SchemesPage() {
       setRequestError(res.error);
       return;
     }
-    toast.success('Pengajuan perubahan program berhasil dikirim ke Admin.');
+    toast.success('Program change request submitted to Admin.');
     setShowRequestModal(false);
     setRequestReason('');
     setRequestError('');
   };
 
   return (
-    <div className="w-full space-y-4">
+    <div className="w-full space-y-5">
       {/* Header & Controls */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h1 className={DASHBOARD_TOKENS.pageTitle}>Program Pelatihan</h1>
-          <p className={`${DASHBOARD_TOKENS.pageSubtitle} mt-0.5`}>
-            Setiap peserta hanya dapat memilih 1 program pelatihan yang akan
-            terkunci setelah dipilih.
+        <div className="space-y-1">
+          <h1 className={DASHBOARD_TOKENS.pageTitle}>Training Programs</h1>
+          <p className={DASHBOARD_TOKENS.pageSubtitle}>
+            Each participant may select 1 training program, which locks
+            automatically once confirmed.
           </p>
         </div>
 
@@ -216,13 +216,13 @@ export function SchemesPage() {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Cari pelatihan..."
+              placeholder="Search programs..."
               className={`${DASHBOARD_TOKENS.inputWithIcon} h-9 pr-9`}
             />
             {searchQuery && (
               <button
                 type="button"
-                aria-label="Hapus pencarian"
+                aria-label="Clear search"
                 onClick={() => setSearchQuery('')}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-[#98A2B3] hover:text-[#171C2B]"
               >
@@ -233,7 +233,7 @@ export function SchemesPage() {
 
           <button
             type="button"
-            aria-label="Filter program pelatihan"
+            aria-label="Filter training programs"
             aria-expanded={showFilters}
             onClick={() => setShowFilters((prev) => !prev)}
             className={`relative h-9 inline-flex items-center gap-2 px-3.5 rounded-xl border text-xs font-semibold transition-colors ${
@@ -260,18 +260,18 @@ export function SchemesPage() {
             <BookOpen className="w-5 h-5" />
           </div>
           <div className="space-y-1">
-            <h2 className="text-base font-semibold text-[#171C2B] tracking-tight">
-              Pilih 1 Program Pelatihan
+            <h2 className={DASHBOARD_TOKENS.sectionHeading}>
+              Select 1 Training Program
             </h2>
-            <p className="text-xs sm:text-sm font-normal text-[#475467] leading-relaxed">
-              Anda belum memilih program pelatihan. Setelah memilih 1 program,
-              pilihan akan <strong className="font-semibold text-[#171C2B]">terkunci otomatis</strong> dan perubahan hanya
-              dapat diajukan melalui persetujuan Admin.
+            <p className={DASHBOARD_TOKENS.bodyText}>
+              You have not selected a training program yet. Once selected,
+              your choice will be <strong className="font-semibold text-[#171C2B]">automatically locked</strong> and changes
+              require Admin approval.
             </p>
           </div>
         </div>
       ) : (
-        <div className={`${DASHBOARD_TOKENS.card} p-4 sm:p-5 space-y-4 border-[#BFDBFE]`}>
+        <div className={`${DASHBOARD_TOKENS.card} p-5 sm:p-6 space-y-4 border-[#BFDBFE]`}>
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
             <div className="flex items-start gap-3.5 min-w-0">
               <div className="w-10 h-10 rounded-xl bg-[#EAF3FF] text-[#1677F9] flex items-center justify-center shrink-0">
@@ -280,18 +280,18 @@ export function SchemesPage() {
               <div className="min-w-0 space-y-1">
                 <div className="flex flex-wrap items-center gap-2">
                   <span className={DASHBOARD_TOKENS.badgeBlue}>
-                    Program Terkunci (Maks. 1 Program)
+                    Locked Program (Max. 1 Program)
                   </span>
-                  <span className="text-xs font-normal text-[#667085]">
-                    Dipilih {formatDateId(enrollment.lockedAt)}
+                  <span className={DASHBOARD_TOKENS.metaText}>
+                    Selected {formatDateEn(enrollment.lockedAt)}
                   </span>
                 </div>
-                <h2 className={DASHBOARD_TOKENS.cardTitle}>
+                <h2 className={DASHBOARD_TOKENS.sectionHeading}>
                   {enrolledScheme?.name ?? enrollment.schemeId}
                 </h2>
-                <p className="text-xs font-normal text-[#667085]">
-                  Pilihan program Anda sudah terkunci. Jika ingin mengganti
-                  program pelatihan, ajukan permintaan perubahan ke Admin.
+                <p className={DASHBOARD_TOKENS.description}>
+                  Your program selection is locked. To switch training programs,
+                  submit a change request to the Admin.
                 </p>
               </div>
             </div>
@@ -305,7 +305,7 @@ export function SchemesPage() {
                 className={DASHBOARD_TOKENS.btnPrimary}
               >
                 <PlayCircle className="w-3.5 h-3.5" />
-                Buka Materi Belajar
+                Open Learning Materials
               </button>
               <button
                 type="button"
@@ -315,8 +315,8 @@ export function SchemesPage() {
               >
                 <RefreshCw className="w-3.5 h-3.5 text-[#1677F9]" />
                 {pendingRequest
-                  ? 'Pengajuan Sedang Diproses'
-                  : 'Ajukan Perubahan ke Admin'}
+                  ? 'Request Pending Approval'
+                  : 'Request Program Change'}
               </button>
             </div>
           </div>
@@ -343,28 +343,28 @@ export function SchemesPage() {
                     }`}
                   />
                 )}
-                <div className="text-xs sm:text-sm space-y-0.5">
-                  <p className="font-semibold text-[#171C2B]">
+                <div className="text-xs sm:text-[13px] space-y-0.5">
+                  <p className="font-medium text-[#171C2B] leading-snug">
                     {latestRequest.status === 'pending'
-                      ? `Menunggu Persetujuan Admin: Pindah ke "${latestRequest.requestedSchemeName}"`
+                      ? `Pending Admin Approval: Switch to "${latestRequest.requestedSchemeName}"`
                       : latestRequest.status === 'approved'
-                        ? `Pengajuan Disetujui: Program berpindah ke "${latestRequest.requestedSchemeName}"`
-                        : `Pengajuan Ditolak: Permintaan pindah ke "${latestRequest.requestedSchemeName}"`}
+                        ? `Request Approved: Program switched to "${latestRequest.requestedSchemeName}"`
+                        : `Request Rejected: Switch to "${latestRequest.requestedSchemeName}"`}
                   </p>
-                  <p className="text-xs font-normal text-[#667085]">
-                    Alasan: {latestRequest.reason}
+                  <p className={DASHBOARD_TOKENS.metaText}>
+                    Reason: {latestRequest.reason}
                     {latestRequest.adminNote
-                      ? ` • Catatan Admin: ${latestRequest.adminNote}`
+                      ? ` • Admin Note: ${latestRequest.adminNote}`
                       : ''}
                   </p>
                 </div>
               </div>
-              <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-white/90 text-[#171C2B] shrink-0 self-start sm:self-center">
+              <span className="text-[11px] font-medium px-2.5 py-1 rounded-full bg-white/90 text-[#171C2B] leading-none shrink-0 self-start sm:self-center">
                 {latestRequest.status === 'pending'
                   ? 'Pending Review'
                   : latestRequest.status === 'approved'
-                    ? 'Disetujui'
-                    : 'Ditolak'}
+                    ? 'Approved'
+                    : 'Rejected'}
               </span>
             </div>
           )}
@@ -381,16 +381,16 @@ export function SchemesPage() {
               </span>
               {(
                 [
-                  { id: 'all', label: 'Semua' },
-                  { id: 'available', label: 'Tersedia' },
-                  { id: 'coming-soon', label: 'Segera Hadir' },
+                  { id: 'all', label: 'All' },
+                  { id: 'available', label: 'Available' },
+                  { id: 'coming-soon', label: 'Coming Soon' },
                 ] as const
               ).map((opt) => (
                 <button
                   key={opt.id}
                   type="button"
                   onClick={() => setStatusFilter(opt.id)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
+                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
                     statusFilter === opt.id
                       ? 'bg-[#1677F9] text-white'
                       : 'bg-[#F3F6FB] text-[#475467] hover:bg-[#E7ECF3]'
@@ -407,16 +407,16 @@ export function SchemesPage() {
               </span>
               {(
                 [
-                  { id: 'all', label: 'Semua' },
-                  { id: 'Intermediate', label: 'Menengah' },
-                  { id: 'Advanced', label: 'Lanjutan' },
+                  { id: 'all', label: 'All' },
+                  { id: 'Intermediate', label: 'Intermediate' },
+                  { id: 'Advanced', label: 'Advanced' },
                 ] as const
               ).map((opt) => (
                 <button
                   key={opt.id}
                   type="button"
                   onClick={() => setLevelFilter(opt.id)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
+                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
                     levelFilter === opt.id
                       ? 'bg-[#1677F9] text-white'
                       : 'bg-[#F3F6FB] text-[#475467] hover:bg-[#E7ECF3]'
@@ -435,7 +435,7 @@ export function SchemesPage() {
               className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#1677F9] hover:underline self-start sm:self-center"
             >
               <RotateCcw className="w-3.5 h-3.5" />
-              Reset Filter
+              Reset Filters
             </button>
           )}
         </div>
@@ -445,12 +445,11 @@ export function SchemesPage() {
       {filteredSchemes.length === 0 ? (
         <div className={`${DASHBOARD_TOKENS.card} p-12 text-center space-y-3`}>
           <BookOpen className="w-12 h-12 mx-auto text-[#98A2B3]" />
-          <h3 className={DASHBOARD_TOKENS.cardTitle}>
-            Program Pelatihan Tidak Ditemukan
+          <h3 className={DASHBOARD_TOKENS.sectionHeading}>
+            No Training Programs Found
           </h3>
-          <p className="text-sm font-normal text-[#667085] max-w-md mx-auto">
-            Tidak ada skema pelatihan yang sesuai dengan pencarian atau filter
-            yang dipilih.
+          <p className={`${DASHBOARD_TOKENS.description} max-w-md mx-auto`}>
+            No training programs match your current search or selected filters.
           </p>
           <button
             type="button"
@@ -458,7 +457,7 @@ export function SchemesPage() {
             className={`${DASHBOARD_TOKENS.btnPrimary} mt-2`}
           >
             <RotateCcw className="w-3.5 h-3.5" />
-            Reset Pencarian & Filter
+            Reset Search & Filters
           </button>
         </div>
       ) : (
@@ -509,44 +508,44 @@ export function SchemesPage() {
 
                   {isSelected && (
                     <div className="absolute top-3 left-3">
-                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold shadow-sm bg-[#1677F9] text-white">
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium tracking-[0.01em] leading-none shadow-sm bg-[#1677F9] text-white">
                         <Lock className="w-3 h-3" />
-                        Program Dipilih • Terkunci
+                        Selected • Locked
                       </span>
                     </div>
                   )}
 
                   {isLockedOther && (
                     <div className="absolute top-3 left-3">
-                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold shadow-sm bg-[#171C2B]/85 text-white">
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium tracking-[0.01em] leading-none shadow-sm bg-[#171C2B]/85 text-white">
                         <Lock className="w-3 h-3" />
-                        Terkunci
+                        Locked
                       </span>
                     </div>
                   )}
 
                   <div className="absolute top-3 right-3">
                     <span
-                      className={`px-2.5 py-1 rounded-full text-[11px] font-semibold shadow-sm ${
+                      className={`inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-medium tracking-[0.01em] leading-none shadow-sm ${
                         scheme.available
                           ? 'bg-[#16A34A] text-white'
                           : 'bg-[#FEF3C7] text-[#B45309]'
                       }`}
                     >
-                      {scheme.available ? 'Tersedia' : 'Segera Hadir'}
+                      {scheme.available ? 'Available' : 'Coming Soon'}
                     </span>
                   </div>
                 </div>
 
-                <div className="p-4 sm:p-5 flex-1 flex flex-col">
-                  <h3 className="font-semibold text-base text-[#171C2B] tracking-tight mb-1.5">
+                <div className="p-5 flex-1 flex flex-col">
+                  <h3 className={`${DASHBOARD_TOKENS.cardTitle} mb-2`}>
                     {scheme.name}
                   </h3>
-                  <p className="text-xs sm:text-sm font-normal text-[#667085] mb-4 flex-1 leading-relaxed">
+                  <p className={`${DASHBOARD_TOKENS.description} mb-4 flex-1`}>
                     {scheme.description}
                   </p>
 
-                  <div className="flex items-center justify-between text-xs font-normal text-[#667085] mb-4 pb-3.5 border-b border-[#E7ECF3] gap-2">
+                  <div className={`flex items-center justify-between ${DASHBOARD_TOKENS.metaText} mb-4 pb-3.5 border-b border-[#E7ECF3] gap-2`}>
                     <div className="flex items-center gap-1.5">
                       <Clock className="w-3.5 h-3.5 text-[#1677F9]" />{' '}
                       {formatDuration(scheme.duration)}
@@ -557,7 +556,7 @@ export function SchemesPage() {
                     </div>
                     <div className="flex items-center gap-1.5">
                       <Users className="w-3.5 h-3.5 text-[#1677F9]" />{' '}
-                      {scheme.participants} peserta
+                      {scheme.participants} participants
                     </div>
                   </div>
 
@@ -565,9 +564,9 @@ export function SchemesPage() {
                     <button
                       type="button"
                       disabled
-                      className="w-full h-9 px-4 rounded-xl bg-[#F3F6FB] text-[#667085] text-xs font-semibold inline-flex items-center justify-center gap-1.5 disabled:opacity-70 disabled:cursor-not-allowed"
+                      className="w-full h-9 px-4 rounded-xl bg-[#F3F6FB] text-[#667085] text-xs font-medium inline-flex items-center justify-center gap-1.5 disabled:opacity-70 disabled:cursor-not-allowed"
                     >
-                      Belum Tersedia
+                      Unavailable
                     </button>
                   ) : !enrollment ? (
                     <div className="flex items-center gap-2.5">
@@ -576,7 +575,7 @@ export function SchemesPage() {
                         onClick={() => setConfirmSchemeId(scheme.id)}
                         className={`${DASHBOARD_TOKENS.btnPrimary} flex-1`}
                       >
-                        Pilih Program Ini
+                        Select This Program
                       </button>
                       <button
                         type="button"
@@ -585,7 +584,7 @@ export function SchemesPage() {
                         }
                         className={DASHBOARD_TOKENS.btnOutline}
                       >
-                        Detail
+                        Details
                       </button>
                     </div>
                   ) : isSelected ? (
@@ -597,7 +596,7 @@ export function SchemesPage() {
                         }
                         className={`${DASHBOARD_TOKENS.btnPrimary} flex-1`}
                       >
-                        Lanjut Belajar <ArrowRight className="w-3.5 h-3.5" />
+                        Continue Learning <ArrowRight className="w-3.5 h-3.5" />
                       </button>
                       <button
                         type="button"
@@ -606,7 +605,7 @@ export function SchemesPage() {
                         }
                         className={DASHBOARD_TOKENS.btnOutline}
                       >
-                        Detail
+                        Details
                       </button>
                     </div>
                   ) : (
@@ -614,10 +613,10 @@ export function SchemesPage() {
                       <button
                         type="button"
                         disabled
-                        className="w-full h-9 px-4 rounded-xl text-xs font-semibold border border-[#E7ECF3] bg-[#F3F6FB] text-[#667085] inline-flex items-center justify-center gap-1.5 cursor-not-allowed"
+                        className="w-full h-9 px-4 rounded-xl text-xs font-medium border border-[#E7ECF3] bg-[#F3F6FB] text-[#667085] inline-flex items-center justify-center gap-1.5 cursor-not-allowed"
                       >
                         <Lock className="w-3.5 h-3.5" />
-                        Terkunci (Hanya 1 Program)
+                        Locked (Max 1 Program)
                       </button>
                       <button
                         type="button"
@@ -627,8 +626,8 @@ export function SchemesPage() {
                       >
                         <RefreshCw className="w-3.5 h-3.5" />
                         {pendingRequest
-                          ? 'Menunggu Persetujuan Admin'
-                          : 'Ajukan Pindah ke Program Ini'}
+                          ? 'Pending Admin Approval'
+                          : 'Request Switch to This Program'}
                       </button>
                     </div>
                   )}
@@ -655,14 +654,14 @@ export function SchemesPage() {
                 </div>
                 <h3
                   id="confirm-scheme-title"
-                  className={DASHBOARD_TOKENS.cardTitle}
+                  className={DASHBOARD_TOKENS.sectionHeading}
                 >
-                  Konfirmasi Pilihan Program
+                  Confirm Program Selection
                 </h3>
               </div>
               <button
                 type="button"
-                aria-label="Tutup konfirmasi"
+                aria-label="Close confirmation"
                 onClick={() => setConfirmSchemeId(null)}
                 className="p-1.5 rounded-lg text-[#667085] hover:bg-[#F3F6FB]"
               >
@@ -673,24 +672,24 @@ export function SchemesPage() {
             <div className="p-5 space-y-4">
               <div className={`${DASHBOARD_TOKENS.subcard} p-4 space-y-1`}>
                 <p className={DASHBOARD_TOKENS.sectionLabel}>
-                  Program yang Dipilih
+                  Selected Program
                 </p>
-                <p className="font-semibold text-base text-[#171C2B]">
+                <p className="font-medium text-base text-[#171C2B]">
                   {confirmScheme.name}
                 </p>
-                <p className="text-xs font-normal text-[#667085]">
-                  Durasi {formatDuration(confirmScheme.duration)} • Level{' '}
+                <p className={DASHBOARD_TOKENS.metaText}>
+                  Duration {formatDuration(confirmScheme.duration)} • Level{' '}
                   {LEVEL_LABELS[confirmScheme.level] ?? confirmScheme.level}
                 </p>
               </div>
 
-              <div className="p-3.5 rounded-xl border border-[#FCD34D] bg-[#FEF3C7]/60 text-[#171C2B] text-xs sm:text-sm leading-relaxed flex items-start gap-2.5">
+              <div className="p-3.5 rounded-xl border border-[#FCD34D] bg-[#FEF3C7]/60 text-[#171C2B] text-xs sm:text-[13px] leading-relaxed flex items-start gap-2.5">
                 <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-[#B45309]" />
                 <span>
-                  Setiap peserta hanya dapat memilih{' '}
-                  <strong>1 program pelatihan</strong>. Setelah dikonfirmasi,
-                  pilihan akan <strong>langsung terkunci</strong> dan perubahan
-                  hanya dapat dilakukan melalui pengajuan ke Admin.
+                  Each participant can only select{' '}
+                  <strong className="font-semibold">1 training program</strong>. Once confirmed,
+                  your selection is <strong className="font-semibold">immediately locked</strong> and changes
+                  require submitting a request to the Admin.
                 </span>
               </div>
             </div>
@@ -701,7 +700,7 @@ export function SchemesPage() {
                 onClick={() => setConfirmSchemeId(null)}
                 className={DASHBOARD_TOKENS.btnOutline}
               >
-                Batal
+                Cancel
               </button>
               <button
                 type="button"
@@ -709,7 +708,7 @@ export function SchemesPage() {
                 className={DASHBOARD_TOKENS.btnPrimary}
               >
                 <Lock className="w-3.5 h-3.5" />
-                Konfirmasi & Kunci Program
+                Confirm & Lock Program
               </button>
             </div>
           </div>
@@ -732,14 +731,14 @@ export function SchemesPage() {
                 </div>
                 <h3
                   id="request-scheme-title"
-                  className={DASHBOARD_TOKENS.cardTitle}
+                  className={DASHBOARD_TOKENS.sectionHeading}
                 >
-                  Ajukan Perubahan Program ke Admin
+                  Request Program Change
                 </h3>
               </div>
               <button
                 type="button"
-                aria-label="Tutup pengajuan perubahan"
+                aria-label="Close change request modal"
                 onClick={() => setShowRequestModal(false)}
                 className="p-1.5 rounded-lg text-[#667085] hover:bg-[#F3F6FB]"
               >
@@ -750,9 +749,9 @@ export function SchemesPage() {
             <form onSubmit={handleSubmitChangeRequest} className="p-5 space-y-4">
               <div>
                 <label className={`block ${DASHBOARD_TOKENS.mutedMetaLabel} mb-1.5`}>
-                  Program Saat Ini (Terkunci)
+                  Current Program (Locked)
                 </label>
-                <div className={`${DASHBOARD_TOKENS.subcard} px-3.5 py-2.5 text-sm font-semibold text-[#171C2B] flex items-center gap-2`}>
+                <div className={`${DASHBOARD_TOKENS.subcard} px-3.5 py-2.5 text-sm font-medium text-[#171C2B] flex items-center gap-2`}>
                   <Lock className="w-4 h-4 text-[#1677F9] shrink-0" />
                   <span>{enrolledScheme?.name ?? enrollment.schemeId}</span>
                 </div>
@@ -761,9 +760,9 @@ export function SchemesPage() {
               <div>
                 <label
                   htmlFor="requested-scheme-select"
-                  className="block text-xs font-semibold text-[#171C2B] mb-1.5"
+                  className={DASHBOARD_TOKENS.fieldLabel}
                 >
-                  Program Tujuan yang Diajukan
+                  Requested Program
                 </label>
                 <select
                   id="requested-scheme-select"
@@ -785,9 +784,9 @@ export function SchemesPage() {
               <div>
                 <label
                   htmlFor="scheme-change-reason"
-                  className="block text-xs font-semibold text-[#171C2B] mb-1.5"
+                  className={DASHBOARD_TOKENS.fieldLabel}
                 >
-                  Alasan Pengajuan Perubahan
+                  Reason for Change Request
                 </label>
                 <textarea
                   id="scheme-change-reason"
@@ -797,7 +796,7 @@ export function SchemesPage() {
                     setRequestReason(e.target.value);
                     setRequestError('');
                   }}
-                  placeholder="Jelaskan alasan Anda mengajukan pindah program pelatihan kepada Admin (minimal 10 karakter)..."
+                  placeholder="Explain why you would like to switch training programs (minimum 10 characters)..."
                   className={DASHBOARD_TOKENS.input}
                 />
                 {requestError && (
@@ -813,14 +812,14 @@ export function SchemesPage() {
                   onClick={() => setShowRequestModal(false)}
                   className={DASHBOARD_TOKENS.btnOutline}
                 >
-                  Batal
+                  Cancel
                 </button>
                 <button
                   type="submit"
                   className={DASHBOARD_TOKENS.btnPrimary}
                 >
                   <Send className="w-3.5 h-3.5" />
-                  Kirim Pengajuan ke Admin
+                  Submit Request to Admin
                 </button>
               </div>
             </form>

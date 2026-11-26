@@ -29,7 +29,7 @@ export function TrainingInfoPage() {
     matchedTraining?.title ??
     matchedScheme?.name ??
     trainingsData[0]?.title ??
-    'Program Pelatihan';
+    'Training Program';
   const description =
     matchedTraining?.description ??
     matchedScheme?.description ??
@@ -37,9 +37,9 @@ export function TrainingInfoPage() {
     '';
   const duration =
     matchedTraining?.duration ??
-    matchedScheme?.duration.replace(/\bmonths?\b/gi, 'Bulan') ??
+    matchedScheme?.duration.replace(/\bbulan\b/gi, 'Months') ??
     '-';
-  const level = matchedScheme?.level ?? 'Menengah';
+  const level = matchedScheme?.level ?? 'Intermediate';
   const participantsCount = matchedScheme?.participants;
   const isAvailable = matchedScheme ? matchedScheme.available : true;
   const isLockedToThis = Boolean(
@@ -67,9 +67,9 @@ export function TrainingInfoPage() {
       <button
         type="button"
         onClick={() => navigate('/participant/schemes')}
-        className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-[#667085] hover:text-[#1677F9] transition-colors"
+        className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium text-[#667085] hover:text-[#1677F9] transition-colors"
       >
-        <ArrowLeft className="w-4 h-4" /> Kembali ke Program Pelatihan
+        <ArrowLeft className="w-4 h-4" /> Back to Training Programs
       </button>
 
       <div className={`${DASHBOARD_TOKENS.card} p-5 sm:p-6 flex flex-col md:flex-row md:items-start justify-between gap-6`}>
@@ -82,7 +82,7 @@ export function TrainingInfoPage() {
                   : DASHBOARD_TOKENS.badgeWarning
               }
             >
-              {isAvailable ? 'Program Tersedia' : 'Segera Hadir'}
+              {isAvailable ? 'Available' : 'Coming Soon'}
             </span>
             <span className={DASHBOARD_TOKENS.badgeNeutral}>
               <Clock className="w-3.5 h-3.5 text-[#1677F9]" /> {duration}
@@ -92,7 +92,7 @@ export function TrainingInfoPage() {
             </span>
             {participantsCount !== undefined && (
               <span className={DASHBOARD_TOKENS.badgeNeutral}>
-                <Users className="w-3.5 h-3.5 text-[#1677F9]" /> {participantsCount} Peserta
+                <Users className="w-3.5 h-3.5 text-[#1677F9]" /> {participantsCount} Participants
               </span>
             )}
           </div>
@@ -100,7 +100,7 @@ export function TrainingInfoPage() {
           <h1 className={DASHBOARD_TOKENS.pageTitle}>
             {title}
           </h1>
-          <p className={`${DASHBOARD_TOKENS.pageSubtitle} leading-relaxed`}>
+          <p className={DASHBOARD_TOKENS.pageSubtitle}>
             {description}
           </p>
         </div>
@@ -111,17 +111,17 @@ export function TrainingInfoPage() {
               <button
                 type="button"
                 disabled
-                className="h-9 px-4 rounded-xl text-xs font-semibold bg-[#F3F6FB] text-[#667085] border border-[#E7ECF3] inline-flex items-center justify-center gap-1.5 cursor-not-allowed"
+                className="h-9 px-4 rounded-xl text-xs font-medium bg-[#F3F6FB] text-[#667085] border border-[#E7ECF3] inline-flex items-center justify-center gap-1.5 cursor-not-allowed"
               >
                 <Lock className="w-3.5 h-3.5" />
-                Terkunci (Terdaftar di {currentEnrolledName})
+                Locked (Enrolled in {currentEnrolledName})
               </button>
               <button
                 type="button"
                 onClick={() => navigate('/participant/schemes')}
                 className="text-xs font-semibold text-[#1677F9] hover:underline"
               >
-                Ajukan perubahan program ke Admin di Program Pelatihan
+                Request a program change on Training Programs
               </button>
             </>
           ) : (
@@ -136,7 +136,7 @@ export function TrainingInfoPage() {
                     return;
                   }
                   toast.success(
-                    `Program "${matchedScheme.name}" berhasil dipilih dan terkunci.`
+                    `Program "${matchedScheme.name}" has been selected and locked.`
                   );
                 }
                 navigate(
@@ -146,12 +146,12 @@ export function TrainingInfoPage() {
               className={`${DASHBOARD_TOKENS.btnPrimary} shrink-0`}
             >
               {!isAvailable
-                ? 'Belum Tersedia'
+                ? 'Unavailable'
                 : isLockedToThis
-                  ? 'Lanjut Belajar'
+                  ? 'Continue Learning'
                   : matchedScheme
-                    ? 'Pilih & Mulai Program'
-                    : 'Mulai Belajar'}
+                    ? 'Select & Start Program'
+                    : 'Start Learning'}
               {isAvailable && <ArrowRight className="w-3.5 h-3.5" />}
             </button>
           )}
@@ -165,8 +165,8 @@ export function TrainingInfoPage() {
             <div className={DASHBOARD_TOKENS.iconBoxSm}>
               <Layers className="w-4 h-4" />
             </div>
-            <h2 className={DASHBOARD_TOKENS.cardTitle}>
-              Kurikulum & Learning Path ({syllabus.length} Tahap)
+            <h2 className={DASHBOARD_TOKENS.sectionHeading}>
+              Curriculum & Learning Path ({syllabus.length} Stages)
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -179,12 +179,12 @@ export function TrainingInfoPage() {
                   <span className="w-7 h-7 rounded-lg bg-[#EAF3FF] text-[#1677F9] text-xs font-semibold flex items-center justify-center shrink-0">
                     {idx + 1}
                   </span>
-                  <span className="text-sm font-semibold text-[#171C2B] truncate">
+                  <span className={`${DASHBOARD_TOKENS.subheading} truncate`}>
                     {item.title}
                   </span>
                 </div>
-                <span className="text-xs font-normal text-[#667085] shrink-0">
-                  {item.modules} Modul
+                <span className={`${DASHBOARD_TOKENS.metaText} shrink-0`}>
+                  {item.modules} Modules
                 </span>
               </div>
             ))}
@@ -198,16 +198,16 @@ export function TrainingInfoPage() {
             <Target className="w-4 h-4" />
           </div>
           <h3 className={`${DASHBOARD_TOKENS.cardTitle} mb-3`}>
-            Tujuan Pembelajaran
+            Learning Objectives
           </h3>
-          <ul className="space-y-2 text-xs sm:text-sm font-normal text-[#667085]">
+          <ul className={`space-y-2.5 ${DASHBOARD_TOKENS.description}`}>
             <li className="flex items-start gap-2">
               <CheckCircle className="w-4 h-4 text-[#1677F9] shrink-0 mt-0.5" />
-              Memahami konsep fundamental pada skema {title}
+              Understand foundational concepts in the {title} track
             </li>
             <li className="flex items-start gap-2">
               <CheckCircle className="w-4 h-4 text-[#1677F9] shrink-0 mt-0.5" />
-              Mampu menerapkan standar industri melalui praktik langsung
+              Apply industry standards through hands-on practice
             </li>
           </ul>
         </div>
@@ -217,16 +217,16 @@ export function TrainingInfoPage() {
             <BookOpen className="w-4 h-4" />
           </div>
           <h3 className={`${DASHBOARD_TOKENS.cardTitle} mb-3`}>
-            Aturan Pelatihan
+            Training Rules
           </h3>
-          <ul className="space-y-2 text-xs sm:text-sm font-normal text-[#667085]">
+          <ul className={`space-y-2.5 ${DASHBOARD_TOKENS.description}`}>
             <li className="flex items-start gap-2">
               <span className="text-[#B45309] shrink-0 mt-0.5">•</span>
-              Menyelesaikan seluruh materi video dan modul dokumen
+              Complete all video lessons and reading modules
             </li>
             <li className="flex items-start gap-2">
               <span className="text-[#B45309] shrink-0 mt-0.5">•</span>
-              Lulus semua quiz evaluasi modul
+              Pass all module evaluation quizzes
             </li>
           </ul>
         </div>
@@ -236,16 +236,16 @@ export function TrainingInfoPage() {
             <FileCheck className="w-4 h-4" />
           </div>
           <h3 className={`${DASHBOARD_TOKENS.cardTitle} mb-3`}>
-            Syarat Sertifikat
+            Certificate Requirements
           </h3>
-          <ul className="space-y-2 text-xs sm:text-sm font-normal text-[#667085]">
+          <ul className={`space-y-2.5 ${DASHBOARD_TOKENS.description}`}>
             <li className="flex items-start gap-2">
               <span className="text-[#16A34A] shrink-0 mt-0.5">•</span>
-              Progres pembelajaran mencapai 100%
+              Reach 100% learning progress
             </li>
             <li className="flex items-start gap-2">
               <span className="text-[#16A34A] shrink-0 mt-0.5">•</span>
-              Seluruh tugas praktik & quiz dinyatakan lulus
+              Complete all practical assignments and pass all quizzes
             </li>
           </ul>
         </div>

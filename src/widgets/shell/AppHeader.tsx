@@ -35,25 +35,25 @@ interface NotificationItem {
 const PARTICIPANT_NOTIFICATIONS: NotificationItem[] = [
   {
     id: "notif-1",
-    title: "Materi Baru Tersedia",
-    description: "Lanjutkan modul HTML & CSS Fundamentals di Materi Belajar.",
-    time: "10 menit lalu",
+    title: "New Materials Available",
+    description: "Continue the HTML & CSS Fundamentals module in Learning Materials.",
+    time: "10 mins ago",
     href: "/participant/learning",
     unread: true,
   },
   {
     id: "notif-2",
-    title: "Quiz Evaluasi Modul",
-    description: "Selesaikan Quiz HTML Basics & CSS Styling untuk syarat sertifikat.",
-    time: "1 jam lalu",
+    title: "Module Evaluation Quiz",
+    description: "Complete the HTML Basics & CSS Styling Quizzes to qualify for your certificate.",
+    time: "1 hour ago",
     href: "/participant/quiz/html-intro-video",
     unread: true,
   },
   {
     id: "notif-3",
-    title: "Klaim Sertifikat Pelatihan",
-    description: "Pantau checklist kelulusan Anda pada halaman Sertifikat.",
-    time: "Hari ini",
+    title: "Claim Program Certificate",
+    description: "Track your graduation requirements on the Certificates page.",
+    time: "Today",
     href: "/participant/certificate",
     unread: false,
   },
@@ -79,19 +79,19 @@ const ADMIN_NOTIFICATIONS: NotificationItem[] = [
 ];
 
 function getHeaderTitle(pathname: string, variant: "admin" | "participant") {
-  if (pathname.includes("/schemes")) return "Program Pelatihan";
+  if (pathname.includes("/schemes")) return "Training Programs";
   if (pathname.includes("/learning-path")) return "Learning Path";
-  if (pathname.includes("/learning/")) return "Detail Pelatihan";
-  if (pathname.includes("/learning")) return "Materi Belajar";
+  if (pathname.includes("/learning/")) return "Training Details";
+  if (pathname.includes("/learning")) return "Learning Materials";
   if (pathname.includes("/quiz")) return "Quiz";
-  if (pathname.includes("/certificate")) return "Sertifikat";
-  if (pathname.includes("/profile")) return "Profil";
+  if (pathname.includes("/certificate")) return "Certificates";
+  if (pathname.includes("/profile")) return "Profile";
   if (pathname.includes("/participants")) return "Participants";
   if (pathname.includes("/materials")) return "Materials";
   if (pathname.includes("/modules")) return "Modules";
   if (pathname.includes("/training")) return "Training";
   if (pathname.includes("/settings")) return "Settings";
-  return variant === "participant" ? "Dashboard Peserta" : "Dashboard";
+  return variant === "participant" ? "Participant Dashboard" : "Dashboard";
 }
 
 export function AppHeader({ variant = "admin" }: AppHeaderProps) {
@@ -102,7 +102,7 @@ export function AppHeader({ variant = "admin" }: AppHeaderProps) {
   const participantProfile = useParticipantProfile();
   const isParticipant = variant === "participant";
   const displayName = isParticipant ? participantProfile.name : "Admin MagangHub";
-  const displayRole = isParticipant ? "Peserta Magang" : "Administrator";
+  const displayRole = isParticipant ? "Participant" : "Administrator";
   const initials = isParticipant ? getInitials(participantProfile.name) : "M";
   const pageTitle = getHeaderTitle(location.pathname, variant);
 
@@ -175,7 +175,7 @@ export function AppHeader({ variant = "admin" }: AppHeaderProps) {
       <div className="flex items-center gap-3">
         <button
           type="button"
-          aria-label="Buka menu navigasi"
+          aria-label={isParticipant ? "Open navigation menu" : "Buka menu navigasi"}
           onClick={() => setMobileOpen(true)}
           className="
             flex h-10 w-10
@@ -193,8 +193,24 @@ export function AppHeader({ variant = "admin" }: AppHeaderProps) {
 
         <button
           type="button"
-          aria-label={collapsed ? "Tampilkan sidebar" : "Sembunyikan sidebar"}
-          title={collapsed ? "Tampilkan sidebar" : "Sembunyikan sidebar"}
+          aria-label={
+            isParticipant
+              ? collapsed
+                ? "Expand sidebar"
+                : "Collapse sidebar"
+              : collapsed
+                ? "Tampilkan sidebar"
+                : "Sembunyikan sidebar"
+          }
+          title={
+            isParticipant
+              ? collapsed
+                ? "Expand sidebar"
+                : "Collapse sidebar"
+              : collapsed
+                ? "Tampilkan sidebar"
+                : "Sembunyikan sidebar"
+          }
           onClick={toggle}
           className="
             hidden lg:flex h-10 w-10
@@ -225,7 +241,7 @@ export function AppHeader({ variant = "admin" }: AppHeaderProps) {
         <div className="relative">
           <button
             type="button"
-            aria-label="Notifikasi"
+            aria-label={isParticipant ? "Notifications" : "Notifikasi"}
             onClick={() => {
               setNotifOpen((prev) => !prev);
               setOpen(false);
@@ -270,11 +286,11 @@ export function AppHeader({ variant = "admin" }: AppHeaderProps) {
               <div className="flex items-center justify-between px-2 pb-2.5 border-b border-slate-100">
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-bold text-slate-900">
-                    Notifikasi
+                    {isParticipant ? "Notifications" : "Notifikasi"}
                   </span>
                   {unreadCount > 0 && (
                     <span className="px-2 py-0.5 rounded-full text-[11px] font-bold bg-blue-50 text-blue-600">
-                      {unreadCount} baru
+                      {isParticipant ? `${unreadCount} new` : `${unreadCount} baru`}
                     </span>
                   )}
                 </div>
@@ -285,7 +301,7 @@ export function AppHeader({ variant = "admin" }: AppHeaderProps) {
                     className="inline-flex items-center gap-1 text-xs font-medium text-blue-600 hover:underline"
                   >
                     <CheckCheck className="h-3.5 w-3.5" />
-                    Tandai dibaca
+                    {isParticipant ? "Mark all read" : "Tandai dibaca"}
                   </button>
                 )}
               </div>
@@ -380,7 +396,7 @@ export function AppHeader({ variant = "admin" }: AppHeaderProps) {
                 className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-slate-700 hover:bg-slate-50"
               >
                 <User className="h-4 w-4" />
-                {isParticipant ? "Profil Saya" : "Dashboard"}
+                {isParticipant ? "My Profile" : "Dashboard"}
               </button>
 
               <button
@@ -394,7 +410,7 @@ export function AppHeader({ variant = "admin" }: AppHeaderProps) {
                 className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-slate-700 hover:bg-slate-50"
               >
                 <Settings className="h-4 w-4" />
-                {isParticipant ? "Program Pelatihan" : "Settings"}
+                {isParticipant ? "Training Programs" : "Settings"}
               </button>
 
               <div className="my-2 border-t border-slate-100" />

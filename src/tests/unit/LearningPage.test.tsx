@@ -17,57 +17,57 @@ describe("LearningPage updated behavior", () => {
       </MemoryRouter>
     );
 
-    // Video action bar: no "Kumpulkan Tugas", "Kerjakan Quiz" is locked initially
+    // Video action bar: no "Submit Assignment", "Take Quiz" is locked initially
     expect(
-      screen.queryByRole("button", { name: /kumpulkan tugas/i })
+      screen.queryByRole("button", { name: /submit assignment/i })
     ).not.toBeInTheDocument();
-    const quizButton = screen.getByRole("button", { name: /kerjakan quiz/i });
+    const quizButton = screen.getByRole("button", { name: /take quiz/i });
     expect(quizButton).toBeDisabled();
 
     // Mark video completed -> unlocks quiz button
-    await user.click(screen.getByRole("button", { name: /tandai selesai/i }));
+    await user.click(screen.getByRole("button", { name: /mark as completed/i }));
     expect(quizButton).toBeEnabled();
 
-    // PDF material also has locked Kerjakan Quiz until marked complete
+    // PDF material also has locked Take Quiz until marked complete
     await user.click(
       screen.getByRole("button", { name: /html tags reference\.pdf/i })
     );
-    const pdfQuizButton = screen.getByRole("button", { name: /kerjakan quiz/i });
+    const pdfQuizButton = screen.getByRole("button", { name: /take quiz/i });
     expect(pdfQuizButton).toBeDisabled();
-    await user.click(screen.getByRole("button", { name: /tandai selesai/i }));
+    await user.click(screen.getByRole("button", { name: /mark as completed/i }));
     expect(pdfQuizButton).toBeEnabled();
 
-    // Resource buttons: View & Unduh exist in Ringkasan tab
+    // Resource buttons: View & Download exist in Summary tab
     const viewButtons = screen.getAllByRole("button", { name: /^view/i });
-    const downloadButtons = screen.getAllByRole("button", { name: /^unduh/i });
+    const downloadButtons = screen.getAllByRole("button", { name: /^download/i });
     expect(viewButtons.length).toBeGreaterThanOrEqual(2);
     expect(downloadButtons.length).toBeGreaterThanOrEqual(2);
 
     // Click View -> opens resource preview modal
     await user.click(viewButtons[0]!);
     expect(
-      screen.getByRole("button", { name: /tutup pratinjau materi pendukung/i })
+      screen.getByRole("button", { name: /close supporting material preview/i })
     ).toBeInTheDocument();
     await user.click(
-      screen.getByRole("button", { name: /tutup pratinjau materi pendukung/i })
+      screen.getByRole("button", { name: /close supporting material preview/i })
     );
 
-    // Select Tugas Praktik in Daftar Modul -> renders distinct TaskModuleCard
+    // Select Practical Assignment in Module List -> renders distinct TaskModuleCard
     await user.click(
-      screen.getByRole("button", { name: /tugas praktik: html basics/i })
+      screen.getByRole("button", { name: /practical assignment: html basics/i })
     );
-    expect(screen.getByText(/penugasan praktik modul/i)).toBeInTheDocument();
+    expect(screen.getByText(/module practical assignment/i)).toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: /kumpulkan tugas/i })
+      screen.getByRole("button", { name: /submit assignment/i })
     ).toBeInTheDocument();
 
-    // Hide Daftar Modul -> sidebar disappears and button updates
+    // Hide Module List -> sidebar disappears and button updates
     await user.click(
-      screen.getByRole("button", { name: /sembunyikan daftar modul/i })
+      screen.getByRole("button", { name: /hide module list/i })
     );
-    expect(screen.queryByText("Daftar Modul")).not.toBeInTheDocument();
+    expect(screen.queryByText("Module List")).not.toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: /tampilkan daftar modul/i })
+      screen.getByRole("button", { name: /show module list/i })
     ).toBeInTheDocument();
   }, 15000);
 });

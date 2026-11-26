@@ -7,7 +7,7 @@ import {
   PROFILE_STORAGE_KEY,
 } from '@/features/participant/profile/profileStorage';
 
-describe('ProfilePage view/edit modes, section tabs & persistence', () => {
+describe('ProfilePage view/edit modes, category tabs & persistence', () => {
   beforeEach(() => {
     localStorage.clear();
   });
@@ -18,31 +18,44 @@ describe('ProfilePage view/edit modes, section tabs & persistence', () => {
     expect(getInitials('')).toBe('P');
   });
 
-  it('starts in read-only view mode with section tabs and requires clicking Edit Profil before editing', async () => {
+  it('starts in read-only view mode on Basic Information with category tabs and without an All tab', async () => {
     const user = userEvent.setup();
     render(<ProfilePage />);
 
+    // Category tabs exist, but an "All" tab does not
+    expect(screen.getByRole('tablist')).toBeInTheDocument();
+    expect(
+      screen.queryByRole('tab', { name: /semua bagian|all/i })
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByRole('tab', { name: /basic information/i })
+    ).toHaveAttribute('aria-selected', 'true');
+
     // Read-only initially: no editable inputs or save button yet
     expect(
-      screen.getByRole('button', { name: /edit profil/i })
+      screen.getByRole('button', { name: /edit profile/i })
     ).toBeInTheDocument();
-    expect(screen.queryByLabelText(/nama lengkap/i)).not.toBeInTheDocument();
+    expect(screen.queryByLabelText(/full name/i)).not.toBeInTheDocument();
     expect(
-      screen.queryByRole('button', { name: /simpan perubahan/i })
+      screen.queryByRole('button', { name: /save changes/i })
     ).not.toBeInTheDocument();
 
-    // Section tabs filter cleanly
-    await user.click(screen.getByRole('tab', { name: /pendidikan/i }));
+    // Switching category tabs filters cleanly
     expect(
-      screen.getByRole('heading', { name: 'Riwayat Pendidikan' })
+      screen.getByRole('heading', { name: 'Basic Information' })
+    ).toBeInTheDocument();
+
+    await user.click(screen.getByRole('tab', { name: /education/i }));
+    expect(
+      screen.getByRole('heading', { name: 'Education History' })
     ).toBeInTheDocument();
     expect(
-      screen.queryByRole('heading', { name: 'Informasi Dasar' })
+      screen.queryByRole('heading', { name: 'Basic Information' })
     ).not.toBeInTheDocument();
 
-    await user.click(screen.getByRole('tab', { name: /semua bagian/i }));
+    await user.click(screen.getByRole('tab', { name: /skills/i }));
     expect(
-      screen.getByRole('heading', { name: 'Informasi Dasar' })
+      screen.getByRole('heading', { name: 'Skills' })
     ).toBeInTheDocument();
   });
 
@@ -50,22 +63,22 @@ describe('ProfilePage view/edit modes, section tabs & persistence', () => {
     const user = userEvent.setup();
     render(<ProfilePage />);
 
-    await user.click(screen.getByRole('button', { name: /edit profil/i }));
+    await user.click(screen.getByRole('button', { name: /edit profile/i }));
 
-    const nameInput = screen.getByLabelText(/nama lengkap/i);
-    const emailInput = screen.getByLabelText(/alamat email/i);
+    const nameInput = screen.getByLabelText(/full name/i);
+    const emailInput = screen.getByLabelText(/email address/i);
     await user.clear(nameInput);
     await user.clear(emailInput);
-    await user.type(emailInput, 'bukan-email');
+    await user.type(emailInput, 'not-an-email');
 
     const saveButtons = screen.getAllByRole('button', {
-      name: /simpan perubahan/i,
+      name: /save changes/i,
     });
     await user.click(saveButtons[0]!);
 
-    expect(screen.getByText('Nama lengkap wajib diisi.')).toBeInTheDocument();
+    expect(screen.getByText('Full name is required.')).toBeInTheDocument();
     expect(
-      screen.getByText('Format alamat email tidak valid.')
+      screen.getByText('Please enter a valid email address.')
     ).toBeInTheDocument();
   });
 
@@ -73,22 +86,23 @@ describe('ProfilePage view/edit modes, section tabs & persistence', () => {
     const user = userEvent.setup();
     render(<ProfilePage />);
 
-    await user.click(screen.getByRole('button', { name: /edit profil/i }));
+    await user.click(screen.getByRole('button', { name: /edit profile/i }));
 
-    const nameInput = screen.getByLabelText(/nama lengkap/i);
-    const domisiliInput = screen.getByLabelText(/domisili/i);
+    const nameInput = screen.getByLabelText(/full name/i);
+    const domisiliInput = screen.getByLabelText(/residence/i);
     await user.clear(nameInput);
     await user.type(nameInput, 'Siti Nurhaliza');
     await user.clear(domisiliInput);
-    await user.type(domisiliInput, 'Surabaya, Jawa Timur');
+    await user.type(domisiliInput, 'Surabaya, East Java');
 
-    const skillInput = screen.getByLabelText(/tambah keahlian baru/i);
+    await user.click(screen.getByRole('tab', { name: /skills/i }));
+    const skillInput = screen.getByLabelText(/add new skill/i);
     await user.type(skillInput, 'Docker');
-    await user.click(screen.getByRole('button', { name: /tambah keahlian/i }));
+    await user.click(screen.getByRole('button', { name: /add skill/i }));
     expect(screen.getByText('Docker')).toBeInTheDocument();
 
     const saveButtons = screen.getAllByRole('button', {
-      name: /simpan perubahan/i,
+      name: /save changes/i,
     });
     await user.click(saveButtons[0]!);
 
@@ -97,11 +111,11 @@ describe('ProfilePage view/edit modes, section tabs & persistence', () => {
         localStorage.getItem(PROFILE_STORAGE_KEY) || '{}'
       );
       expect(saved.name).toBe('Siti Nurhaliza');
-      expect(saved.domisili).toBe('Surabaya, Jawa Timur');
+      expect(saved.domisili).toBe('Surabaya, East Java');
       expect(saved.daftar_keahlian).toContain('Docker');
       // Returns to view mode after save
       expect(
-        screen.getByRole('button', { name: /edit profil/i })
+        screen.getByRole('button', { name: /edit profile/i })
       ).toBeInTheDocument();
     });
   }, 15000);

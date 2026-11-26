@@ -31,7 +31,10 @@ export function AppSidebar({ variant = "admin" }: AppSidebarProps) {
   const participantProfile = useParticipantProfile();
   const isParticipant = variant === "participant";
   const displayName = isParticipant ? participantProfile.name : "Admin MagangHub";
-  const displayRole = isParticipant ? "Peserta Magang" : "Administrator";
+  const displayRole = isParticipant ? "Participant" : "Administrator";
+  const portalSubtitle = isParticipant
+    ? "Official Training Portal"
+    : "Portal Pelatihan Resmi";
   const initials = isParticipant ? getInitials(participantProfile.name) : "M";
 
   return (
@@ -77,7 +80,7 @@ export function AppSidebar({ variant = "admin" }: AppSidebarProps) {
                 MagangHub
               </h1>
               <p className="text-xs text-slate-500">
-                Portal Pelatihan Resmi
+                {portalSubtitle}
               </p>
             </div>
           )}
@@ -87,8 +90,8 @@ export function AppSidebar({ variant = "admin" }: AppSidebarProps) {
         {!collapsed && (
           <button
             type="button"
-            aria-label="Sembunyikan sidebar"
-            title="Sembunyikan sidebar"
+            aria-label={isParticipant ? "Collapse sidebar" : "Sembunyikan sidebar"}
+            title={isParticipant ? "Collapse sidebar" : "Sembunyikan sidebar"}
             onClick={toggle}
             className="
               absolute
@@ -179,12 +182,12 @@ export function AppSidebar({ variant = "admin" }: AppSidebarProps) {
                   <h1 className="text-lg font-bold tracking-tight text-slate-900">
                     MagangHub
                   </h1>
-                  <p className="text-xs text-slate-500">Portal Pelatihan Resmi</p>
+                  <p className="text-xs text-slate-500">{portalSubtitle}</p>
                 </div>
               </div>
               <button
                 type="button"
-                aria-label="Tutup menu"
+                aria-label={isParticipant ? "Close menu" : "Tutup menu"}
                 onClick={closeMobile}
                 className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100"
               >

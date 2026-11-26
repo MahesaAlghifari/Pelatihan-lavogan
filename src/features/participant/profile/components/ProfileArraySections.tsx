@@ -50,16 +50,16 @@ function ProfileSectionCard({
           <div className={DASHBOARD_TOKENS.iconBox}>
             {icon}
           </div>
-          <div className="min-w-0">
+          <div className="min-w-0 space-y-0.5">
             <div className="flex items-center gap-2">
-              <h2 className={DASHBOARD_TOKENS.cardTitle}>
+              <h2 className={DASHBOARD_TOKENS.sectionHeading}>
                 {title}
               </h2>
               <span className={DASHBOARD_TOKENS.badgeNeutral}>
                 {count}
               </span>
             </div>
-            <p className="text-xs font-normal text-[#667085]">
+            <p className={DASHBOARD_TOKENS.description}>
               {subtitle}
             </p>
           </div>
@@ -140,7 +140,7 @@ export function PendidikanSection({
 
   const saveDraft = () => {
     if (!draft.nama_institusi.trim() || !draft.jurusan.trim()) {
-      setFormError('Nama institusi dan jurusan wajib diisi.');
+      setFormError('Institution name and major are required.');
       return;
     }
     if (editingId) {
@@ -159,35 +159,35 @@ export function PendidikanSection({
 
   return (
     <ProfileSectionCard
-      title="Riwayat Pendidikan"
-      subtitle="Latar belakang pendidikan formal terakhir atau yang sedang ditempuh."
+      title="Education History"
+      subtitle="Latest or ongoing formal academic background."
       icon={<GraduationCap className="w-4 h-4" />}
       count={items.length}
       editable={editable}
-      addLabel="Tambah Pendidikan"
+      addLabel="Add Education"
       onAdd={openAdd}
     >
       {editable && showForm && (
         <div className="p-4 rounded-xl border border-[#BFDBFE] bg-[#F9FBFE] space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
             <div>
-              <label className="block text-xs font-semibold mb-1">Nama Institusi</label>
+              <label className={DASHBOARD_TOKENS.fieldLabel}>Institution Name</label>
               <input
                 type="text"
                 value={draft.nama_institusi}
                 onChange={(e) => setDraft({ ...draft, nama_institusi: e.target.value })}
-                placeholder="Contoh: Universitas Indonesia"
+                placeholder="Example: University of Indonesia"
                 className={INPUT_CLASS}
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold mb-1">Jenjang</label>
+              <label className={DASHBOARD_TOKENS.fieldLabel}>Degree</label>
               <select
                 value={draft.jenjang}
                 onChange={(e) => setDraft({ ...draft, jenjang: e.target.value })}
                 className={INPUT_CLASS}
               >
-                {['SMA/SMK', 'D3', 'D4', 'S1', 'S2', 'S3'].map((lvl) => (
+                {['High School', 'Diploma (D3)', 'Bachelor (D4)', 'Bachelor (S1)', 'Master (S2)', 'Doctorate (S3)'].map((lvl) => (
                   <option key={lvl} value={lvl}>
                     {lvl}
                   </option>
@@ -195,48 +195,48 @@ export function PendidikanSection({
               </select>
             </div>
             <div>
-              <label className="block text-xs font-semibold mb-1">Jurusan</label>
+              <label className={DASHBOARD_TOKENS.fieldLabel}>Major / Field of Study</label>
               <input
                 type="text"
                 value={draft.jurusan}
                 onChange={(e) => setDraft({ ...draft, jurusan: e.target.value })}
-                placeholder="Contoh: Teknik Informatika"
+                placeholder="Example: Computer Science"
                 className={INPUT_CLASS}
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold mb-1">Periode Tahun</label>
+              <label className={DASHBOARD_TOKENS.fieldLabel}>Period</label>
               <input
                 type="text"
                 value={draft.periode_tahun}
                 onChange={(e) => setDraft({ ...draft, periode_tahun: e.target.value })}
-                placeholder="Contoh: 2020 - 2024"
+                placeholder="Example: 2020 - 2024"
                 className={INPUT_CLASS}
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold mb-1">Nilai Akhir</label>
+              <label className={DASHBOARD_TOKENS.fieldLabel}>Final Grade / GPA</label>
               <input
                 type="text"
                 value={draft.nilai_akhir}
                 onChange={(e) => setDraft({ ...draft, nilai_akhir: e.target.value })}
-                placeholder="Contoh: IPK 3.75 / 4.00"
+                placeholder="Example: GPA 3.75 / 4.00"
                 className={INPUT_CLASS}
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold mb-1">Lokasi Institusi</label>
+              <label className={DASHBOARD_TOKENS.fieldLabel}>Location</label>
               <input
                 type="text"
                 value={draft.lokasi_institusi}
                 onChange={(e) => setDraft({ ...draft, lokasi_institusi: e.target.value })}
-                placeholder="Contoh: Depok, Jawa Barat"
+                placeholder="Example: Bandung, West Java"
                 className={INPUT_CLASS}
               />
             </div>
           </div>
 
-          {formError && <p className="text-xs font-medium text-red-600">{formError}</p>}
+          {formError && <p className="text-xs font-medium text-[#DC2626]">{formError}</p>}
 
           <div className="flex items-center justify-end gap-2">
             <button
@@ -244,7 +244,7 @@ export function PendidikanSection({
               onClick={() => setShowForm(false)}
               className={DASHBOARD_TOKENS.btnOutline}
             >
-              Batal
+              Cancel
             </button>
             <button
               type="button"
@@ -252,38 +252,40 @@ export function PendidikanSection({
               className={DASHBOARD_TOKENS.btnPrimary}
             >
               <Check className="w-3.5 h-3.5" />
-              {editingId ? 'Simpan Pendidikan' : 'Tambahkan'}
+              {editingId ? 'Save Education' : 'Add'}
             </button>
           </div>
         </div>
       )}
 
       {items.length === 0 ? (
-        <p className="text-xs sm:text-sm font-normal text-[#667085] py-1">
-          Belum ada riwayat pendidikan tercatat.
+        <p className={`${DASHBOARD_TOKENS.description} py-1`}>
+          No education history recorded yet.
         </p>
       ) : (
         <div className="divide-y divide-[#E7ECF3]">
           {items.map((item) => (
             <div
               key={item.id}
-              className="py-3.5 first:pt-0 last:pb-0 flex items-start justify-between gap-4"
+              className="py-4 first:pt-0 last:pb-0 flex items-start justify-between gap-4"
             >
-              <div className="space-y-1 min-w-0">
+              <div className="space-y-1.5 min-w-0">
                 <div className="flex flex-wrap items-center gap-2">
                   <span className={DASHBOARD_TOKENS.badgeBlue}>
                     {item.jenjang || '-'}
                   </span>
-                  <h3 className="font-semibold text-sm text-[#171C2B]">
+                  <h3 className={DASHBOARD_TOKENS.subheading}>
                     {item.nama_institusi}
                   </h3>
                 </div>
-                <p className="text-sm text-slate-700">{item.jurusan}</p>
-                <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-500">
-                  <span>Periode: {item.periode_tahun || '-'}</span>
-                  <span>Nilai Akhir: {item.nilai_akhir || '-'}</span>
+                <p className="text-[13px] font-normal leading-snug text-[#475467]">
+                  {item.jurusan}
+                </p>
+                <div className={`flex flex-wrap items-center gap-x-4 gap-y-1 ${DASHBOARD_TOKENS.metaText}`}>
+                  <span>Period: {item.periode_tahun || '-'}</span>
+                  <span>Grade: {item.nilai_akhir || '-'}</span>
                   <span className="inline-flex items-center gap-1">
-                    <MapPin className="w-3 h-3 text-slate-400" />
+                    <MapPin className="w-3 h-3 text-[#98A2B3]" />
                     {item.lokasi_institusi || '-'}
                   </span>
                 </div>
@@ -293,7 +295,7 @@ export function PendidikanSection({
                 <div className="flex items-center gap-1 shrink-0">
                   <button
                     type="button"
-                    aria-label={`Edit pendidikan ${item.nama_institusi}`}
+                    aria-label={`Edit education ${item.nama_institusi}`}
                     onClick={() => openEdit(item)}
                     className="p-1.5 rounded-lg text-[#667085] hover:bg-[#F3F6FB] border border-transparent hover:border-[#E7ECF3]"
                   >
@@ -301,9 +303,9 @@ export function PendidikanSection({
                   </button>
                   <button
                     type="button"
-                    aria-label={`Hapus pendidikan ${item.nama_institusi}`}
+                    aria-label={`Delete education ${item.nama_institusi}`}
                     onClick={() => onChange(items.filter((x) => x.id !== item.id))}
-                    className="p-1.5 rounded-lg text-red-500 hover:bg-red-50"
+                    className="p-1.5 rounded-lg text-[#DC2626] hover:bg-[#FEF2F2] transition-colors"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -373,7 +375,7 @@ export function PekerjaanSection({
 
   const saveDraft = () => {
     if (!draft.posisi.trim() || !draft.nama_perusahaan.trim()) {
-      setFormError('Posisi dan nama perusahaan wajib diisi.');
+      setFormError('Position and company name are required.');
       return;
     }
     if (editingId) {
@@ -392,55 +394,55 @@ export function PekerjaanSection({
 
   return (
     <ProfileSectionCard
-      title="Riwayat Pekerjaan"
-      subtitle="Pengalaman kerja, magang, atau proyek profesional yang pernah dijalankan."
+      title="Work Experience"
+      subtitle="Work, internship, or professional project experience."
       icon={<Briefcase className="w-4 h-4" />}
       count={items.length}
       editable={editable}
-      addLabel="Tambah Pekerjaan"
+      addLabel="Add Experience"
       onAdd={openAdd}
     >
       {editable && showForm && (
         <div className="p-4 rounded-xl border border-[#BFDBFE] bg-[#F9FBFE] space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
             <div>
-              <label className="block text-xs font-semibold mb-1">Posisi</label>
+              <label className={DASHBOARD_TOKENS.fieldLabel}>Position / Role</label>
               <input
                 type="text"
                 value={draft.posisi}
                 onChange={(e) => setDraft({ ...draft, posisi: e.target.value })}
-                placeholder="Contoh: Frontend Developer"
+                placeholder="Example: Frontend Developer"
                 className={INPUT_CLASS}
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold mb-1">Nama Perusahaan</label>
+              <label className={DASHBOARD_TOKENS.fieldLabel}>Company Name</label>
               <input
                 type="text"
                 value={draft.nama_perusahaan}
                 onChange={(e) => setDraft({ ...draft, nama_perusahaan: e.target.value })}
-                placeholder="Contoh: PT Teknologi Maju"
+                placeholder="Example: Acme Tech Inc."
                 className={INPUT_CLASS}
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold mb-1">Periode Kerja</label>
+              <label className={DASHBOARD_TOKENS.fieldLabel}>Work Period</label>
               <input
                 type="text"
                 value={draft.periode_kerja}
                 onChange={(e) => setDraft({ ...draft, periode_kerja: e.target.value })}
-                placeholder="Contoh: Jan 2025 - Jun 2025"
+                placeholder="Example: Jan 2025 - Jun 2025"
                 className={INPUT_CLASS}
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold mb-1">Tipe Pekerjaan</label>
+              <label className={DASHBOARD_TOKENS.fieldLabel}>Employment Type</label>
               <select
                 value={draft.tipe_pekerjaan}
                 onChange={(e) => setDraft({ ...draft, tipe_pekerjaan: e.target.value })}
                 className={INPUT_CLASS}
               >
-                {['Magang', 'Penuh Waktu', 'Paruh Waktu', 'Kontrak', 'Freelance'].map(
+                {['Internship', 'Full-time', 'Part-time', 'Contract', 'Freelance'].map(
                   (type) => (
                     <option key={type} value={type}>
                       {type}
@@ -450,18 +452,18 @@ export function PekerjaanSection({
               </select>
             </div>
             <div className="sm:col-span-2">
-              <label className="block text-xs font-semibold mb-1">Lokasi Kerja</label>
+              <label className={DASHBOARD_TOKENS.fieldLabel}>Location</label>
               <input
                 type="text"
                 value={draft.lokasi_kerja}
                 onChange={(e) => setDraft({ ...draft, lokasi_kerja: e.target.value })}
-                placeholder="Contoh: Jakarta Selatan (Hybrid)"
+                placeholder="Example: South Jakarta (Hybrid)"
                 className={INPUT_CLASS}
               />
             </div>
             <div className="sm:col-span-2 lg:col-span-3">
-              <label className="block text-xs font-semibold mb-1">
-                Deskripsi Pekerjaan
+              <label className={DASHBOARD_TOKENS.fieldLabel}>
+                Description
               </label>
               <textarea
                 rows={3}
@@ -469,13 +471,13 @@ export function PekerjaanSection({
                 onChange={(e) =>
                   setDraft({ ...draft, deskripsi_pekerjaan: e.target.value })
                 }
-                placeholder="Ringkas tanggung jawab utama dan pencapaian Anda..."
+                placeholder="Summarize your main responsibilities and achievements..."
                 className={INPUT_CLASS}
               />
             </div>
           </div>
 
-          {formError && <p className="text-xs font-medium text-red-600">{formError}</p>}
+          {formError && <p className="text-xs font-medium text-[#DC2626]">{formError}</p>}
 
           <div className="flex items-center justify-end gap-2">
             <button
@@ -483,7 +485,7 @@ export function PekerjaanSection({
               onClick={() => setShowForm(false)}
               className={DASHBOARD_TOKENS.btnOutline}
             >
-              Batal
+              Cancel
             </button>
             <button
               type="button"
@@ -491,38 +493,38 @@ export function PekerjaanSection({
               className={DASHBOARD_TOKENS.btnPrimary}
             >
               <Check className="w-3.5 h-3.5" />
-              {editingId ? 'Simpan Pekerjaan' : 'Tambahkan'}
+              {editingId ? 'Save Experience' : 'Add'}
             </button>
           </div>
         </div>
       )}
 
       {items.length === 0 ? (
-        <p className="text-xs sm:text-sm font-normal text-[#667085] py-1">
-          Belum ada riwayat pekerjaan tercatat.
+        <p className={`${DASHBOARD_TOKENS.description} py-1`}>
+          No work experience recorded yet.
         </p>
       ) : (
         <div className="divide-y divide-[#E7ECF3]">
           {items.map((item) => (
             <div
               key={item.id}
-              className="py-3.5 first:pt-0 last:pb-0 flex items-start justify-between gap-4"
+              className="py-4 first:pt-0 last:pb-0 flex items-start justify-between gap-4"
             >
               <div className="space-y-1.5 min-w-0">
                 <div className="flex flex-wrap items-center gap-2">
-                  <h3 className="font-semibold text-sm text-[#171C2B]">
+                  <h3 className={DASHBOARD_TOKENS.subheading}>
                     {item.posisi}
                   </h3>
                   <span className={DASHBOARD_TOKENS.badgeBlue}>
                     {item.tipe_pekerjaan || '-'}
                   </span>
                 </div>
-                <p className="text-xs sm:text-sm font-medium text-slate-700">
+                <p className="text-[13px] font-normal text-[#475467]">
                   {item.nama_perusahaan} • {item.periode_kerja || '-'} •{' '}
                   {item.lokasi_kerja || '-'}
                 </p>
                 {item.deskripsi_pekerjaan && (
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  <p className={DASHBOARD_TOKENS.description}>
                     {item.deskripsi_pekerjaan}
                   </p>
                 )}
@@ -532,7 +534,7 @@ export function PekerjaanSection({
                 <div className="flex items-center gap-1 shrink-0">
                   <button
                     type="button"
-                    aria-label={`Edit pekerjaan ${item.posisi}`}
+                    aria-label={`Edit experience ${item.posisi}`}
                     onClick={() => openEdit(item)}
                     className="p-1.5 rounded-lg text-[#667085] hover:bg-[#F3F6FB] border border-transparent hover:border-[#E7ECF3]"
                   >
@@ -540,9 +542,9 @@ export function PekerjaanSection({
                   </button>
                   <button
                     type="button"
-                    aria-label={`Hapus pekerjaan ${item.posisi}`}
+                    aria-label={`Delete experience ${item.posisi}`}
                     onClick={() => onChange(items.filter((x) => x.id !== item.id))}
-                    className="p-1.5 rounded-lg text-red-500 hover:bg-red-50"
+                    className="p-1.5 rounded-lg text-[#DC2626] hover:bg-[#FEF2F2] transition-colors"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -612,7 +614,7 @@ export function PelatihanSection({
 
   const saveDraft = () => {
     if (!draft.nama_pelatihan.trim() || !draft.penyelenggara.trim()) {
-      setFormError('Nama pelatihan dan penyelenggara wajib diisi.');
+      setFormError('Training name and organizer are required.');
       return;
     }
     if (editingId) {
@@ -631,40 +633,40 @@ export function PelatihanSection({
 
   return (
     <ProfileSectionCard
-      title="Riwayat Pelatihan"
-      subtitle="Pelatihan, bootcamp, atau kursus pengembangan kompetensi yang diikuti."
+      title="Training History"
+      subtitle="Bootcamps, courses, and professional training programs attended."
       icon={<BookOpen className="w-4 h-4" />}
       count={items.length}
       editable={editable}
-      addLabel="Tambah Pelatihan"
+      addLabel="Add Training"
       onAdd={openAdd}
     >
       {editable && showForm && (
         <div className="p-4 rounded-xl border border-[#BFDBFE] bg-[#F9FBFE] space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
             <div>
-              <label className="block text-xs font-semibold mb-1">Nama Pelatihan</label>
+              <label className={DASHBOARD_TOKENS.fieldLabel}>Training Name</label>
               <input
                 type="text"
                 value={draft.nama_pelatihan}
                 onChange={(e) => setDraft({ ...draft, nama_pelatihan: e.target.value })}
-                placeholder="Contoh: UI/UX Product Design"
+                placeholder="Example: UI/UX Product Design"
                 className={INPUT_CLASS}
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold mb-1">Penyelenggara</label>
+              <label className={DASHBOARD_TOKENS.fieldLabel}>Organizer</label>
               <input
                 type="text"
                 value={draft.penyelenggara}
                 onChange={(e) => setDraft({ ...draft, penyelenggara: e.target.value })}
-                placeholder="Contoh: MagangHub Academy"
+                placeholder="Example: MagangHub Academy"
                 className={INPUT_CLASS}
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold mb-1">
-                Periode Pelatihan
+              <label className={DASHBOARD_TOKENS.fieldLabel}>
+                Training Period
               </label>
               <input
                 type="text"
@@ -672,37 +674,37 @@ export function PelatihanSection({
                 onChange={(e) =>
                   setDraft({ ...draft, periode_pelatihan: e.target.value })
                 }
-                placeholder="Contoh: Agu 2025 - Okt 2025"
+                placeholder="Example: Aug 2025 - Oct 2025"
                 className={INPUT_CLASS}
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold mb-1">Kategori Bidang</label>
+              <label className={DASHBOARD_TOKENS.fieldLabel}>Field / Category</label>
               <input
                 type="text"
                 value={draft.kategori_bidang}
                 onChange={(e) =>
                   setDraft({ ...draft, kategori_bidang: e.target.value })
                 }
-                placeholder="Contoh: Web Development"
+                placeholder="Example: Web Development"
                 className={INPUT_CLASS}
               />
             </div>
             <div className="sm:col-span-2">
-              <label className="block text-xs font-semibold mb-1">Lokasi Pelatihan</label>
+              <label className={DASHBOARD_TOKENS.fieldLabel}>Location</label>
               <input
                 type="text"
                 value={draft.lokasi_pelatihan}
                 onChange={(e) =>
                   setDraft({ ...draft, lokasi_pelatihan: e.target.value })
                 }
-                placeholder="Contoh: Daring (Online) / Bandung"
+                placeholder="Example: Online / Bandung"
                 className={INPUT_CLASS}
               />
             </div>
             <div className="sm:col-span-2 lg:col-span-3">
-              <label className="block text-xs font-semibold mb-1">
-                Deskripsi Pelatihan
+              <label className={DASHBOARD_TOKENS.fieldLabel}>
+                Description
               </label>
               <textarea
                 rows={3}
@@ -710,13 +712,13 @@ export function PelatihanSection({
                 onChange={(e) =>
                   setDraft({ ...draft, deskripsi_pelatihan: e.target.value })
                 }
-                placeholder="Materi utama dan hasil praktik selama pelatihan..."
+                placeholder="Core topics and practical outcomes from this training..."
                 className={INPUT_CLASS}
               />
             </div>
           </div>
 
-          {formError && <p className="text-xs font-medium text-red-600">{formError}</p>}
+          {formError && <p className="text-xs font-medium text-[#DC2626]">{formError}</p>}
 
           <div className="flex items-center justify-end gap-2">
             <button
@@ -724,7 +726,7 @@ export function PelatihanSection({
               onClick={() => setShowForm(false)}
               className={DASHBOARD_TOKENS.btnOutline}
             >
-              Batal
+              Cancel
             </button>
             <button
               type="button"
@@ -732,26 +734,26 @@ export function PelatihanSection({
               className={DASHBOARD_TOKENS.btnPrimary}
             >
               <Check className="w-3.5 h-3.5" />
-              {editingId ? 'Simpan Pelatihan' : 'Tambahkan'}
+              {editingId ? 'Save Training' : 'Add'}
             </button>
           </div>
         </div>
       )}
 
       {items.length === 0 ? (
-        <p className="text-xs sm:text-sm font-normal text-[#667085] py-1">
-          Belum ada riwayat pelatihan tercatat.
+        <p className={`${DASHBOARD_TOKENS.description} py-1`}>
+          No training history recorded yet.
         </p>
       ) : (
         <div className="divide-y divide-[#E7ECF3]">
           {items.map((item) => (
             <div
               key={item.id}
-              className="py-3.5 first:pt-0 last:pb-0 flex items-start justify-between gap-4"
+              className="py-4 first:pt-0 last:pb-0 flex items-start justify-between gap-4"
             >
               <div className="space-y-1.5 min-w-0">
                 <div className="flex flex-wrap items-center gap-2">
-                  <h3 className="font-semibold text-sm text-[#171C2B]">
+                  <h3 className={DASHBOARD_TOKENS.subheading}>
                     {item.nama_pelatihan}
                   </h3>
                   {item.kategori_bidang && (
@@ -760,12 +762,12 @@ export function PelatihanSection({
                     </span>
                   )}
                 </div>
-                <p className="text-xs sm:text-sm font-medium text-slate-700">
+                <p className="text-[13px] font-normal text-[#475467]">
                   {item.penyelenggara} • {item.periode_pelatihan || '-'} •{' '}
                   {item.lokasi_pelatihan || '-'}
                 </p>
                 {item.deskripsi_pelatihan && (
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  <p className={DASHBOARD_TOKENS.description}>
                     {item.deskripsi_pelatihan}
                   </p>
                 )}
@@ -775,7 +777,7 @@ export function PelatihanSection({
                 <div className="flex items-center gap-1 shrink-0">
                   <button
                     type="button"
-                    aria-label={`Edit pelatihan ${item.nama_pelatihan}`}
+                    aria-label={`Edit training ${item.nama_pelatihan}`}
                     onClick={() => openEdit(item)}
                     className="p-1.5 rounded-lg text-[#667085] hover:bg-[#F3F6FB] border border-transparent hover:border-[#E7ECF3]"
                   >
@@ -783,9 +785,9 @@ export function PelatihanSection({
                   </button>
                   <button
                     type="button"
-                    aria-label={`Hapus pelatihan ${item.nama_pelatihan}`}
+                    aria-label={`Delete training ${item.nama_pelatihan}`}
                     onClick={() => onChange(items.filter((x) => x.id !== item.id))}
-                    className="p-1.5 rounded-lg text-red-500 hover:bg-red-50"
+                    className="p-1.5 rounded-lg text-[#DC2626] hover:bg-[#FEF2F2] transition-colors"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -851,7 +853,7 @@ export function SertifikasiSection({
 
   const saveDraft = () => {
     if (!draft.nama_sertifikasi.trim() || !draft.lembaga_penerbit.trim()) {
-      setFormError('Nama sertifikasi dan lembaga penerbit wajib diisi.');
+      setFormError('Certification name and issuing organization are required.');
       return;
     }
     if (editingId) {
@@ -870,20 +872,20 @@ export function SertifikasiSection({
 
   return (
     <ProfileSectionCard
-      title="Riwayat Sertifikasi"
-      subtitle="Sertifikasi kompetensi atau lisensi resmi yang dimiliki."
+      title="Certifications"
+      subtitle="Competency certifications and official licenses held."
       icon={<Award className="w-4 h-4" />}
       count={items.length}
       editable={editable}
-      addLabel="Tambah Sertifikasi"
+      addLabel="Add Certification"
       onAdd={openAdd}
     >
       {editable && showForm && (
         <div className="p-4 rounded-xl border border-[#BFDBFE] bg-[#F9FBFE] space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
             <div>
-              <label className="block text-xs font-semibold mb-1">
-                Nama Sertifikasi
+              <label className={DASHBOARD_TOKENS.fieldLabel}>
+                Certification Name
               </label>
               <input
                 type="text"
@@ -891,13 +893,13 @@ export function SertifikasiSection({
                 onChange={(e) =>
                   setDraft({ ...draft, nama_sertifikasi: e.target.value })
                 }
-                placeholder="Contoh: Junior Web Developer"
+                placeholder="Example: Junior Web Developer"
                 className={INPUT_CLASS}
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold mb-1">
-                Lembaga Penerbit
+              <label className={DASHBOARD_TOKENS.fieldLabel}>
+                Issuing Organization
               </label>
               <input
                 type="text"
@@ -905,25 +907,25 @@ export function SertifikasiSection({
                 onChange={(e) =>
                   setDraft({ ...draft, lembaga_penerbit: e.target.value })
                 }
-                placeholder="Contoh: BNSP / LSP Teknologi"
+                placeholder="Example: BNSP / Technology LSP"
                 className={INPUT_CLASS}
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold mb-1">Masa Berlaku</label>
+              <label className={DASHBOARD_TOKENS.fieldLabel}>Validity Period</label>
               <input
                 type="text"
                 value={draft.masa_berlaku}
                 onChange={(e) =>
                   setDraft({ ...draft, masa_berlaku: e.target.value })
                 }
-                placeholder="Contoh: Okt 2025 - Okt 2028 atau Seumur Hidup"
+                placeholder="Example: Oct 2025 - Oct 2028 or Lifetime"
                 className={INPUT_CLASS}
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold mb-1">
-                Lampiran Dokumen
+              <label className={DASHBOARD_TOKENS.fieldLabel}>
+                Document Attachment
               </label>
               <div className="flex gap-2">
                 <input
@@ -932,10 +934,10 @@ export function SertifikasiSection({
                   onChange={(e) =>
                     setDraft({ ...draft, lampiran_dokumen: e.target.value })
                   }
-                  placeholder="Nama file atau URL sertifikat..."
+                  placeholder="File name or certificate URL..."
                   className={INPUT_CLASS}
                 />
-                <label className="h-9 inline-flex items-center gap-1.5 px-3 rounded-xl border border-[#E7ECF3] bg-white hover:bg-[#F3F6FB] text-xs font-semibold text-[#171C2B] cursor-pointer shrink-0 transition-colors">
+                <label className="h-9 inline-flex items-center gap-1.5 px-3 rounded-xl border border-[#E7ECF3] bg-white hover:bg-[#F3F6FB] text-xs font-medium text-[#171C2B] cursor-pointer shrink-0 transition-colors">
                   <Upload className="w-3.5 h-3.5 text-[#1677F9]" />
                   <span>File</span>
                   <input
@@ -955,7 +957,7 @@ export function SertifikasiSection({
             </div>
           </div>
 
-          {formError && <p className="text-xs font-medium text-red-600">{formError}</p>}
+          {formError && <p className="text-xs font-medium text-[#DC2626]">{formError}</p>}
 
           <div className="flex items-center justify-end gap-2">
             <button
@@ -963,7 +965,7 @@ export function SertifikasiSection({
               onClick={() => setShowForm(false)}
               className={DASHBOARD_TOKENS.btnOutline}
             >
-              Batal
+              Cancel
             </button>
             <button
               type="button"
@@ -971,29 +973,29 @@ export function SertifikasiSection({
               className={DASHBOARD_TOKENS.btnPrimary}
             >
               <Check className="w-3.5 h-3.5" />
-              {editingId ? 'Simpan Sertifikasi' : 'Tambahkan'}
+              {editingId ? 'Save Certification' : 'Add'}
             </button>
           </div>
         </div>
       )}
 
       {items.length === 0 ? (
-        <p className="text-xs sm:text-sm font-normal text-[#667085] py-1">
-          Belum ada riwayat sertifikasi tercatat.
+        <p className={`${DASHBOARD_TOKENS.description} py-1`}>
+          No certifications recorded yet.
         </p>
       ) : (
         <div className="divide-y divide-[#E7ECF3]">
           {items.map((item) => (
             <div
               key={item.id}
-              className="py-3.5 first:pt-0 last:pb-0 flex items-start justify-between gap-4"
+              className="py-4 first:pt-0 last:pb-0 flex items-start justify-between gap-4"
             >
-              <div className="space-y-1 min-w-0">
-                <h3 className="font-semibold text-sm text-[#171C2B]">
+              <div className="space-y-1.5 min-w-0">
+                <h3 className={DASHBOARD_TOKENS.subheading}>
                   {item.nama_sertifikasi}
                 </h3>
-                <p className="text-xs sm:text-sm font-medium text-slate-700">
-                  {item.lembaga_penerbit} • Masa Berlaku: {item.masa_berlaku || '-'}
+                <p className="text-[13px] font-normal text-[#475467]">
+                  {item.lembaga_penerbit} • Valid: {item.masa_berlaku || '-'}
                 </p>
                 {item.lampiran_dokumen && (
                   <p className="text-xs text-[#1677F9] font-medium inline-flex items-center gap-1 pt-0.5 truncate max-w-full">
@@ -1007,7 +1009,7 @@ export function SertifikasiSection({
                 <div className="flex items-center gap-1 shrink-0">
                   <button
                     type="button"
-                    aria-label={`Edit sertifikasi ${item.nama_sertifikasi}`}
+                    aria-label={`Edit certification ${item.nama_sertifikasi}`}
                     onClick={() => openEdit(item)}
                     className="p-1.5 rounded-lg text-[#667085] hover:bg-[#F3F6FB] border border-transparent hover:border-[#E7ECF3]"
                   >
@@ -1015,9 +1017,9 @@ export function SertifikasiSection({
                   </button>
                   <button
                     type="button"
-                    aria-label={`Hapus sertifikasi ${item.nama_sertifikasi}`}
+                    aria-label={`Delete certification ${item.nama_sertifikasi}`}
                     onClick={() => onChange(items.filter((x) => x.id !== item.id))}
-                    className="p-1.5 rounded-lg text-red-500 hover:bg-red-50"
+                    className="p-1.5 rounded-lg text-[#DC2626] hover:bg-[#FEF2F2] transition-colors"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -1056,8 +1058,8 @@ export function KeahlianSection({
 
   return (
     <ProfileSectionCard
-      title="Keahlian"
-      subtitle="Daftar kompetensi teknis maupun nonteknis yang Anda kuasai."
+      title="Skills"
+      subtitle="Technical and soft competencies you possess."
       icon={<Sparkles className="w-4 h-4" />}
       count={skills.length}
       editable={editable}
@@ -1066,7 +1068,7 @@ export function KeahlianSection({
         <div className="flex flex-col sm:flex-row gap-2.5">
           <input
             type="text"
-            aria-label="Tambah keahlian baru"
+            aria-label="Add new skill"
             value={skillInput}
             onChange={(e) => setSkillInput(e.target.value)}
             onKeyDown={(e) => {
@@ -1075,7 +1077,7 @@ export function KeahlianSection({
                 addSkill();
               }
             }}
-            placeholder="Contoh: TypeScript, Figma, Data Analysis..."
+            placeholder="Example: TypeScript, Figma, Data Analysis..."
             className={INPUT_CLASS}
           />
           <button
@@ -1084,25 +1086,25 @@ export function KeahlianSection({
             className={`${DASHBOARD_TOKENS.btnPrimary} shrink-0`}
           >
             <Plus className="w-3.5 h-3.5" />
-            Tambah Keahlian
+            Add Skill
           </button>
         </div>
       )}
 
       {skills.length === 0 ? (
-        <p className="text-xs sm:text-sm font-normal text-[#667085]">Belum ada keahlian ditambahkan.</p>
+        <p className={DASHBOARD_TOKENS.description}>No skills added yet.</p>
       ) : (
         <div className="flex flex-wrap gap-2">
           {skills.map((skill) => (
             <span
               key={skill}
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#EAF3FF] text-[#1677F9] border border-[#BFDBFE]"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium tracking-[0.005em] bg-[#EAF3FF] text-[#1677F9] border border-[#BFDBFE]"
             >
               <span>{skill}</span>
               {editable && (
                 <button
                   type="button"
-                  aria-label={`Hapus keahlian ${skill}`}
+                  aria-label={`Remove skill ${skill}`}
                   onClick={() => onChange(skills.filter((s) => s !== skill))}
                   className="p-0.5 rounded-full hover:bg-[#DCEAFE] text-[#1677F9]"
                 >

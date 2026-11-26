@@ -25,7 +25,7 @@ export function printCertificatePdf(cert: CertificateItem) {
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <title>Sertifikat - ${cert.certificateNumber}</title>
+  <title>Certificate - ${cert.certificateNumber}</title>
   <style>
     @page { size: A4 landscape; margin: 12mm; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -85,25 +85,25 @@ export function printCertificatePdf(cert: CertificateItem) {
 <body>
   <div class="cert">
     <div class="inner-border">
-      <div class="brand">MagangHub • Portal Pelatihan Resmi</div>
-      <h1>SERTIFIKAT PELATIHAN</h1>
-      <p class="subtitle">Diterbitkan sebagai bukti kelulusan program pelatihan terstruktur</p>
-      <div class="given">Diberikan Kepada</div>
+      <div class="brand">MagangHub • Official Training Portal</div>
+      <h1>CERTIFICATE OF COMPLETION</h1>
+      <p class="subtitle">Issued as official proof of structured training program completion</p>
+      <div class="given">Awarded To</div>
       <div class="recipient">${cert.participantName}</div>
-      <p class="desc">Telah menyelesaikan seluruh materi pembelajaran, tugas praktik, serta lulus evaluasi akhir pada program pelatihan:</p>
+      <p class="desc">Has successfully completed all learning materials, practical assignments, and final evaluations in the training program:</p>
       <div class="scheme">${cert.scheme}</div>
       <div class="footer">
         <div class="meta">
-          <div>Nomor Sertifikat<strong>${cert.certificateNumber}</strong></div>
-          <div style="margin-top:8px;">Tanggal Terbit<strong>${cert.issueDate}</strong></div>
+          <div>Certificate Number<strong>${cert.certificateNumber}</strong></div>
+          <div style="margin-top:8px;">Issue Date<strong>${cert.issueDate}</strong></div>
         </div>
         <div class="sig">
-          <div class="sig-line">Direktur Program MagangHub</div>
-          <div style="color:#64748b;margin-top:2px;">Portal Pelatihan Resmi</div>
+          <div class="sig-line">Program Director, MagangHub</div>
+          <div style="color:#64748b;margin-top:2px;">Official Training Portal</div>
         </div>
         <div class="meta" style="text-align:right;">
-          <div>Kode Verifikasi<strong>${verificationCode}</strong></div>
-          <div style="margin-top:8px;color:#059669;font-weight:700;">Status: Terverifikasi</div>
+          <div>Verification Code<strong>${verificationCode}</strong></div>
+          <div style="margin-top:8px;color:#059669;font-weight:700;">Status: Verified</div>
         </div>
       </div>
     </div>
@@ -114,7 +114,7 @@ export function printCertificatePdf(cert: CertificateItem) {
 
   const printWindow = window.open('', '_blank', 'width=1100,height=780');
   if (!printWindow) {
-    toast.error('Pop-up diblokir browser. Izinkan pop-up untuk mengunduh/mencetak PDF.');
+    toast.error('Pop-up blocked by browser. Please allow pop-ups to download or print PDF.');
     return;
   }
   printWindow.document.open();
@@ -141,9 +141,9 @@ export function CertificatePreviewModal({
   const handleCopyNumber = async () => {
     try {
       await navigator.clipboard.writeText(certificate.certificateNumber);
-      toast.success('Nomor sertifikat berhasil disalin.');
+      toast.success('Certificate number copied to clipboard.');
     } catch {
-      toast.info(`Nomor sertifikat: ${certificate.certificateNumber}`);
+      toast.info(`Certificate number: ${certificate.certificateNumber}`);
     }
   };
 
@@ -162,10 +162,10 @@ export function CertificatePreviewModal({
               <ShieldCheck className="w-4 h-4" />
             </div>
             <div>
-              <h3 className={DASHBOARD_TOKENS.cardTitle}>
-                Pratinjau Sertifikat Pelatihan
+              <h3 className={DASHBOARD_TOKENS.sectionHeading}>
+                Training Certificate Preview
               </h3>
-              <p className="text-xs font-normal text-[#667085]">
+              <p className={DASHBOARD_TOKENS.metaText}>
                 No. {certificate.certificateNumber}
               </p>
             </div>
@@ -177,18 +177,18 @@ export function CertificatePreviewModal({
               onClick={handleCopyNumber}
               className={DASHBOARD_TOKENS.btnOutline}
             >
-              <Copy className="w-3.5 h-3.5" /> Salin Nomor
+              <Copy className="w-3.5 h-3.5" /> Copy Number
             </button>
             <button
               type="button"
               onClick={() => printCertificatePdf(certificate)}
               className={DASHBOARD_TOKENS.btnPrimary}
             >
-              <Printer className="w-3.5 h-3.5" /> Cetak / Unduh PDF
+              <Printer className="w-3.5 h-3.5" /> Print / Download PDF
             </button>
             <button
               type="button"
-              aria-label="Tutup pratinjau"
+              aria-label="Close preview"
               onClick={onClose}
               className="p-2 rounded-xl text-[#667085] hover:bg-[#F3F6FB] transition-colors"
             >
@@ -215,25 +215,25 @@ export function CertificatePreviewModal({
 
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#1677F9]">
-                  MagangHub • Portal Pelatihan Resmi
+                  MagangHub • Official Training Portal
                 </p>
                 <h2 className="text-2xl sm:text-3xl font-extrabold mt-1 text-[#171C2B]">
-                  SERTIFIKAT PELATIHAN
+                  CERTIFICATE OF COMPLETION
                 </h2>
                 <p className="text-xs mt-1 text-[#667085]">
-                  Diterbitkan sebagai bukti kelulusan program pelatihan terstruktur
+                  Issued as official proof of structured training program completion
                 </p>
               </div>
 
               <div className="py-3 space-y-2">
                 <p className="text-xs uppercase tracking-widest text-[#667085]">
-                  Diberikan Kepada
+                  Awarded To
                 </p>
                 <p className="text-3xl sm:text-4xl font-extrabold text-[#1677F9]">
                   {certificate.participantName}
                 </p>
                 <p className="text-sm max-w-xl mx-auto pt-1 text-[#667085]">
-                  Telah menyelesaikan seluruh materi pembelajaran, tugas praktik, dan lulus evaluasi akhir pada program:
+                  Has successfully completed all learning materials, practical assignments, and final evaluations in:
                 </p>
                 <h3 className="text-lg sm:text-xl font-bold pt-1 text-[#171C2B]">
                   {certificate.scheme}
@@ -243,13 +243,13 @@ export function CertificatePreviewModal({
               <div className="pt-5 border-t border-[#E7ECF3] grid grid-cols-1 sm:grid-cols-3 gap-6 text-left items-end">
                 <div className="text-xs space-y-2">
                   <div>
-                    <span className="text-[#667085]">Nomor Sertifikat</span>
+                    <span className="text-[#667085]">Certificate Number</span>
                     <p className="font-bold text-sm text-[#171C2B]">
                       {certificate.certificateNumber}
                     </p>
                   </div>
                   <div>
-                    <span className="text-[#667085]">Tanggal Terbit</span>
+                    <span className="text-[#667085]">Issue Date</span>
                     <p className="font-semibold text-[#171C2B]">
                       {certificate.issueDate}
                     </p>
@@ -262,24 +262,24 @@ export function CertificatePreviewModal({
                   </div>
                   <div className="border-t border-[#98A2B3] pt-1.5">
                     <p className="text-xs font-bold text-[#171C2B]">
-                      Direktur Program MagangHub
+                      Program Director, MagangHub
                     </p>
                     <p className="text-[11px] text-[#667085]">
-                      Portal Pelatihan Resmi
+                      Official Training Portal
                     </p>
                   </div>
                 </div>
 
                 <div className="text-xs sm:text-right space-y-2">
                   <div>
-                    <span className="text-[#667085]">Kode Verifikasi</span>
+                    <span className="text-[#667085]">Verification Code</span>
                     <p className="font-mono font-bold text-sm text-[#171C2B]">
                       {verificationCode}
                     </p>
                   </div>
                   <div className="inline-flex items-center gap-1 font-semibold text-[#16A34A]">
                     <CheckCircle2 className="w-3.5 h-3.5" />
-                    Terverifikasi Resmi
+                    Officially Verified
                   </div>
                 </div>
               </div>
