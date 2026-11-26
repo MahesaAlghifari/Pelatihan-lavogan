@@ -24,6 +24,8 @@ function figmaAssetResolver() {
 }
 
 export default defineConfig({
+  base: "/Pelatihan-lavogan/",
+
   plugins: [
     figmaAssetResolver(),
 

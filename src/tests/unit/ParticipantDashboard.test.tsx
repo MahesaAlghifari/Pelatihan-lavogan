@@ -71,6 +71,9 @@ describe("LMS DashboardPage updated adjustments", () => {
     expect(
       screen.queryByRole("button", { name: /view pdf/i })
     ).not.toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /resume learning/i })
+    ).toBeInTheDocument();
 
     await user.click(
       screen.getByRole("button", { name: /previous learning item/i })

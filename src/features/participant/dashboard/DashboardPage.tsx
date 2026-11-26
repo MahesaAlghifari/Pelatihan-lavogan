@@ -304,19 +304,13 @@ export function DashboardPage() {
                 </div>
               </div>
 
-              <div
-                onClick={() => navigate(featuredItem.href)}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    navigate(featuredItem.href);
-                  }
-                }}
-                className="flex-1 min-h-0 rounded-xl border border-[#EDF1F7] bg-[#FAFCFF] hover:bg-[#F4F8FF] px-4 py-3 flex flex-col sm:flex-row sm:items-center gap-4 cursor-pointer group transition-colors"
-              >
-                <div className="w-full sm:w-44 2xl:w-52 aspect-[16/10] rounded-xl bg-gradient-to-br from-[#1677F9] via-[#2B86FA] to-[#60B0FA] flex items-center justify-center shrink-0 shadow-xs relative overflow-hidden group-hover:opacity-95 transition-opacity">
+              <div className="flex-1 min-h-0 rounded-xl border border-[#EDF1F7] bg-[#FAFCFF] px-4 py-3 flex flex-col sm:flex-row sm:items-center gap-4">
+                <button
+                  type="button"
+                  aria-label={`Play ${featuredItem.title}`}
+                  onClick={() => navigate(featuredItem.href)}
+                  className="w-full sm:w-44 2xl:w-52 aspect-[16/10] rounded-xl bg-gradient-to-br from-[#1677F9] via-[#2B86FA] to-[#60B0FA] flex items-center justify-center shrink-0 shadow-xs relative overflow-hidden hover:opacity-95 transition-opacity group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1677F9]/50"
+                >
                   <div
                     aria-hidden="true"
                     className="pointer-events-none absolute -right-5 -bottom-5 w-20 h-20 rounded-full bg-white/15"
@@ -328,32 +322,45 @@ export function DashboardPage() {
                   <span className="w-11 h-11 rounded-full bg-white/95 text-[#1677F9] flex items-center justify-center shadow-sm relative z-10 group-hover:scale-105 transition-transform">
                     <Play className="w-5 h-5 fill-[#1677F9] ml-0.5" />
                   </span>
-                </div>
+                </button>
 
-                <div className="min-w-0 flex-1 space-y-2">
-                  <div>
-                    <h3 className="text-[15px] 2xl:text-base font-semibold text-[#171C2B] leading-snug group-hover:text-[#1677F9] transition-colors">
-                      {featuredItem.title}
-                    </h3>
-                    <p className="text-xs sm:text-sm font-normal text-[#667085] truncate mt-0.5">
-                      Module: {featuredItem.module}
-                    </p>
+                <div className="min-w-0 flex-1 flex flex-col justify-between gap-2.5">
+                  <div className="space-y-1.5">
+                    <div>
+                      <h3 className="text-[15px] 2xl:text-base font-semibold text-[#171C2B] leading-snug">
+                        {featuredItem.title}
+                      </h3>
+                      <p className="text-xs sm:text-sm font-normal text-[#667085] truncate mt-0.5">
+                        Module: {featuredItem.module}
+                      </p>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md border border-[#E7ECF3] bg-white text-[11px] font-medium text-[#667085]">
+                        <Play className="w-2.5 h-2.5" />
+                        {featuredItem.typeLabel}
+                      </span>
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-md bg-[#EAF3FF] text-[11px] font-medium text-[#1677F9]">
+                        {featuredItem.categoryLabel}
+                      </span>
+                      {featuredItem.hasCertificate && (
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-[#ECFDF3] text-[11px] font-medium text-[#16A34A]">
+                          <Award className="w-3 h-3" />
+                          Certificate
+                        </span>
+                      )}
+                    </div>
                   </div>
 
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md border border-[#E7ECF3] bg-white text-[11px] font-medium text-[#667085]">
-                      <Play className="w-2.5 h-2.5" />
-                      {featuredItem.typeLabel}
-                    </span>
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-md bg-[#EAF3FF] text-[11px] font-medium text-[#1677F9]">
-                      {featuredItem.categoryLabel}
-                    </span>
-                    {featuredItem.hasCertificate && (
-                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-[#ECFDF3] text-[11px] font-medium text-[#16A34A]">
-                        <Award className="w-3 h-3" />
-                        Certificate
-                      </span>
-                    )}
+                  <div>
+                    <button
+                      type="button"
+                      onClick={() => navigate(featuredItem.href)}
+                      className="w-full sm:w-[196px] h-9 px-4 rounded-xl bg-[#1677F9] hover:bg-[#1262D4] text-white text-xs font-semibold inline-flex items-center justify-center gap-1.5 transition-colors shadow-xs"
+                    >
+                      <span>Resume Learning</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
                   </div>
                 </div>
               </div>

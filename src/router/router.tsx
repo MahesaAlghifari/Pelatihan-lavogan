@@ -74,4 +74,8 @@ export const router =
 
       children: publicRoutes,
     },
-  ]);
+  ],
+  {
+    basename: import.meta.env.BASE_URL,
+  }
+);
