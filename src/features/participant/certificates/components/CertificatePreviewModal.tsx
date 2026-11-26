@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Award, CheckCircle2, Copy, Printer, ShieldCheck, X } from 'lucide-react';
 import { toast } from 'sonner';
+import { DASHBOARD_TOKENS } from '@/features/participant/shared/dashboardTokens';
 
 export interface CertificateItem {
   id: string | number;
@@ -42,23 +43,23 @@ export function printCertificatePdf(cert: CertificateItem) {
     .cert {
       width: 100%;
       max-width: 1020px;
-      background: linear-gradient(135deg, #f0fdfa 0%, #ffffff 50%, #eff6ff 100%);
-      border: 6px solid #0ea5a4;
+      background: linear-gradient(135deg, #EFF6FF 0%, #FFFFFF 55%, #F3F6FB 100%);
+      border: 6px solid #1677F9;
       border-radius: 20px;
       padding: 48px 56px;
       position: relative;
       text-align: center;
     }
     .inner-border {
-      border: 2px dashed rgba(14, 165, 164, 0.35);
+      border: 2px dashed rgba(22, 119, 249, 0.35);
       border-radius: 12px;
       padding: 36px 40px;
     }
-    .brand { font-size: 14px; font-weight: 700; letter-spacing: 0.16em; color: #0ea5a4; text-transform: uppercase; }
-    h1 { font-size: 36px; margin-top: 10px; color: #0f172a; letter-spacing: -0.02em; }
-    .subtitle { font-size: 14px; color: #64748b; margin-top: 6px; }
-    .given { font-size: 13px; color: #64748b; margin-top: 28px; text-transform: uppercase; letter-spacing: 0.1em; }
-    .recipient { font-size: 40px; font-weight: 800; color: #0ea5a4; margin: 12px 0; }
+    .brand { font-size: 14px; font-weight: 700; letter-spacing: 0.16em; color: #1677F9; text-transform: uppercase; }
+    h1 { font-size: 36px; margin-top: 10px; color: #171C2B; letter-spacing: -0.02em; }
+    .subtitle { font-size: 14px; color: #667085; margin-top: 6px; }
+    .given { font-size: 13px; color: #667085; margin-top: 28px; text-transform: uppercase; letter-spacing: 0.1em; }
+    .recipient { font-size: 40px; font-weight: 800; color: #1677F9; margin: 12px 0; }
     .desc { font-size: 15px; color: #475569; max-width: 640px; margin: 0 auto; line-height: 1.6; }
     .scheme { font-size: 22px; font-weight: 700; color: #0f172a; margin-top: 12px; }
     .footer {
@@ -153,16 +154,18 @@ export function CertificatePreviewModal({
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div className="bg-white text-slate-900 rounded-2xl border border-border max-w-4xl w-full max-h-[92vh] overflow-y-auto shadow-2xl">
+      <div className="bg-white text-[#171C2B] rounded-2xl border border-[#E7ECF3] max-w-4xl w-full max-h-[92vh] overflow-y-auto shadow-xl">
         {/* Modal Header */}
-        <div className="sticky top-0 bg-white z-10 px-6 py-4 border-b border-border flex items-center justify-between gap-4">
+        <div className="sticky top-0 bg-white z-10 px-5 sm:px-6 py-4 border-b border-[#E7ECF3] flex items-center justify-between gap-4">
           <div className="flex items-center gap-2.5">
-            <ShieldCheck className="w-5 h-5 text-primary" />
+            <div className={DASHBOARD_TOKENS.iconBoxSm}>
+              <ShieldCheck className="w-4 h-4" />
+            </div>
             <div>
-              <h3 className="font-bold text-base" style={{ color: 'var(--text-primary)' }}>
+              <h3 className={DASHBOARD_TOKENS.cardTitle}>
                 Pratinjau Sertifikat Pelatihan
               </h3>
-              <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
+              <p className="text-xs font-normal text-[#667085]">
                 No. {certificate.certificateNumber}
               </p>
             </div>
@@ -172,19 +175,14 @@ export function CertificatePreviewModal({
             <button
               type="button"
               onClick={handleCopyNumber}
-              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold border border-border hover:bg-muted transition-colors"
-              style={{ color: 'var(--text-primary)' }}
+              className={DASHBOARD_TOKENS.btnOutline}
             >
               <Copy className="w-3.5 h-3.5" /> Salin Nomor
             </button>
             <button
               type="button"
               onClick={() => printCertificatePdf(certificate)}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold transition-opacity hover:opacity-90"
-              style={{
-                backgroundColor: 'var(--primary)',
-                color: 'var(--primary-foreground)',
-              }}
+              className={DASHBOARD_TOKENS.btnPrimary}
             >
               <Printer className="w-3.5 h-3.5" /> Cetak / Unduh PDF
             </button>
@@ -192,8 +190,7 @@ export function CertificatePreviewModal({
               type="button"
               aria-label="Tutup pratinjau"
               onClick={onClose}
-              className="p-2 rounded-xl hover:bg-muted transition-colors"
-              style={{ color: 'var(--text-secondary)' }}
+              className="p-2 rounded-xl text-[#667085] hover:bg-[#F3F6FB] transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
@@ -201,79 +198,73 @@ export function CertificatePreviewModal({
         </div>
 
         {/* Certificate Canvas */}
-        <div className="p-6">
-          <div
-            className="bg-gradient-to-br from-teal-50 via-white to-blue-50 rounded-2xl border-4 p-8 sm:p-10 relative overflow-hidden"
-            style={{ borderColor: 'var(--primary)' }}
-          >
+        <div className="p-5 sm:p-6">
+          <div className="bg-gradient-to-br from-[#EFF6FF] via-white to-[#F3F6FB] rounded-2xl border-4 border-[#1677F9] p-8 sm:p-10 relative overflow-hidden">
             {/* Corner ornaments */}
-            <div className="absolute top-3 left-3 w-12 h-12 border-t-4 border-l-4 rounded-tl-xl" style={{ borderColor: 'var(--primary)' }} />
-            <div className="absolute top-3 right-3 w-12 h-12 border-t-4 border-r-4 rounded-tr-xl" style={{ borderColor: 'var(--primary)' }} />
-            <div className="absolute bottom-3 left-3 w-12 h-12 border-b-4 border-l-4 rounded-bl-xl" style={{ borderColor: 'var(--primary)' }} />
-            <div className="absolute bottom-3 right-3 w-12 h-12 border-b-4 border-r-4 rounded-br-xl" style={{ borderColor: 'var(--primary)' }} />
+            <div className="absolute top-3 left-3 w-12 h-12 border-t-4 border-l-4 border-[#1677F9] rounded-tl-xl" />
+            <div className="absolute top-3 right-3 w-12 h-12 border-t-4 border-r-4 border-[#1677F9] rounded-tr-xl" />
+            <div className="absolute bottom-3 left-3 w-12 h-12 border-b-4 border-l-4 border-[#1677F9] rounded-bl-xl" />
+            <div className="absolute bottom-3 right-3 w-12 h-12 border-b-4 border-r-4 border-[#1677F9] rounded-br-xl" />
 
-            <div className="border border-dashed border-primary/30 rounded-xl p-6 sm:p-8 text-center space-y-5">
+            <div className="border border-dashed border-[#1677F9]/30 rounded-xl p-6 sm:p-8 text-center space-y-5">
               <div className="flex justify-center">
-                <div
-                  className="w-16 h-16 rounded-full flex items-center justify-center shadow-md"
-                  style={{ backgroundColor: 'var(--primary)' }}
-                >
+                <div className="w-16 h-16 rounded-full bg-[#1677F9] flex items-center justify-center shadow-md">
                   <Award className="w-9 h-9 text-white" />
                 </div>
               </div>
 
               <div>
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#1677F9]">
                   MagangHub • Portal Pelatihan Resmi
                 </p>
-                <h2 className="text-2xl sm:text-3xl font-extrabold mt-1" style={{ color: 'var(--text-primary)' }}>
+                <h2 className="text-2xl sm:text-3xl font-extrabold mt-1 text-[#171C2B]">
                   SERTIFIKAT PELATIHAN
                 </h2>
-                <p className="text-xs mt-1" style={{ color: 'var(--text-secondary)' }}>
+                <p className="text-xs mt-1 text-[#667085]">
                   Diterbitkan sebagai bukti kelulusan program pelatihan terstruktur
                 </p>
               </div>
 
               <div className="py-3 space-y-2">
-                <p className="text-xs uppercase tracking-widest" style={{ color: 'var(--text-secondary)' }}>
+                <p className="text-xs uppercase tracking-widest text-[#667085]">
                   Diberikan Kepada
                 </p>
-                <p className="text-3xl sm:text-4xl font-extrabold text-primary">
+                <p className="text-3xl sm:text-4xl font-extrabold text-[#1677F9]">
                   {certificate.participantName}
                 </p>
-                <p className="text-sm max-w-xl mx-auto pt-1" style={{ color: 'var(--text-secondary)' }}>
+                <p className="text-sm max-w-xl mx-auto pt-1 text-[#667085]">
                   Telah menyelesaikan seluruh materi pembelajaran, tugas praktik, dan lulus evaluasi akhir pada program:
                 </p>
-                <h3 className="text-lg sm:text-xl font-bold pt-1" style={{ color: 'var(--text-primary)' }}>
+                <h3 className="text-lg sm:text-xl font-bold pt-1 text-[#171C2B]">
                   {certificate.scheme}
                 </h3>
               </div>
 
-              <div className="pt-5 border-t border-border grid grid-cols-1 sm:grid-cols-3 gap-6 text-left items-end">
+              <div className="pt-5 border-t border-[#E7ECF3] grid grid-cols-1 sm:grid-cols-3 gap-6 text-left items-end">
                 <div className="text-xs space-y-2">
                   <div>
-                    <span style={{ color: 'var(--text-secondary)' }}>Nomor Sertifikat</span>
-                    <p className="font-bold text-sm" style={{ color: 'var(--text-primary)' }}>
+                    <span className="text-[#667085]">Nomor Sertifikat</span>
+                    <p className="font-bold text-sm text-[#171C2B]">
                       {certificate.certificateNumber}
                     </p>
                   </div>
                   <div>
-                    <span style={{ color: 'var(--text-secondary)' }}>Tanggal Terbit</span>
-                    <p className="font-semibold" style={{ color: 'var(--text-primary)' }}>
+                    <span className="text-[#667085]">Tanggal Terbit</span>
+                    <p className="font-semibold text-[#171C2B]">
                       {certificate.issueDate}
                     </p>
                   </div>
                 </div>
 
                 <div className="text-center">
-                  <div className="h-10 flex items-center justify-center italic font-semibold text-primary/70 text-sm">
+                  <div className="h-10 flex items-center justify-center italic font-semibold text-[#1677F9]/75 text-sm">
                     MagangHub Official
                   </div>
-                  <div className="border-t border-slate-400 pt-1.5">
-                    <p className="text-xs font-bold" style={{ color: 'var(--text-primary)' }}>
+                  <div className="border-t border-[#98A2B3] pt-1.5">
+                    <p className="text-xs font-bold text-[#171C2B]">
                       Direktur Program MagangHub
                     </p>
-                    <p className="text-[11px]" style={{ color: 'var(--text-secondary)' }}>
+                    <p className="text-[11px] text-[#667085]">
                       Portal Pelatihan Resmi
                     </p>
                   </div>
@@ -281,12 +272,12 @@ export function CertificatePreviewModal({
 
                 <div className="text-xs sm:text-right space-y-2">
                   <div>
-                    <span style={{ color: 'var(--text-secondary)' }}>Kode Verifikasi</span>
-                    <p className="font-mono font-bold text-sm" style={{ color: 'var(--text-primary)' }}>
+                    <span className="text-[#667085]">Kode Verifikasi</span>
+                    <p className="font-mono font-bold text-sm text-[#171C2B]">
                       {verificationCode}
                     </p>
                   </div>
-                  <div className="inline-flex items-center gap-1 font-semibold text-success">
+                  <div className="inline-flex items-center gap-1 font-semibold text-[#16A34A]">
                     <CheckCircle2 className="w-3.5 h-3.5" />
                     Terverifikasi Resmi
                   </div>

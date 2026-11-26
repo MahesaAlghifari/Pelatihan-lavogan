@@ -12,10 +12,10 @@ export function ParticipantLayout() {
 
   return (
     <div
-      className={`flex w-full ${
+      className={`flex w-full bg-[#F3F6FB] ${
         isDashboardFixed
-          ? "bg-[#F3F6FB] min-h-screen lg:h-screen lg:overflow-hidden"
-          : "bg-slate-50/80 min-h-screen"
+          ? "min-h-screen lg:h-screen lg:overflow-hidden"
+          : "min-h-screen"
       }`}
     >
       <AppSidebar variant="participant" />

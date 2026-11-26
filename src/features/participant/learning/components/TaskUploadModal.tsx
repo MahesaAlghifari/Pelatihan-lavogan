@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Upload, X, Link as LinkIcon, FileText } from 'lucide-react';
 import { Material } from '../types/learning.types';
 import { submitTaskData } from '../services/learningService';
+import { DASHBOARD_TOKENS } from '@/features/participant/shared/dashboardTokens';
 
 interface TaskUploadModalProps {
   material: Material;
@@ -50,72 +51,75 @@ export function TaskUploadModal({
   };
 
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-white text-slate-900 rounded-2xl border border-border max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
-        <div className="sticky top-0 bg-white z-10 p-6 border-b border-border flex items-center justify-between">
+    <div className="fixed inset-0 bg-[#171C2B]/45 backdrop-blur-xs flex items-center justify-center z-50 p-4">
+      <div className="bg-white text-[#171C2B] rounded-2xl border border-[#E7ECF3] max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-xl">
+        <div className="sticky top-0 bg-white z-10 p-5 border-b border-[#E7ECF3] flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="p-2 rounded-lg" style={{ backgroundColor: 'var(--primary-light)' }}>
-              <Upload className="w-5 h-5" style={{ color: 'var(--primary)' }} />
+            <div className={DASHBOARD_TOKENS.iconBox}>
+              <Upload className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="font-bold text-base" style={{ color: 'var(--text-primary)' }}>Pengumpulan Tugas</h3>
-              <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>{material.title || material.name}</p>
+              <h3 className={DASHBOARD_TOKENS.cardTitle}>Pengumpulan Tugas</h3>
+              <p className="text-xs font-normal text-[#667085]">{material.title || material.name}</p>
             </div>
           </div>
-          <button onClick={onClose} className="p-2 rounded-xl hover:bg-muted transition-colors" style={{ color: 'var(--text-secondary)' }}>
+          <button
+            type="button"
+            onClick={onClose}
+            className="p-2 rounded-xl text-[#667085] hover:bg-[#F3F6FB] transition-colors"
+          >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        <div className="p-6 space-y-6">
-          <div className="p-4 rounded-xl border border-border bg-slate-50">
-            <h4 className="font-semibold text-sm mb-1.5" style={{ color: 'var(--text-primary)' }}>Instruksi Praktik</h4>
-            <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+        <div className="p-5 sm:p-6 space-y-5">
+          <div className={`${DASHBOARD_TOKENS.subcard} p-4`}>
+            <h4 className="font-semibold text-sm text-[#171C2B] mb-1">Instruksi Praktik</h4>
+            <p className="text-xs sm:text-sm font-normal leading-relaxed text-[#667085]">
               {material.assignment?.description || 'Silakan kerjakan instruksi praktik berdasarkan materi dan unggah hasilnya berupa URL atau dokumen PDF/ZIP.'}
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-primary)' }}>URL Hasil Tugas (Drive / Figma / GitHub)</label>
+              <label className="block text-xs font-semibold text-[#171C2B] mb-1.5">URL Hasil Tugas (Drive / Figma / GitHub)</label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <LinkIcon className="h-4 w-4 text-gray-400" />
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                  <LinkIcon className="h-4 w-4 text-[#98A2B3]" />
                 </div>
                 <input
                   type="url"
                   placeholder="https://..."
                   value={taskLink}
                   onChange={(e) => setTaskLink(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 rounded-xl border border-input-border focus:outline-none focus:ring-2 text-sm"
-                  style={{ backgroundColor: 'var(--input-background)', color: 'var(--text-primary)', '--tw-ring-color': 'var(--ring)' } as React.CSSProperties}
+                  className={DASHBOARD_TOKENS.inputWithIcon}
                 />
               </div>
             </div>
 
             <div className="flex items-center gap-4">
-              <hr className="flex-1 border-border" />
-              <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: 'var(--text-tertiary)' }}>Atau Unggah File</span>
-              <hr className="flex-1 border-border" />
+              <hr className="flex-1 border-[#E7ECF3]" />
+              <span className={DASHBOARD_TOKENS.mutedMetaLabel}>Atau Unggah File</span>
+              <hr className="flex-1 border-[#E7ECF3]" />
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-primary)' }}>File Dokumen Tugas (PDF / ZIP)</label>
-              <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-xl cursor-pointer hover:bg-muted/50 transition-colors" style={{ borderColor: 'var(--border)', backgroundColor: 'var(--input-background)' }}>
+              <label className="block text-xs font-semibold text-[#171C2B] mb-1.5">File Dokumen Tugas (PDF / ZIP)</label>
+              <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-[#D0D9E8] bg-[#F9FBFE] rounded-xl cursor-pointer hover:bg-[#F3F6FB] transition-colors">
                 <div className="flex flex-col items-center justify-center pt-4 pb-4">
                   {taskFile ? (
                     <>
-                      <FileText className="w-8 h-8 mb-2" style={{ color: 'var(--primary)' }} />
-                      <p className="text-sm font-medium px-4 text-center truncate max-w-xs" style={{ color: 'var(--text-primary)' }}>{taskFile.name}</p>
-                      <p className="text-xs mt-1" style={{ color: 'var(--text-secondary)' }}>Klik untuk mengganti file</p>
+                      <FileText className="w-7 h-7 mb-2 text-[#1677F9]" />
+                      <p className="text-sm font-medium px-4 text-center truncate max-w-xs text-[#171C2B]">{taskFile.name}</p>
+                      <p className="text-xs mt-1 text-[#667085]">Klik untuk mengganti file</p>
                     </>
                   ) : (
                     <>
-                      <Upload className="w-7 h-7 mb-2" style={{ color: 'var(--text-tertiary)' }} />
-                      <p className="mb-1 text-sm text-center px-4" style={{ color: 'var(--text-secondary)' }}>
-                        <span className="font-semibold" style={{ color: 'var(--primary)' }}>Klik untuk unggah</span> atau drag and drop
+                      <Upload className="w-6 h-6 mb-2 text-[#98A2B3]" />
+                      <p className="mb-1 text-sm text-center px-4 text-[#667085]">
+                        <span className="font-semibold text-[#1677F9]">Klik untuk unggah</span> atau drag and drop
                       </p>
-                      <p className="text-xs" style={{ color: 'var(--text-tertiary)' }}>Maksimal 10MB</p>
+                      <p className="text-xs text-[#98A2B3]">Maksimal 10MB</p>
                     </>
                   )}
                 </div>
@@ -123,11 +127,15 @@ export function TaskUploadModal({
               </label>
             </div>
 
-            <div className="pt-4 border-t border-border flex gap-3 justify-end">
-              <button type="button" onClick={onClose} className="px-5 py-2.5 rounded-xl font-medium border border-border hover:bg-muted transition-colors text-sm" style={{ color: 'var(--text-primary)' }}>
+            <div className="pt-4 border-t border-[#E7ECF3] flex gap-2.5 justify-end">
+              <button type="button" onClick={onClose} className={DASHBOARD_TOKENS.btnOutline}>
                 Batal
               </button>
-              <button type="submit" disabled={isSubmitting || (!taskLink && !taskFile)} className={`px-6 py-2.5 rounded-xl font-bold transition-all text-sm flex items-center gap-2 ${(!taskLink && !taskFile) ? 'opacity-50 cursor-not-allowed' : 'hover:opacity-90 shadow-md'}`} style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}>
+              <button
+                type="submit"
+                disabled={isSubmitting || (!taskLink && !taskFile)}
+                className={DASHBOARD_TOKENS.btnPrimary}
+              >
                 {isSubmitting ? 'Mengirim...' : 'Kumpulkan Tugas'}
               </button>
             </div>

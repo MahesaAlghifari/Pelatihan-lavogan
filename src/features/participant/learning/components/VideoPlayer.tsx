@@ -2,6 +2,7 @@ import { Maximize, FileText, ExternalLink, PlayCircle, CheckCircle2 } from 'luci
 import { useRef, useState } from 'react';
 import { Material } from '../types/learning.types';
 import { useOptionalSidebar } from '@/widgets/shell/SidebarProvider';
+import { DASHBOARD_TOKENS } from '@/features/participant/shared/dashboardTokens';
 
 interface VideoPlayerProps {
   material: Material;
@@ -32,8 +33,8 @@ export function VideoPlayer({ material }: VideoPlayerProps) {
   return (
     <div
       ref={containerRef}
-      className={`rounded-2xl overflow-hidden w-full relative z-0 isolate group shadow-sm border border-border ${
-        material.type === 'video' ? 'bg-slate-950' : 'bg-card'
+      className={`rounded-2xl overflow-hidden w-full relative z-0 isolate group border border-[#E7ECF3] shadow-[0_1px_3px_rgba(16,24,40,0.04)] ${
+        material.type === 'video' ? 'bg-slate-950' : 'bg-white'
       }`}
     >
       {material.type === 'video' ? (
@@ -64,24 +65,25 @@ export function VideoPlayer({ material }: VideoPlayerProps) {
       ) : material.type === 'pdf' ? (
         showDocPreview ? (
           <div className="w-full min-h-[280px] sm:min-h-[340px] lg:h-[calc(100dvh-16rem)] max-h-[520px] p-6 overflow-y-auto bg-white text-left space-y-4">
-            <div className="flex items-center justify-between border-b border-border pb-3">
-              <div className="flex items-center gap-2">
-                <FileText className="w-5 h-5 text-primary" />
-                <h3 className="font-bold text-base" style={{ color: 'var(--text-primary)' }}>
+            <div className="flex items-center justify-between border-b border-[#E7ECF3] pb-3">
+              <div className="flex items-center gap-2.5">
+                <div className={DASHBOARD_TOKENS.iconBoxSm}>
+                  <FileText className="w-4 h-4" />
+                </div>
+                <h3 className={DASHBOARD_TOKENS.cardTitle}>
                   {material.name}
                 </h3>
               </div>
               <button
                 type="button"
                 onClick={() => setShowDocPreview(false)}
-                className="px-3 py-1.5 rounded-lg text-xs font-medium border border-border hover:bg-muted"
-                style={{ color: 'var(--text-primary)' }}
+                className={DASHBOARD_TOKENS.btnOutline}
               >
                 Tutup Pratinjau
               </button>
             </div>
-            <div className="space-y-3 text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-              <p className="font-semibold" style={{ color: 'var(--text-primary)' }}>
+            <div className="space-y-3 text-sm leading-relaxed text-[#667085]">
+              <p className="font-semibold text-[#171C2B]">
                 Ringkasan Materi Dokumen ({material.pages ? `${material.pages} Halaman` : 'Referensi'})
               </p>
               <p>
@@ -89,26 +91,28 @@ export function VideoPlayer({ material }: VideoPlayerProps) {
               </p>
               <ul className="space-y-2 pt-1">
                 <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-[#1677F9] shrink-0" />
                   <span>Struktur dasar dan konvensi penulisan kode yang rapi.</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-[#1677F9] shrink-0" />
                   <span>Contoh penerapan komponen dan atribut yang paling sering dipakai.</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-[#1677F9] shrink-0" />
                   <span>Checklist verifikasi mandiri sebelum melanjutkan ke tugas atau quiz.</span>
                 </li>
               </ul>
             </div>
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center text-center p-8 space-y-4 bg-muted/40 w-full min-h-[280px] sm:min-h-[340px] lg:h-[calc(100dvh-16rem)] max-h-[520px]">
-            <FileText className="w-20 h-20 text-primary opacity-80" />
+          <div className="flex flex-col items-center justify-center text-center p-8 space-y-4 bg-[#FAFCFF] w-full min-h-[280px] sm:min-h-[340px] lg:h-[calc(100dvh-16rem)] max-h-[520px]">
+            <div className="w-16 h-16 rounded-2xl bg-[#EAF3FF] text-[#1677F9] flex items-center justify-center">
+              <FileText className="w-8 h-8" />
+            </div>
             <div>
-              <h3 className="text-xl font-bold" style={{ color: 'var(--text-primary)' }}>Dokumen Materi (PDF)</h3>
-              <p className="text-sm mt-1 max-w-md" style={{ color: 'var(--text-secondary)' }}>
+              <h3 className="text-lg font-semibold text-[#171C2B] tracking-tight">Dokumen Materi (PDF)</h3>
+              <p className="text-xs sm:text-sm font-normal text-[#667085] mt-1 max-w-md">
                 {material.name} {material.pages ? `• ${material.pages} Halaman` : ''} — Silakan baca dokumen panduan ini untuk menyelesaikan sesi materi terkait.
               </p>
             </div>
@@ -117,27 +121,25 @@ export function VideoPlayer({ material }: VideoPlayerProps) {
                 href={material.contentUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all hover:opacity-90 shadow-md mt-2"
-                style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}
+                className={`${DASHBOARD_TOKENS.btnPrimary} mt-1`}
               >
-                Buka Dokumen PDF <ExternalLink className="w-4 h-4" />
+                Buka Dokumen PDF <ExternalLink className="w-3.5 h-3.5" />
               </a>
             ) : (
               <button
                 type="button"
                 onClick={() => setShowDocPreview(true)}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all hover:opacity-90 shadow-md mt-2"
-                style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}
+                className={`${DASHBOARD_TOKENS.btnPrimary} mt-1`}
               >
-                Baca Dokumen PDF <ExternalLink className="w-4 h-4" />
+                Baca Dokumen PDF <ExternalLink className="w-3.5 h-3.5" />
               </button>
             )}
           </div>
         )
       ) : (
-        <div className="flex flex-col items-center justify-center w-full min-h-[280px] sm:min-h-[340px] lg:h-[calc(100dvh-16rem)] max-h-[520px] text-muted-foreground">
-          <PlayCircle className="w-16 h-16 mb-4 opacity-50" />
-          <p>Format materi tidak dikenali</p>
+        <div className="flex flex-col items-center justify-center w-full min-h-[280px] sm:min-h-[340px] lg:h-[calc(100dvh-16rem)] max-h-[520px] text-[#667085]">
+          <PlayCircle className="w-14 h-14 mb-3 text-[#98A2B3]" />
+          <p className="text-sm font-normal">Format materi tidak dikenali</p>
         </div>
       )}
     </div>

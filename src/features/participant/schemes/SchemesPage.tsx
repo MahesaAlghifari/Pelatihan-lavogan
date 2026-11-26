@@ -21,6 +21,7 @@ import { toast } from 'sonner';
 import { schemes } from '@/data/datadummy';
 import { useAuth } from '@/features/auth/hooks/useAuth';
 import { useParticipantProfile } from '@/features/participant/profile/profileStorage';
+import { DASHBOARD_TOKENS } from '@/features/participant/shared/dashboardTokens';
 import { useSchemeEnrollment } from './schemeEnrollmentStorage';
 
 type StatusFilter = 'all' | 'available' | 'coming-soon';
@@ -30,17 +31,17 @@ const SCHEME_COVERS: Record<string, { image: string; gradient: string }> = {
   'full-stack': {
     image:
       'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&q=80',
-    gradient: 'from-blue-600 to-teal-500',
+    gradient: 'from-[#156EF5] via-[#2180FA] to-[#4CA3F7]',
   },
   'data-science': {
     image:
       'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80',
-    gradient: 'from-indigo-600 to-cyan-500',
+    gradient: 'from-[#4338CA] to-[#1677F9]',
   },
   'cloud-devops': {
     image:
       'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80',
-    gradient: 'from-slate-700 to-blue-600',
+    gradient: 'from-[#1E3A8A] to-[#1677F9]',
   },
 };
 
@@ -197,39 +198,33 @@ export function SchemesPage() {
   };
 
   return (
-    <div className="w-full space-y-6">
+    <div className="w-full space-y-4">
       {/* Header & Controls */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1
-            className="text-2xl font-bold mb-1"
-            style={{ color: 'var(--text-primary)' }}
-          >
-            Program Pelatihan
-          </h1>
-          <p style={{ color: 'var(--text-secondary)' }}>
+          <h1 className={DASHBOARD_TOKENS.pageTitle}>Program Pelatihan</h1>
+          <p className={`${DASHBOARD_TOKENS.pageSubtitle} mt-0.5`}>
             Setiap peserta hanya dapat memilih 1 program pelatihan yang akan
             terkunci setelah dipilih.
           </p>
         </div>
 
-        <div className="flex gap-3 w-full md:w-auto">
+        <div className="flex items-center gap-2.5 w-full md:w-auto">
           <div className="relative flex-1 md:w-72">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#98A2B3]" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Cari pelatihan..."
-              className="w-full pl-10 pr-9 py-2.5 rounded-xl border border-border bg-white text-sm focus:ring-2 focus:ring-primary/40 focus:outline-none"
-              style={{ color: 'var(--text-primary)' }}
+              className={`${DASHBOARD_TOKENS.inputWithIcon} h-9 pr-9`}
             />
             {searchQuery && (
               <button
                 type="button"
                 aria-label="Hapus pencarian"
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#98A2B3] hover:text-[#171C2B]"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -241,21 +236,16 @@ export function SchemesPage() {
             aria-label="Filter program pelatihan"
             aria-expanded={showFilters}
             onClick={() => setShowFilters((prev) => !prev)}
-            className={`relative inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl border transition-colors ${
+            className={`relative h-9 inline-flex items-center gap-2 px-3.5 rounded-xl border text-xs font-semibold transition-colors ${
               showFilters || activeFilterCount > 0
-                ? 'border-primary bg-primary/10 text-primary'
-                : 'border-border bg-white hover:bg-muted'
+                ? 'border-[#1677F9] bg-[#EAF3FF] text-[#1677F9]'
+                : 'border-[#E7ECF3] bg-white text-[#171C2B] hover:bg-[#F3F6FB]'
             }`}
-            style={
-              showFilters || activeFilterCount > 0
-                ? undefined
-                : { color: 'var(--text-primary)' }
-            }
           >
-            <Filter className="w-4 h-4" />
-            <span className="hidden sm:inline text-sm font-medium">Filter</span>
+            <Filter className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Filter</span>
             {activeFilterCount > 0 && (
-              <span className="px-1.5 py-0.5 rounded-full text-[11px] font-bold bg-primary text-white">
+              <span className="px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-[#1677F9] text-white leading-none">
                 {activeFilterCount}
               </span>
             )}
@@ -265,50 +255,41 @@ export function SchemesPage() {
 
       {/* Status Pilihan & Kunci Program */}
       {!enrollment ? (
-        <div className="bg-blue-50 border border-blue-200 rounded-2xl p-4 sm:p-5 flex items-start gap-3.5">
-          <div className="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center shrink-0">
+        <div className="bg-[#EAF3FF] border border-[#BFDBFE] rounded-2xl p-4 sm:p-5 flex items-start gap-3.5">
+          <div className="w-10 h-10 rounded-xl bg-[#1677F9] text-white flex items-center justify-center shrink-0 shadow-xs">
             <BookOpen className="w-5 h-5" />
           </div>
           <div className="space-y-1">
-            <h2 className="text-sm sm:text-base font-bold text-slate-900">
+            <h2 className="text-base font-semibold text-[#171C2B] tracking-tight">
               Pilih 1 Program Pelatihan
             </h2>
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            <p className="text-xs sm:text-sm font-normal text-[#475467] leading-relaxed">
               Anda belum memilih program pelatihan. Setelah memilih 1 program,
-              pilihan akan <strong>terkunci otomatis</strong> dan perubahan hanya
+              pilihan akan <strong className="font-semibold text-[#171C2B]">terkunci otomatis</strong> dan perubahan hanya
               dapat diajukan melalui persetujuan Admin.
             </p>
           </div>
         </div>
       ) : (
-        <div className="bg-card rounded-2xl border border-primary/30 p-5 space-y-4 shadow-xs">
+        <div className={`${DASHBOARD_TOKENS.card} p-4 sm:p-5 space-y-4 border-[#BFDBFE]`}>
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
             <div className="flex items-start gap-3.5 min-w-0">
-              <div className="w-11 h-11 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+              <div className="w-10 h-10 rounded-xl bg-[#EAF3FF] text-[#1677F9] flex items-center justify-center shrink-0">
                 <Lock className="w-5 h-5" />
               </div>
               <div className="min-w-0 space-y-1">
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-primary/10 text-primary">
+                  <span className={DASHBOARD_TOKENS.badgeBlue}>
                     Program Terkunci (Maks. 1 Program)
                   </span>
-                  <span
-                    className="text-xs"
-                    style={{ color: 'var(--text-secondary)' }}
-                  >
+                  <span className="text-xs font-normal text-[#667085]">
                     Dipilih {formatDateId(enrollment.lockedAt)}
                   </span>
                 </div>
-                <h2
-                  className="text-lg font-bold"
-                  style={{ color: 'var(--text-primary)' }}
-                >
+                <h2 className={DASHBOARD_TOKENS.cardTitle}>
                   {enrolledScheme?.name ?? enrollment.schemeId}
                 </h2>
-                <p
-                  className="text-xs sm:text-sm"
-                  style={{ color: 'var(--text-secondary)' }}
-                >
+                <p className="text-xs font-normal text-[#667085]">
                   Pilihan program Anda sudah terkunci. Jika ingin mengganti
                   program pelatihan, ajukan permintaan perubahan ke Admin.
                 </p>
@@ -321,23 +302,18 @@ export function SchemesPage() {
                 onClick={() =>
                   navigate(`/participant/learning?scheme=${enrollment.schemeId}`)
                 }
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold transition-opacity hover:opacity-90"
-                style={{
-                  backgroundColor: 'var(--primary)',
-                  color: 'var(--primary-foreground)',
-                }}
+                className={DASHBOARD_TOKENS.btnPrimary}
               >
-                <PlayCircle className="w-4 h-4" />
+                <PlayCircle className="w-3.5 h-3.5" />
                 Buka Materi Belajar
               </button>
               <button
                 type="button"
                 disabled={Boolean(pendingRequest) || alternativeSchemes.length === 0}
                 onClick={() => openChangeRequestModal()}
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold border border-border bg-white hover:bg-muted transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                style={{ color: 'var(--text-primary)' }}
+                className={DASHBOARD_TOKENS.btnOutline}
               >
-                <RefreshCw className="w-4 h-4 text-primary" />
+                <RefreshCw className="w-3.5 h-3.5 text-[#1677F9]" />
                 {pendingRequest
                   ? 'Pengajuan Sedang Diproses'
                   : 'Ajukan Perubahan ke Admin'}
@@ -347,51 +323,35 @@ export function SchemesPage() {
 
           {latestRequest && (
             <div
-              className="rounded-xl border p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
-              style={{
-                backgroundColor:
-                  latestRequest.status === 'pending'
-                    ? 'var(--warning-light)'
-                    : latestRequest.status === 'approved'
-                      ? 'var(--success-light)'
-                      : 'var(--error-light)',
-                borderColor:
-                  latestRequest.status === 'pending'
-                    ? 'var(--warning)'
-                    : latestRequest.status === 'approved'
-                      ? 'var(--success)'
-                      : 'var(--error)',
-              }}
+              className={`rounded-xl border p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
+                latestRequest.status === 'pending'
+                  ? 'bg-[#FEF3C7]/60 border-[#FCD34D]'
+                  : latestRequest.status === 'approved'
+                    ? 'bg-[#ECFDF3] border-[#BBF7D0]'
+                    : 'bg-[#FEF2F2] border-[#FECACA]'
+              }`}
             >
               <div className="flex items-start gap-2.5 min-w-0">
                 {latestRequest.status === 'approved' ? (
-                  <CheckCircle2
-                    className="w-4 h-4 shrink-0 mt-0.5"
-                    style={{ color: 'var(--success)' }}
-                  />
+                  <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5 text-[#16A34A]" />
                 ) : (
                   <AlertCircle
-                    className="w-4 h-4 shrink-0 mt-0.5"
-                    style={{
-                      color:
-                        latestRequest.status === 'pending'
-                          ? 'var(--warning)'
-                          : 'var(--error)',
-                    }}
+                    className={`w-4 h-4 shrink-0 mt-0.5 ${
+                      latestRequest.status === 'pending'
+                        ? 'text-[#B45309]'
+                        : 'text-[#DC2626]'
+                    }`}
                   />
                 )}
                 <div className="text-xs sm:text-sm space-y-0.5">
-                  <p
-                    className="font-bold"
-                    style={{ color: 'var(--text-primary)' }}
-                  >
+                  <p className="font-semibold text-[#171C2B]">
                     {latestRequest.status === 'pending'
                       ? `Menunggu Persetujuan Admin: Pindah ke "${latestRequest.requestedSchemeName}"`
                       : latestRequest.status === 'approved'
                         ? `Pengajuan Disetujui: Program berpindah ke "${latestRequest.requestedSchemeName}"`
                         : `Pengajuan Ditolak: Permintaan pindah ke "${latestRequest.requestedSchemeName}"`}
                   </p>
-                  <p style={{ color: 'var(--text-secondary)' }}>
+                  <p className="text-xs font-normal text-[#667085]">
                     Alasan: {latestRequest.reason}
                     {latestRequest.adminNote
                       ? ` • Catatan Admin: ${latestRequest.adminNote}`
@@ -399,10 +359,7 @@ export function SchemesPage() {
                   </p>
                 </div>
               </div>
-              <span
-                className="text-[11px] font-bold px-2.5 py-1 rounded-lg bg-white/80 shrink-0 self-start sm:self-center"
-                style={{ color: 'var(--text-primary)' }}
-              >
+              <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-white/90 text-[#171C2B] shrink-0 self-start sm:self-center">
                 {latestRequest.status === 'pending'
                   ? 'Pending Review'
                   : latestRequest.status === 'approved'
@@ -416,13 +373,10 @@ export function SchemesPage() {
 
       {/* Filter Panel */}
       {showFilters && (
-        <div className="bg-card rounded-2xl border border-border p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className={`${DASHBOARD_TOKENS.card} p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4`}>
           <div className="flex flex-wrap items-center gap-4">
             <div className="flex items-center gap-2">
-              <span
-                className="text-xs font-semibold uppercase tracking-wider"
-                style={{ color: 'var(--text-secondary)' }}
-              >
+              <span className={DASHBOARD_TOKENS.mutedMetaLabel}>
                 Status:
               </span>
               {(
@@ -438,8 +392,8 @@ export function SchemesPage() {
                   onClick={() => setStatusFilter(opt.id)}
                   className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
                     statusFilter === opt.id
-                      ? 'bg-primary text-white'
-                      : 'bg-muted text-slate-700 hover:bg-slate-200'
+                      ? 'bg-[#1677F9] text-white'
+                      : 'bg-[#F3F6FB] text-[#475467] hover:bg-[#E7ECF3]'
                   }`}
                 >
                   {opt.label}
@@ -448,10 +402,7 @@ export function SchemesPage() {
             </div>
 
             <div className="flex items-center gap-2">
-              <span
-                className="text-xs font-semibold uppercase tracking-wider"
-                style={{ color: 'var(--text-secondary)' }}
-              >
+              <span className={DASHBOARD_TOKENS.mutedMetaLabel}>
                 Level:
               </span>
               {(
@@ -467,8 +418,8 @@ export function SchemesPage() {
                   onClick={() => setLevelFilter(opt.id)}
                   className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
                     levelFilter === opt.id
-                      ? 'bg-primary text-white'
-                      : 'bg-muted text-slate-700 hover:bg-slate-200'
+                      ? 'bg-[#1677F9] text-white'
+                      : 'bg-[#F3F6FB] text-[#475467] hover:bg-[#E7ECF3]'
                   }`}
                 >
                   {opt.label}
@@ -481,7 +432,7 @@ export function SchemesPage() {
             <button
               type="button"
               onClick={resetFilters}
-              className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary hover:underline self-start sm:self-center"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#1677F9] hover:underline self-start sm:self-center"
             >
               <RotateCcw className="w-3.5 h-3.5" />
               Reset Filter
@@ -492,41 +443,31 @@ export function SchemesPage() {
 
       {/* Scheme Cards or Empty State */}
       {filteredSchemes.length === 0 ? (
-        <div className="bg-card rounded-2xl border border-border p-12 text-center space-y-3">
-          <BookOpen className="w-12 h-12 mx-auto text-muted-foreground opacity-60" />
-          <h3
-            className="text-lg font-bold"
-            style={{ color: 'var(--text-primary)' }}
-          >
+        <div className={`${DASHBOARD_TOKENS.card} p-12 text-center space-y-3`}>
+          <BookOpen className="w-12 h-12 mx-auto text-[#98A2B3]" />
+          <h3 className={DASHBOARD_TOKENS.cardTitle}>
             Program Pelatihan Tidak Ditemukan
           </h3>
-          <p
-            className="text-sm max-w-md mx-auto"
-            style={{ color: 'var(--text-secondary)' }}
-          >
+          <p className="text-sm font-normal text-[#667085] max-w-md mx-auto">
             Tidak ada skema pelatihan yang sesuai dengan pencarian atau filter
             yang dipilih.
           </p>
           <button
             type="button"
             onClick={resetFilters}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold transition-opacity hover:opacity-90 mt-2"
-            style={{
-              backgroundColor: 'var(--primary)',
-              color: 'var(--primary-foreground)',
-            }}
+            className={`${DASHBOARD_TOKENS.btnPrimary} mt-2`}
           >
-            <RotateCcw className="w-4 h-4" />
+            <RotateCcw className="w-3.5 h-3.5" />
             Reset Pencarian & Filter
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredSchemes.map((scheme) => {
             const cover = SCHEME_COVERS[scheme.id] ?? {
               image:
                 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&q=80',
-              gradient: 'from-blue-600 to-teal-500',
+              gradient: 'from-[#156EF5] via-[#2180FA] to-[#4CA3F7]',
             };
             const isBroken = failedImages[scheme.id];
             const isSelected = enrollment?.schemeId === scheme.id;
@@ -537,14 +478,14 @@ export function SchemesPage() {
             return (
               <div
                 key={scheme.id}
-                className={`bg-card rounded-2xl border overflow-hidden transition-all flex flex-col ${
+                className={`${DASHBOARD_TOKENS.card} overflow-hidden transition-all flex flex-col ${
                   isSelected
-                    ? 'border-primary ring-2 ring-primary/20 shadow-md'
-                    : 'border-border hover:shadow-lg'
+                    ? 'border-[#1677F9] ring-2 ring-[#1677F9]/20'
+                    : 'hover:border-[#CBD5E1]'
                 }`}
               >
                 <div
-                  className={`h-48 relative bg-gradient-to-br ${cover.gradient}`}
+                  className={`h-44 relative bg-gradient-to-br ${cover.gradient}`}
                 >
                   {!isBroken ? (
                     <img
@@ -567,66 +508,55 @@ export function SchemesPage() {
                   )}
 
                   {isSelected && (
-                    <div className="absolute top-3.5 left-3.5">
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold shadow-sm bg-blue-600 text-white">
-                        <Lock className="w-3.5 h-3.5" />
+                    <div className="absolute top-3 left-3">
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold shadow-sm bg-[#1677F9] text-white">
+                        <Lock className="w-3 h-3" />
                         Program Dipilih • Terkunci
                       </span>
                     </div>
                   )}
 
                   {isLockedOther && (
-                    <div className="absolute top-3.5 left-3.5">
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold shadow-sm bg-slate-900/80 text-white">
-                        <Lock className="w-3.5 h-3.5" />
+                    <div className="absolute top-3 left-3">
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold shadow-sm bg-[#171C2B]/85 text-white">
+                        <Lock className="w-3 h-3" />
                         Terkunci
                       </span>
                     </div>
                   )}
 
-                  <div className="absolute top-3.5 right-3.5">
+                  <div className="absolute top-3 right-3">
                     <span
-                      className="px-3 py-1 rounded-lg text-xs font-bold shadow-sm"
-                      style={{
-                        backgroundColor: scheme.available
-                          ? 'var(--success)'
-                          : 'var(--warning)',
-                        color: '#FFFFFF',
-                      }}
+                      className={`px-2.5 py-1 rounded-full text-[11px] font-semibold shadow-sm ${
+                        scheme.available
+                          ? 'bg-[#16A34A] text-white'
+                          : 'bg-[#FEF3C7] text-[#B45309]'
+                      }`}
                     >
                       {scheme.available ? 'Tersedia' : 'Segera Hadir'}
                     </span>
                   </div>
                 </div>
 
-                <div className="p-6 flex-1 flex flex-col">
-                  <h3
-                    className="font-bold text-lg mb-2"
-                    style={{ color: 'var(--text-primary)' }}
-                  >
+                <div className="p-4 sm:p-5 flex-1 flex flex-col">
+                  <h3 className="font-semibold text-base text-[#171C2B] tracking-tight mb-1.5">
                     {scheme.name}
                   </h3>
-                  <p
-                    className="text-sm mb-5 flex-1 leading-relaxed"
-                    style={{ color: 'var(--text-secondary)' }}
-                  >
+                  <p className="text-xs sm:text-sm font-normal text-[#667085] mb-4 flex-1 leading-relaxed">
                     {scheme.description}
                   </p>
 
-                  <div
-                    className="flex items-center justify-between text-xs font-medium mb-5 pb-4 border-b border-border gap-2"
-                    style={{ color: 'var(--text-secondary)' }}
-                  >
+                  <div className="flex items-center justify-between text-xs font-normal text-[#667085] mb-4 pb-3.5 border-b border-[#E7ECF3] gap-2">
                     <div className="flex items-center gap-1.5">
-                      <Clock className="w-4 h-4 text-primary" />{' '}
+                      <Clock className="w-3.5 h-3.5 text-[#1677F9]" />{' '}
                       {formatDuration(scheme.duration)}
                     </div>
                     <div className="flex items-center gap-1.5">
-                      <BarChart className="w-4 h-4 text-primary" />{' '}
+                      <BarChart className="w-3.5 h-3.5 text-[#1677F9]" />{' '}
                       {LEVEL_LABELS[scheme.level] ?? scheme.level}
                     </div>
                     <div className="flex items-center gap-1.5">
-                      <Users className="w-4 h-4 text-primary" />{' '}
+                      <Users className="w-3.5 h-3.5 text-[#1677F9]" />{' '}
                       {scheme.participants} peserta
                     </div>
                   </div>
@@ -635,11 +565,7 @@ export function SchemesPage() {
                     <button
                       type="button"
                       disabled
-                      className="w-full flex items-center justify-center gap-2 py-3 rounded-xl font-bold disabled:opacity-50 disabled:cursor-not-allowed"
-                      style={{
-                        backgroundColor: 'var(--muted)',
-                        color: 'var(--text-secondary)',
-                      }}
+                      className="w-full h-9 px-4 rounded-xl bg-[#F3F6FB] text-[#667085] text-xs font-semibold inline-flex items-center justify-center gap-1.5 disabled:opacity-70 disabled:cursor-not-allowed"
                     >
                       Belum Tersedia
                     </button>
@@ -648,11 +574,7 @@ export function SchemesPage() {
                       <button
                         type="button"
                         onClick={() => setConfirmSchemeId(scheme.id)}
-                        className="flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-bold transition-opacity hover:opacity-90"
-                        style={{
-                          backgroundColor: 'var(--primary)',
-                          color: 'var(--primary-foreground)',
-                        }}
+                        className={`${DASHBOARD_TOKENS.btnPrimary} flex-1`}
                       >
                         Pilih Program Ini
                       </button>
@@ -661,8 +583,7 @@ export function SchemesPage() {
                         onClick={() =>
                           navigate(`/participant/schemes/${scheme.id}`)
                         }
-                        className="px-4 py-3 rounded-xl font-semibold border border-border bg-white hover:bg-muted transition-colors text-sm"
-                        style={{ color: 'var(--text-primary)' }}
+                        className={DASHBOARD_TOKENS.btnOutline}
                       >
                         Detail
                       </button>
@@ -674,40 +595,35 @@ export function SchemesPage() {
                         onClick={() =>
                           navigate(`/participant/learning?scheme=${scheme.id}`)
                         }
-                        className="flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-bold transition-opacity hover:opacity-90"
-                        style={{
-                          backgroundColor: 'var(--primary)',
-                          color: 'var(--primary-foreground)',
-                        }}
+                        className={`${DASHBOARD_TOKENS.btnPrimary} flex-1`}
                       >
-                        Lanjut Belajar <ArrowRight className="w-4 h-4" />
+                        Lanjut Belajar <ArrowRight className="w-3.5 h-3.5" />
                       </button>
                       <button
                         type="button"
                         onClick={() =>
                           navigate(`/participant/schemes/${scheme.id}`)
                         }
-                        className="px-4 py-3 rounded-xl font-semibold border border-border bg-white hover:bg-muted transition-colors text-sm"
-                        style={{ color: 'var(--text-primary)' }}
+                        className={DASHBOARD_TOKENS.btnOutline}
                       >
                         Detail
                       </button>
                     </div>
                   ) : (
-                    <div className="space-y-2.5">
+                    <div className="space-y-2">
                       <button
                         type="button"
                         disabled
-                        className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-sm font-semibold border border-border bg-muted text-slate-500 cursor-not-allowed"
+                        className="w-full h-9 px-4 rounded-xl text-xs font-semibold border border-[#E7ECF3] bg-[#F3F6FB] text-[#667085] inline-flex items-center justify-center gap-1.5 cursor-not-allowed"
                       >
-                        <Lock className="w-4 h-4" />
+                        <Lock className="w-3.5 h-3.5" />
                         Terkunci (Hanya 1 Program)
                       </button>
                       <button
                         type="button"
                         disabled={Boolean(pendingRequest)}
                         onClick={() => openChangeRequestModal(scheme.id)}
-                        className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-xs font-bold border border-primary/40 bg-primary/5 text-primary hover:bg-primary/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        className={`${DASHBOARD_TOKENS.btnSoftBlue} w-full`}
                       >
                         <RefreshCw className="w-3.5 h-3.5" />
                         {pendingRequest
@@ -726,20 +642,20 @@ export function SchemesPage() {
       {/* Modal Konfirmasi Pilihan Program */}
       {confirmScheme && (
         <div
-          className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-xs flex items-center justify-center p-4"
+          className="fixed inset-0 z-[100] bg-[#171C2B]/45 backdrop-blur-xs flex items-center justify-center p-4"
           role="dialog"
           aria-modal="true"
           aria-labelledby="confirm-scheme-title"
         >
-          <div className="bg-white text-slate-900 rounded-2xl border border-border max-w-lg w-full shadow-2xl overflow-hidden">
-            <div className="p-5 border-b border-border flex items-center justify-between">
+          <div className="bg-white text-[#171C2B] rounded-2xl border border-[#E7ECF3] max-w-lg w-full shadow-xl overflow-hidden">
+            <div className="p-5 border-b border-[#E7ECF3] flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
+                <div className={DASHBOARD_TOKENS.iconBox}>
                   <Lock className="w-4 h-4" />
                 </div>
                 <h3
                   id="confirm-scheme-title"
-                  className="font-bold text-base sm:text-lg"
+                  className={DASHBOARD_TOKENS.cardTitle}
                 >
                   Konfirmasi Pilihan Program
                 </h3>
@@ -748,38 +664,28 @@ export function SchemesPage() {
                 type="button"
                 aria-label="Tutup konfirmasi"
                 onClick={() => setConfirmSchemeId(null)}
-                className="p-1.5 rounded-lg text-slate-500 hover:bg-muted"
+                className="p-1.5 rounded-lg text-[#667085] hover:bg-[#F3F6FB]"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             <div className="p-5 space-y-4">
-              <div className="p-4 rounded-xl bg-muted/50 border border-border space-y-1">
-                <p className="text-xs font-semibold uppercase tracking-wider text-primary">
+              <div className={`${DASHBOARD_TOKENS.subcard} p-4 space-y-1`}>
+                <p className={DASHBOARD_TOKENS.sectionLabel}>
                   Program yang Dipilih
                 </p>
-                <p className="font-bold text-base text-slate-900">
+                <p className="font-semibold text-base text-[#171C2B]">
                   {confirmScheme.name}
                 </p>
-                <p className="text-xs text-slate-600">
+                <p className="text-xs font-normal text-[#667085]">
                   Durasi {formatDuration(confirmScheme.duration)} • Level{' '}
                   {LEVEL_LABELS[confirmScheme.level] ?? confirmScheme.level}
                 </p>
               </div>
 
-              <div
-                className="p-3.5 rounded-xl border text-xs sm:text-sm leading-relaxed flex items-start gap-2.5"
-                style={{
-                  backgroundColor: 'var(--warning-light)',
-                  borderColor: 'var(--warning)',
-                  color: 'var(--text-primary)',
-                }}
-              >
-                <AlertCircle
-                  className="w-4 h-4 shrink-0 mt-0.5"
-                  style={{ color: 'var(--warning)' }}
-                />
+              <div className="p-3.5 rounded-xl border border-[#FCD34D] bg-[#FEF3C7]/60 text-[#171C2B] text-xs sm:text-sm leading-relaxed flex items-start gap-2.5">
+                <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-[#B45309]" />
                 <span>
                   Setiap peserta hanya dapat memilih{' '}
                   <strong>1 program pelatihan</strong>. Setelah dikonfirmasi,
@@ -789,24 +695,20 @@ export function SchemesPage() {
               </div>
             </div>
 
-            <div className="p-5 border-t border-border flex items-center justify-end gap-2.5 bg-muted/20">
+            <div className="p-5 border-t border-[#E7ECF3] flex items-center justify-end gap-2.5 bg-[#F9FBFE]">
               <button
                 type="button"
                 onClick={() => setConfirmSchemeId(null)}
-                className="px-4 py-2.5 rounded-xl text-sm font-semibold border border-border bg-white hover:bg-muted transition-colors"
+                className={DASHBOARD_TOKENS.btnOutline}
               >
                 Batal
               </button>
               <button
                 type="button"
                 onClick={handleConfirmSelect}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold transition-opacity hover:opacity-90"
-                style={{
-                  backgroundColor: 'var(--primary)',
-                  color: 'var(--primary-foreground)',
-                }}
+                className={DASHBOARD_TOKENS.btnPrimary}
               >
-                <Lock className="w-4 h-4" />
+                <Lock className="w-3.5 h-3.5" />
                 Konfirmasi & Kunci Program
               </button>
             </div>
@@ -817,20 +719,20 @@ export function SchemesPage() {
       {/* Modal Pengajuan Perubahan Program ke Admin */}
       {showRequestModal && enrollment && (
         <div
-          className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-xs flex items-center justify-center p-4"
+          className="fixed inset-0 z-[100] bg-[#171C2B]/45 backdrop-blur-xs flex items-center justify-center p-4"
           role="dialog"
           aria-modal="true"
           aria-labelledby="request-scheme-title"
         >
-          <div className="bg-white text-slate-900 rounded-2xl border border-border max-w-lg w-full shadow-2xl overflow-hidden">
-            <div className="p-5 border-b border-border flex items-center justify-between">
+          <div className="bg-white text-[#171C2B] rounded-2xl border border-[#E7ECF3] max-w-lg w-full shadow-xl overflow-hidden">
+            <div className="p-5 border-b border-[#E7ECF3] flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
+                <div className={DASHBOARD_TOKENS.iconBox}>
                   <RefreshCw className="w-4 h-4" />
                 </div>
                 <h3
                   id="request-scheme-title"
-                  className="font-bold text-base sm:text-lg"
+                  className={DASHBOARD_TOKENS.cardTitle}
                 >
                   Ajukan Perubahan Program ke Admin
                 </h3>
@@ -839,7 +741,7 @@ export function SchemesPage() {
                 type="button"
                 aria-label="Tutup pengajuan perubahan"
                 onClick={() => setShowRequestModal(false)}
-                className="p-1.5 rounded-lg text-slate-500 hover:bg-muted"
+                className="p-1.5 rounded-lg text-[#667085] hover:bg-[#F3F6FB]"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -847,11 +749,11 @@ export function SchemesPage() {
 
             <form onSubmit={handleSubmitChangeRequest} className="p-5 space-y-4">
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">
+                <label className={`block ${DASHBOARD_TOKENS.mutedMetaLabel} mb-1.5`}>
                   Program Saat Ini (Terkunci)
                 </label>
-                <div className="px-3.5 py-2.5 rounded-xl border border-border bg-muted/60 text-sm font-semibold text-slate-700 flex items-center gap-2">
-                  <Lock className="w-4 h-4 text-primary shrink-0" />
+                <div className={`${DASHBOARD_TOKENS.subcard} px-3.5 py-2.5 text-sm font-semibold text-[#171C2B] flex items-center gap-2`}>
+                  <Lock className="w-4 h-4 text-[#1677F9] shrink-0" />
                   <span>{enrolledScheme?.name ?? enrollment.schemeId}</span>
                 </div>
               </div>
@@ -859,7 +761,7 @@ export function SchemesPage() {
               <div>
                 <label
                   htmlFor="requested-scheme-select"
-                  className="block text-sm font-semibold text-slate-900 mb-1.5"
+                  className="block text-xs font-semibold text-[#171C2B] mb-1.5"
                 >
                   Program Tujuan yang Diajukan
                 </label>
@@ -870,7 +772,7 @@ export function SchemesPage() {
                     setRequestedSchemeId(e.target.value);
                     setRequestError('');
                   }}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-border bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary/40"
+                  className={DASHBOARD_TOKENS.input}
                 >
                   {alternativeSchemes.map((s) => (
                     <option key={s.id} value={s.id}>
@@ -883,7 +785,7 @@ export function SchemesPage() {
               <div>
                 <label
                   htmlFor="scheme-change-reason"
-                  className="block text-sm font-semibold text-slate-900 mb-1.5"
+                  className="block text-xs font-semibold text-[#171C2B] mb-1.5"
                 >
                   Alasan Pengajuan Perubahan
                 </label>
@@ -896,32 +798,28 @@ export function SchemesPage() {
                     setRequestError('');
                   }}
                   placeholder="Jelaskan alasan Anda mengajukan pindah program pelatihan kepada Admin (minimal 10 karakter)..."
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-border bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary/40"
+                  className={DASHBOARD_TOKENS.input}
                 />
                 {requestError && (
-                  <p className="text-xs font-medium text-red-600 mt-1.5">
+                  <p className="text-xs font-medium text-[#DC2626] mt-1.5">
                     {requestError}
                   </p>
                 )}
               </div>
 
-              <div className="pt-2 flex items-center justify-end gap-2.5 border-t border-border">
+              <div className="pt-3 flex items-center justify-end gap-2.5 border-t border-[#E7ECF3]">
                 <button
                   type="button"
                   onClick={() => setShowRequestModal(false)}
-                  className="px-4 py-2.5 rounded-xl text-sm font-semibold border border-border bg-white hover:bg-muted transition-colors"
+                  className={DASHBOARD_TOKENS.btnOutline}
                 >
                   Batal
                 </button>
                 <button
                   type="submit"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold transition-opacity hover:opacity-90"
-                  style={{
-                    backgroundColor: 'var(--primary)',
-                    color: 'var(--primary-foreground)',
-                  }}
+                  className={DASHBOARD_TOKENS.btnPrimary}
                 >
-                  <Send className="w-4 h-4" />
+                  <Send className="w-3.5 h-3.5" />
                   Kirim Pengajuan ke Admin
                 </button>
               </div>

@@ -17,6 +17,7 @@ import { toast } from 'sonner';
 import { certificates as initialCertificates, moduleMaterials } from '@/data/datadummy';
 import { useAuth } from '@/features/auth/hooks/useAuth';
 import { useParticipantProfile } from '@/features/participant/profile/profileStorage';
+import { DASHBOARD_TOKENS } from '@/features/participant/shared/dashboardTokens';
 import {
   PROGRESS_STORAGE_KEY,
   QUIZ_RESULTS_STORAGE_KEY,
@@ -133,57 +134,54 @@ export function CertificatePage() {
   };
 
   return (
-    <div className="w-full space-y-6">
+    <div className="w-full space-y-4">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold mb-1" style={{ color: 'var(--text-primary)' }}>
+          <h1 className={DASHBOARD_TOKENS.pageTitle}>
             Sertifikat Saya
           </h1>
-          <p style={{ color: 'var(--text-secondary)' }}>
+          <p className={`${DASHBOARD_TOKENS.pageSubtitle} mt-0.5`}>
             Pantau syarat kelulusan, klaim sertifikat resmi, dan unduh PDF sertifikat Anda.
           </p>
         </div>
 
         <div className="relative w-full md:w-72">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#98A2B3]" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Cari nomor atau skema sertifikat..."
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-border bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary/40"
-            style={{ color: 'var(--text-primary)' }}
+            className={`${DASHBOARD_TOKENS.inputWithIcon} h-9`}
           />
         </div>
       </div>
 
       {/* Graduation & Claim Card */}
-      <div className="bg-card rounded-2xl border border-border p-6 space-y-5">
+      <div className={`${DASHBOARD_TOKENS.card} p-5 sm:p-6 space-y-4`}>
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-          <div className="flex items-start gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
-              <GraduationCap className="w-6 h-6" />
+          <div className="flex items-start gap-3.5">
+            <div className="w-11 h-11 rounded-xl bg-[#EAF3FF] text-[#1677F9] flex items-center justify-center shrink-0">
+              <GraduationCap className="w-5 h-5" />
             </div>
             <div>
               <div className="flex flex-wrap items-center gap-2">
-                <h2 className="text-lg font-bold" style={{ color: 'var(--text-primary)' }}>
+                <h2 className={DASHBOARD_TOKENS.cardTitle}>
                   Status Kelulusan & Klaim Sertifikat
                 </h2>
                 <span
-                  className="px-2.5 py-0.5 rounded-full text-xs font-bold"
-                  style={{
-                    backgroundColor: isEligible
-                      ? 'var(--success-light)'
-                      : 'var(--warning-light)',
-                    color: isEligible ? 'var(--success)' : 'var(--warning)',
-                  }}
+                  className={
+                    isEligible
+                      ? DASHBOARD_TOKENS.badgeSuccess
+                      : DASHBOARD_TOKENS.badgeWarning
+                  }
                 >
                   {isEligible ? 'Memenuhi Syarat' : `${graduationPercent}% Selesai`}
                 </span>
               </div>
-              <p className="text-sm mt-0.5" style={{ color: 'var(--text-secondary)' }}>
-                Program: <span className="font-semibold text-slate-800">{activeSchemeTitle}</span>
+              <p className="text-xs sm:text-sm font-normal text-[#667085] mt-0.5">
+                Program: <span className="font-semibold text-[#171C2B]">{activeSchemeTitle}</span>
               </p>
             </div>
           </div>
@@ -199,26 +197,18 @@ export function CertificatePage() {
                     );
                     if (found) setPreviewCert(found);
                   }}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold"
-                  style={{
-                    backgroundColor: 'var(--success-light)',
-                    color: 'var(--success)',
-                  }}
+                  className={DASHBOARD_TOKENS.btnSuccessPill}
                 >
-                  <CheckCircle2 className="w-4 h-4" />
+                  <CheckCircle2 className="w-3.5 h-3.5" />
                   Sertifikat Sudah Diklaim • Lihat
                 </button>
               ) : (
                 <button
                   type="button"
                   onClick={handleClaimCertificate}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold transition-opacity hover:opacity-90"
-                  style={{
-                    backgroundColor: 'var(--primary)',
-                    color: 'var(--primary-foreground)',
-                  }}
+                  className={DASHBOARD_TOKENS.btnPrimary}
                 >
-                  <Sparkles className="w-4 h-4" />
+                  <Sparkles className="w-3.5 h-3.5" />
                   Klaim Sertifikat Sekarang
                 </button>
               )
@@ -226,66 +216,62 @@ export function CertificatePage() {
               <button
                 type="button"
                 onClick={() => navigate('/participant/learning')}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold transition-opacity hover:opacity-90"
-                style={{
-                  backgroundColor: 'var(--primary)',
-                  color: 'var(--primary-foreground)',
-                }}
+                className={DASHBOARD_TOKENS.btnPrimary}
               >
-                Lanjutkan Belajar <ArrowRight className="w-4 h-4" />
+                Lanjutkan Belajar <ArrowRight className="w-3.5 h-3.5" />
               </button>
             )}
           </div>
         </div>
 
         {/* Progress Bar */}
-        <div className="w-full h-2.5 bg-muted rounded-full overflow-hidden">
+        <div className={DASHBOARD_TOKENS.progressTrack}>
           <div
-            className="h-full bg-primary rounded-full transition-all duration-300"
+            className={DASHBOARD_TOKENS.progressFillBlue}
             style={{ width: `${graduationPercent}%` }}
           />
         </div>
 
         {/* Requirements Checklist */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="p-4 rounded-xl bg-muted/40 border border-border flex items-center justify-between gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+          <div className={`${DASHBOARD_TOKENS.subcard} p-3.5 flex items-center justify-between gap-3`}>
             <div className="flex items-center gap-3">
               {completedCount === requiredMaterialIds.length ? (
-                <CheckCircle2 className="w-5 h-5 text-success shrink-0" />
+                <CheckCircle2 className="w-5 h-5 text-[#16A34A] shrink-0" />
               ) : (
-                <Clock className="w-5 h-5 text-warning shrink-0" />
+                <Clock className="w-5 h-5 text-[#B45309] shrink-0" />
               )}
               <div>
-                <p className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>
+                <p className="text-sm font-semibold text-[#171C2B]">
                   Penyelesaian Materi Pembelajaran
                 </p>
-                <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
+                <p className="text-xs font-normal text-[#667085]">
                   Selesaikan seluruh video & dokumen di Materi Belajar
                 </p>
               </div>
             </div>
-            <span className="text-sm font-bold text-primary shrink-0">
+            <span className="text-sm font-bold text-[#1677F9] tabular-nums shrink-0">
               {completedCount} / {requiredMaterialIds.length}
             </span>
           </div>
 
-          <div className="p-4 rounded-xl bg-muted/40 border border-border flex items-center justify-between gap-3">
+          <div className={`${DASHBOARD_TOKENS.subcard} p-3.5 flex items-center justify-between gap-3`}>
             <div className="flex items-center gap-3">
               {passedQuizCount === REQUIRED_QUIZ_IDS.length ? (
-                <CheckCircle2 className="w-5 h-5 text-success shrink-0" />
+                <CheckCircle2 className="w-5 h-5 text-[#16A34A] shrink-0" />
               ) : (
-                <Clock className="w-5 h-5 text-warning shrink-0" />
+                <Clock className="w-5 h-5 text-[#B45309] shrink-0" />
               )}
               <div>
-                <p className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>
+                <p className="text-sm font-semibold text-[#171C2B]">
                   Kelulusan Quiz Evaluasi Modul
                 </p>
-                <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
+                <p className="text-xs font-normal text-[#667085]">
                   Lulus Quiz Evaluasi HTML Basics & CSS Styling
                 </p>
               </div>
             </div>
-            <span className="text-sm font-bold text-primary shrink-0">
+            <span className="text-sm font-bold text-[#1677F9] tabular-nums shrink-0">
               {passedQuizCount} / {REQUIRED_QUIZ_IDS.length}
             </span>
           </div>
@@ -294,47 +280,42 @@ export function CertificatePage() {
 
       {/* Certificates List */}
       {filteredCertificates.length === 0 ? (
-        <div className="bg-card p-12 rounded-2xl border border-border text-center">
-          <Award className="w-16 h-16 mx-auto mb-4 text-muted-foreground opacity-50" />
-          <h3 className="text-xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
+        <div className={`${DASHBOARD_TOKENS.card} p-12 text-center`}>
+          <Award className="w-12 h-12 mx-auto mb-3 text-[#98A2B3]" />
+          <h3 className={`${DASHBOARD_TOKENS.cardTitle} mb-1`}>
             {searchQuery ? 'Sertifikat Tidak Ditemukan' : 'Belum Ada Sertifikat'}
           </h3>
-          <p style={{ color: 'var(--text-secondary)' }}>
+          <p className="text-sm font-normal text-[#667085]">
             {searchQuery
               ? 'Coba ubah kata kunci pencarian nomor atau skema sertifikat.'
               : 'Selesaikan program pelatihan untuk mendapatkan sertifikat.'}
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {filteredCertificates.map((cert) => {
             const isIssued = cert.status === 'issued';
 
             return (
               <div
                 key={cert.id}
-                className="bg-card p-6 rounded-2xl border border-border flex flex-col md:flex-row gap-6 items-center md:items-start"
+                className={`${DASHBOARD_TOKENS.card} p-5 flex flex-col sm:flex-row gap-4 items-center sm:items-start`}
               >
-                <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                  <Award className="w-10 h-10 text-primary" />
+                <div className="w-16 h-16 rounded-2xl bg-[#EAF3FF] text-[#1677F9] flex items-center justify-center shrink-0">
+                  <Award className="w-8 h-8" />
                 </div>
 
-                <div className="flex-1 text-center md:text-left min-w-0">
-                  <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 mb-1.5">
-                    <h3
-                      className="font-bold text-lg"
-                      style={{ color: 'var(--text-primary)' }}
-                    >
+                <div className="flex-1 text-center sm:text-left min-w-0">
+                  <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 mb-1">
+                    <h3 className="font-semibold text-base text-[#171C2B] tracking-tight">
                       {cert.scheme}
                     </h3>
                     <span
-                      className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold"
-                      style={{
-                        backgroundColor: isIssued
-                          ? 'var(--success-light)'
-                          : 'var(--warning-light)',
-                        color: isIssued ? 'var(--success)' : 'var(--warning)',
-                      }}
+                      className={
+                        isIssued
+                          ? DASHBOARD_TOKENS.badgeSuccess
+                          : DASHBOARD_TOKENS.badgeWarning
+                      }
                     >
                       {isIssued ? (
                         <>
@@ -348,40 +329,32 @@ export function CertificatePage() {
                     </span>
                   </div>
 
-                  <p className="text-sm font-medium mb-1" style={{ color: 'var(--text-primary)' }}>
+                  <p className="text-xs sm:text-sm font-medium text-[#171C2B] mb-0.5">
                     Penerima: {cert.participantName}
                   </p>
-                  <p className="text-xs font-mono mb-3" style={{ color: 'var(--text-secondary)' }}>
+                  <p className="text-xs font-mono text-[#667085] mb-2.5">
                     No. {cert.certificateNumber}
                   </p>
 
-                  <div
-                    className="flex items-center justify-center md:justify-start gap-2 text-sm mb-5"
-                    style={{ color: 'var(--text-secondary)' }}
-                  >
-                    <Calendar className="w-4 h-4" /> Diterbitkan: {cert.issueDate}
+                  <div className="flex items-center justify-center sm:justify-start gap-1.5 text-xs font-normal text-[#667085] mb-4">
+                    <Calendar className="w-3.5 h-3.5 text-[#98A2B3]" /> Diterbitkan: {cert.issueDate}
                   </div>
 
-                  <div className="flex flex-wrap gap-3 justify-center md:justify-start">
+                  <div className="flex flex-wrap gap-2.5 justify-center sm:justify-start">
                     <button
                       type="button"
                       onClick={() => setPreviewCert(cert)}
-                      className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium border border-border hover:bg-muted transition-colors"
-                      style={{ color: 'var(--text-primary)' }}
+                      className={DASHBOARD_TOKENS.btnOutline}
                     >
-                      <Eye className="w-4 h-4" /> Lihat
+                      <Eye className="w-3.5 h-3.5" /> Lihat
                     </button>
                     <button
                       type="button"
                       disabled={!isIssued}
                       onClick={() => printCertificatePdf(cert)}
-                      className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-opacity hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
-                      style={{
-                        backgroundColor: 'var(--primary)',
-                        color: 'var(--primary-foreground)',
-                      }}
+                      className={DASHBOARD_TOKENS.btnPrimary}
                     >
-                      <Download className="w-4 h-4" /> Unduh PDF
+                      <Download className="w-3.5 h-3.5" /> Unduh PDF
                     </button>
                   </div>
                 </div>

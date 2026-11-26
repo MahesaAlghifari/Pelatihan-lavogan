@@ -20,6 +20,7 @@ import type {
   PendidikanItem,
   SertifikasiItem,
 } from '../profileStorage';
+import { DASHBOARD_TOKENS } from '@/features/participant/shared/dashboardTokens';
 
 interface SectionCardProps {
   title: string;
@@ -43,25 +44,22 @@ function ProfileSectionCard({
   children,
 }: SectionCardProps) {
   return (
-    <section className="bg-card rounded-2xl border border-border p-5 sm:p-6 space-y-4">
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/80 pb-4">
+    <section className={`${DASHBOARD_TOKENS.card} p-5 sm:p-6 space-y-4`}>
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E7ECF3] pb-4">
         <div className="flex items-center gap-3 min-w-0">
-          <div className="w-9 h-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+          <div className={DASHBOARD_TOKENS.iconBox}>
             {icon}
           </div>
           <div className="min-w-0">
             <div className="flex items-center gap-2">
-              <h2
-                className="text-base font-bold"
-                style={{ color: 'var(--text-primary)' }}
-              >
+              <h2 className={DASHBOARD_TOKENS.cardTitle}>
                 {title}
               </h2>
-              <span className="px-2 py-0.5 rounded-full text-[11px] font-bold bg-muted text-slate-600">
+              <span className={DASHBOARD_TOKENS.badgeNeutral}>
                 {count}
               </span>
             </div>
-            <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
+            <p className="text-xs font-normal text-[#667085]">
               {subtitle}
             </p>
           </div>
@@ -71,9 +69,9 @@ function ProfileSectionCard({
           <button
             type="button"
             onClick={onAdd}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold border border-primary/40 bg-primary/5 text-primary hover:bg-primary/10 transition-colors"
+            className={DASHBOARD_TOKENS.btnSoftBlue}
           >
-            <Plus className="w-4 h-4" />
+            <Plus className="w-3.5 h-3.5" />
             {addLabel}
           </button>
         )}
@@ -84,8 +82,7 @@ function ProfileSectionCard({
   );
 }
 
-const INPUT_CLASS =
-  'w-full px-3.5 py-2.5 rounded-xl border border-border bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary/40';
+const INPUT_CLASS = DASHBOARD_TOKENS.input;
 
 /* -------------------- 2. RIWAYAT PENDIDIKAN -------------------- */
 
@@ -171,7 +168,7 @@ export function PendidikanSection({
       onAdd={openAdd}
     >
       {editable && showForm && (
-        <div className="p-4 rounded-xl border border-primary/30 bg-muted/30 space-y-4">
+        <div className="p-4 rounded-xl border border-[#BFDBFE] bg-[#F9FBFE] space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
             <div>
               <label className="block text-xs font-semibold mb-1">Nama Institusi</label>
@@ -245,14 +242,14 @@ export function PendidikanSection({
             <button
               type="button"
               onClick={() => setShowForm(false)}
-              className="px-3.5 py-2 rounded-lg text-xs font-semibold border border-border bg-white hover:bg-muted"
+              className={DASHBOARD_TOKENS.btnOutline}
             >
               Batal
             </button>
             <button
               type="button"
               onClick={saveDraft}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-bold bg-primary text-white hover:opacity-90"
+              className={DASHBOARD_TOKENS.btnPrimary}
             >
               <Check className="w-3.5 h-3.5" />
               {editingId ? 'Simpan Pendidikan' : 'Tambahkan'}
@@ -262,11 +259,11 @@ export function PendidikanSection({
       )}
 
       {items.length === 0 ? (
-        <p className="text-sm text-slate-500 py-1">
+        <p className="text-xs sm:text-sm font-normal text-[#667085] py-1">
           Belum ada riwayat pendidikan tercatat.
         </p>
       ) : (
-        <div className="divide-y divide-border/60">
+        <div className="divide-y divide-[#E7ECF3]">
           {items.map((item) => (
             <div
               key={item.id}
@@ -274,10 +271,10 @@ export function PendidikanSection({
             >
               <div className="space-y-1 min-w-0">
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="px-2 py-0.5 rounded-md text-[11px] font-bold bg-primary/10 text-primary">
+                  <span className={DASHBOARD_TOKENS.badgeBlue}>
                     {item.jenjang || '-'}
                   </span>
-                  <h3 className="font-bold text-sm" style={{ color: 'var(--text-primary)' }}>
+                  <h3 className="font-semibold text-sm text-[#171C2B]">
                     {item.nama_institusi}
                   </h3>
                 </div>
@@ -298,7 +295,7 @@ export function PendidikanSection({
                     type="button"
                     aria-label={`Edit pendidikan ${item.nama_institusi}`}
                     onClick={() => openEdit(item)}
-                    className="p-1.5 rounded-lg text-slate-500 hover:bg-muted border border-transparent hover:border-border"
+                    className="p-1.5 rounded-lg text-[#667085] hover:bg-[#F3F6FB] border border-transparent hover:border-[#E7ECF3]"
                   >
                     <Pencil className="w-4 h-4" />
                   </button>
@@ -404,7 +401,7 @@ export function PekerjaanSection({
       onAdd={openAdd}
     >
       {editable && showForm && (
-        <div className="p-4 rounded-xl border border-primary/30 bg-muted/30 space-y-4">
+        <div className="p-4 rounded-xl border border-[#BFDBFE] bg-[#F9FBFE] space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
             <div>
               <label className="block text-xs font-semibold mb-1">Posisi</label>
@@ -484,14 +481,14 @@ export function PekerjaanSection({
             <button
               type="button"
               onClick={() => setShowForm(false)}
-              className="px-3.5 py-2 rounded-lg text-xs font-semibold border border-border bg-white hover:bg-muted"
+              className={DASHBOARD_TOKENS.btnOutline}
             >
               Batal
             </button>
             <button
               type="button"
               onClick={saveDraft}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-bold bg-primary text-white hover:opacity-90"
+              className={DASHBOARD_TOKENS.btnPrimary}
             >
               <Check className="w-3.5 h-3.5" />
               {editingId ? 'Simpan Pekerjaan' : 'Tambahkan'}
@@ -501,11 +498,11 @@ export function PekerjaanSection({
       )}
 
       {items.length === 0 ? (
-        <p className="text-sm text-slate-500 py-1">
+        <p className="text-xs sm:text-sm font-normal text-[#667085] py-1">
           Belum ada riwayat pekerjaan tercatat.
         </p>
       ) : (
-        <div className="divide-y divide-border/60">
+        <div className="divide-y divide-[#E7ECF3]">
           {items.map((item) => (
             <div
               key={item.id}
@@ -513,10 +510,10 @@ export function PekerjaanSection({
             >
               <div className="space-y-1.5 min-w-0">
                 <div className="flex flex-wrap items-center gap-2">
-                  <h3 className="font-bold text-sm" style={{ color: 'var(--text-primary)' }}>
+                  <h3 className="font-semibold text-sm text-[#171C2B]">
                     {item.posisi}
                   </h3>
-                  <span className="px-2 py-0.5 rounded-md text-[11px] font-bold bg-primary/10 text-primary">
+                  <span className={DASHBOARD_TOKENS.badgeBlue}>
                     {item.tipe_pekerjaan || '-'}
                   </span>
                 </div>
@@ -537,7 +534,7 @@ export function PekerjaanSection({
                     type="button"
                     aria-label={`Edit pekerjaan ${item.posisi}`}
                     onClick={() => openEdit(item)}
-                    className="p-1.5 rounded-lg text-slate-500 hover:bg-muted border border-transparent hover:border-border"
+                    className="p-1.5 rounded-lg text-[#667085] hover:bg-[#F3F6FB] border border-transparent hover:border-[#E7ECF3]"
                   >
                     <Pencil className="w-4 h-4" />
                   </button>
@@ -643,7 +640,7 @@ export function PelatihanSection({
       onAdd={openAdd}
     >
       {editable && showForm && (
-        <div className="p-4 rounded-xl border border-primary/30 bg-muted/30 space-y-4">
+        <div className="p-4 rounded-xl border border-[#BFDBFE] bg-[#F9FBFE] space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
             <div>
               <label className="block text-xs font-semibold mb-1">Nama Pelatihan</label>
@@ -725,14 +722,14 @@ export function PelatihanSection({
             <button
               type="button"
               onClick={() => setShowForm(false)}
-              className="px-3.5 py-2 rounded-lg text-xs font-semibold border border-border bg-white hover:bg-muted"
+              className={DASHBOARD_TOKENS.btnOutline}
             >
               Batal
             </button>
             <button
               type="button"
               onClick={saveDraft}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-bold bg-primary text-white hover:opacity-90"
+              className={DASHBOARD_TOKENS.btnPrimary}
             >
               <Check className="w-3.5 h-3.5" />
               {editingId ? 'Simpan Pelatihan' : 'Tambahkan'}
@@ -742,11 +739,11 @@ export function PelatihanSection({
       )}
 
       {items.length === 0 ? (
-        <p className="text-sm text-slate-500 py-1">
+        <p className="text-xs sm:text-sm font-normal text-[#667085] py-1">
           Belum ada riwayat pelatihan tercatat.
         </p>
       ) : (
-        <div className="divide-y divide-border/60">
+        <div className="divide-y divide-[#E7ECF3]">
           {items.map((item) => (
             <div
               key={item.id}
@@ -754,11 +751,11 @@ export function PelatihanSection({
             >
               <div className="space-y-1.5 min-w-0">
                 <div className="flex flex-wrap items-center gap-2">
-                  <h3 className="font-bold text-sm" style={{ color: 'var(--text-primary)' }}>
+                  <h3 className="font-semibold text-sm text-[#171C2B]">
                     {item.nama_pelatihan}
                   </h3>
                   {item.kategori_bidang && (
-                    <span className="px-2 py-0.5 rounded-md text-[11px] font-bold bg-primary/10 text-primary">
+                    <span className={DASHBOARD_TOKENS.badgeBlue}>
                       {item.kategori_bidang}
                     </span>
                   )}
@@ -780,7 +777,7 @@ export function PelatihanSection({
                     type="button"
                     aria-label={`Edit pelatihan ${item.nama_pelatihan}`}
                     onClick={() => openEdit(item)}
-                    className="p-1.5 rounded-lg text-slate-500 hover:bg-muted border border-transparent hover:border-border"
+                    className="p-1.5 rounded-lg text-[#667085] hover:bg-[#F3F6FB] border border-transparent hover:border-[#E7ECF3]"
                   >
                     <Pencil className="w-4 h-4" />
                   </button>
@@ -882,7 +879,7 @@ export function SertifikasiSection({
       onAdd={openAdd}
     >
       {editable && showForm && (
-        <div className="p-4 rounded-xl border border-primary/30 bg-muted/30 space-y-4">
+        <div className="p-4 rounded-xl border border-[#BFDBFE] bg-[#F9FBFE] space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
             <div>
               <label className="block text-xs font-semibold mb-1">
@@ -938,8 +935,8 @@ export function SertifikasiSection({
                   placeholder="Nama file atau URL sertifikat..."
                   className={INPUT_CLASS}
                 />
-                <label className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-border bg-white hover:bg-muted text-xs font-semibold cursor-pointer shrink-0">
-                  <Upload className="w-3.5 h-3.5 text-primary" />
+                <label className="h-9 inline-flex items-center gap-1.5 px-3 rounded-xl border border-[#E7ECF3] bg-white hover:bg-[#F3F6FB] text-xs font-semibold text-[#171C2B] cursor-pointer shrink-0 transition-colors">
+                  <Upload className="w-3.5 h-3.5 text-[#1677F9]" />
                   <span>File</span>
                   <input
                     type="file"
@@ -964,14 +961,14 @@ export function SertifikasiSection({
             <button
               type="button"
               onClick={() => setShowForm(false)}
-              className="px-3.5 py-2 rounded-lg text-xs font-semibold border border-border bg-white hover:bg-muted"
+              className={DASHBOARD_TOKENS.btnOutline}
             >
               Batal
             </button>
             <button
               type="button"
               onClick={saveDraft}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-bold bg-primary text-white hover:opacity-90"
+              className={DASHBOARD_TOKENS.btnPrimary}
             >
               <Check className="w-3.5 h-3.5" />
               {editingId ? 'Simpan Sertifikasi' : 'Tambahkan'}
@@ -981,25 +978,25 @@ export function SertifikasiSection({
       )}
 
       {items.length === 0 ? (
-        <p className="text-sm text-slate-500 py-1">
+        <p className="text-xs sm:text-sm font-normal text-[#667085] py-1">
           Belum ada riwayat sertifikasi tercatat.
         </p>
       ) : (
-        <div className="divide-y divide-border/60">
+        <div className="divide-y divide-[#E7ECF3]">
           {items.map((item) => (
             <div
               key={item.id}
               className="py-3.5 first:pt-0 last:pb-0 flex items-start justify-between gap-4"
             >
               <div className="space-y-1 min-w-0">
-                <h3 className="font-bold text-sm" style={{ color: 'var(--text-primary)' }}>
+                <h3 className="font-semibold text-sm text-[#171C2B]">
                   {item.nama_sertifikasi}
                 </h3>
                 <p className="text-xs sm:text-sm font-medium text-slate-700">
                   {item.lembaga_penerbit} • Masa Berlaku: {item.masa_berlaku || '-'}
                 </p>
                 {item.lampiran_dokumen && (
-                  <p className="text-xs text-primary font-medium inline-flex items-center gap-1 pt-0.5 truncate max-w-full">
+                  <p className="text-xs text-[#1677F9] font-medium inline-flex items-center gap-1 pt-0.5 truncate max-w-full">
                     <FileText className="w-3.5 h-3.5 shrink-0" />
                     <span className="truncate">{item.lampiran_dokumen}</span>
                   </p>
@@ -1012,7 +1009,7 @@ export function SertifikasiSection({
                     type="button"
                     aria-label={`Edit sertifikasi ${item.nama_sertifikasi}`}
                     onClick={() => openEdit(item)}
-                    className="p-1.5 rounded-lg text-slate-500 hover:bg-muted border border-transparent hover:border-border"
+                    className="p-1.5 rounded-lg text-[#667085] hover:bg-[#F3F6FB] border border-transparent hover:border-[#E7ECF3]"
                   >
                     <Pencil className="w-4 h-4" />
                   </button>
@@ -1084,22 +1081,22 @@ export function KeahlianSection({
           <button
             type="button"
             onClick={addSkill}
-            className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-primary text-white hover:opacity-90 shrink-0"
+            className={`${DASHBOARD_TOKENS.btnPrimary} shrink-0`}
           >
-            <Plus className="w-4 h-4" />
+            <Plus className="w-3.5 h-3.5" />
             Tambah Keahlian
           </button>
         </div>
       )}
 
       {skills.length === 0 ? (
-        <p className="text-sm text-slate-500">Belum ada keahlian ditambahkan.</p>
+        <p className="text-xs sm:text-sm font-normal text-[#667085]">Belum ada keahlian ditambahkan.</p>
       ) : (
         <div className="flex flex-wrap gap-2">
           {skills.map((skill) => (
             <span
               key={skill}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-semibold bg-primary/10 text-primary border border-primary/20"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#EAF3FF] text-[#1677F9] border border-[#BFDBFE]"
             >
               <span>{skill}</span>
               {editable && (
@@ -1107,7 +1104,7 @@ export function KeahlianSection({
                   type="button"
                   aria-label={`Hapus keahlian ${skill}`}
                   onClick={() => onChange(skills.filter((s) => s !== skill))}
-                  className="p-0.5 rounded-full hover:bg-primary/20 text-primary"
+                  className="p-0.5 rounded-full hover:bg-[#DCEAFE] text-[#1677F9]"
                 >
                   <X className="w-3.5 h-3.5" />
                 </button>

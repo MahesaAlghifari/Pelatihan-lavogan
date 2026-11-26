@@ -18,6 +18,7 @@ import type {
   Material,
   MaterialResource,
 } from '../types/learning.types';
+import { DASHBOARD_TOKENS } from '@/features/participant/shared/dashboardTokens';
 
 type TabKey = 'summary' | 'notes' | 'discussion';
 
@@ -162,9 +163,9 @@ export function MaterialTabs({
 
   return (
     <>
-      <div className="bg-card rounded-2xl border border-border overflow-hidden">
+      <div className={`${DASHBOARD_TOKENS.card} overflow-hidden`}>
         {/* Tab Header */}
-        <div className="flex border-b border-border bg-muted/40 px-1.5 sm:px-2 pt-2 gap-1 overflow-x-auto">
+        <div className="flex border-b border-[#E7ECF3] bg-[#F9FBFE] px-2 pt-2 gap-1 overflow-x-auto">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isSelected = activeTab === tab.key;
@@ -173,16 +174,16 @@ export function MaterialTabs({
                 key={tab.key}
                 type="button"
                 onClick={() => setActiveTab(tab.key)}
-                className={`flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-2.5 text-xs sm:text-sm font-semibold rounded-t-xl border-b-2 transition-colors whitespace-nowrap ${
+                className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2.5 text-xs sm:text-sm font-semibold rounded-t-xl border-b-2 transition-colors whitespace-nowrap ${
                   isSelected
-                    ? 'bg-card text-primary border-primary'
-                    : 'border-transparent text-slate-600 hover:text-slate-900 hover:bg-white/60'
+                    ? 'bg-white text-[#1677F9] border-[#1677F9]'
+                    : 'border-transparent text-[#667085] hover:text-[#171C2B] hover:bg-white/70'
                 }`}
               >
                 <Icon className="w-4 h-4" />
                 <span>{tab.label}</span>
                 {tab.badge !== undefined && tab.badge > 0 && (
-                  <span className="px-2 py-0.5 text-xs rounded-full bg-primary/10 text-primary">
+                  <span className="px-2 py-0.5 text-[11px] font-semibold rounded-full bg-[#EAF3FF] text-[#1677F9]">
                     {tab.badge}
                   </span>
                 )}
@@ -192,80 +193,58 @@ export function MaterialTabs({
         </div>
 
         {/* Tab Content */}
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
           {activeTab === 'summary' && (
-            <div className="space-y-6">
+            <div className="space-y-5">
               <div>
-                <h3
-                  className="text-base font-bold mb-2"
-                  style={{ color: 'var(--text-primary)' }}
-                >
+                <h3 className={`${DASHBOARD_TOKENS.cardTitle} mb-1.5`}>
                   Tentang Materi Ini
                 </h3>
-                <p
-                  className="text-sm leading-relaxed"
-                  style={{ color: 'var(--text-secondary)' }}
-                >
+                <p className="text-xs sm:text-sm font-normal text-[#667085] leading-relaxed">
                   {material.description ??
                     `Sesi ini membahas topik "${material.name}" secara terstruktur agar peserta magang mampu memahami konsep dasar hingga implementasi praktis di proyek nyata.`}
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-4 rounded-xl bg-muted/40 border border-border space-y-3">
-                  <h4
-                    className="text-sm font-bold"
-                    style={{ color: 'var(--text-primary)' }}
-                  >
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className={`${DASHBOARD_TOKENS.subcard} p-4 space-y-3`}>
+                  <h4 className="text-sm font-semibold text-[#171C2B]">
                     Poin Pembelajaran
                   </h4>
                   <ul className="space-y-2.5">
                     {keyPoints.map((point, idx) => (
                       <li
                         key={idx}
-                        className="flex items-start gap-2.5 text-sm"
-                        style={{ color: 'var(--text-secondary)' }}
+                        className="flex items-start gap-2.5 text-xs sm:text-sm font-normal text-[#667085]"
                       >
-                        <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                        <CheckCircle2 className="w-4 h-4 text-[#1677F9] shrink-0 mt-0.5" />
                         <span>{point}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
 
-                <div className="p-4 rounded-xl bg-muted/40 border border-border space-y-3">
-                  <h4
-                    className="text-sm font-bold"
-                    style={{ color: 'var(--text-primary)' }}
-                  >
+                <div className={`${DASHBOARD_TOKENS.subcard} p-4 space-y-3`}>
+                  <h4 className="text-sm font-semibold text-[#171C2B]">
                     Materi Pendukung & Informasi
                   </h4>
-                  <p
-                    className="text-xs"
-                    style={{ color: 'var(--text-secondary)' }}
-                  >
+                  <p className="text-xs font-normal text-[#667085]">
                     Instruktur:{' '}
-                    <span className="font-semibold text-slate-800">
+                    <span className="font-semibold text-[#171C2B]">
                       {material.instructor ?? 'Tim Pengajar MagangHub'}
                     </span>
                   </p>
-                  <div className="space-y-2.5">
+                  <div className="space-y-2">
                     {resources.map((res, idx) => (
                       <div
                         key={idx}
-                        className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 p-3 rounded-xl bg-white border border-border"
+                        className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 p-3 rounded-xl bg-white border border-[#E7ECF3]"
                       >
                         <div className="min-w-0">
-                          <p
-                            className="text-xs font-semibold truncate"
-                            style={{ color: 'var(--text-primary)' }}
-                          >
+                          <p className="text-xs font-semibold text-[#171C2B] truncate">
                             {res.label}
                           </p>
-                          <p
-                            className="text-[11px] mt-0.5"
-                            style={{ color: 'var(--text-secondary)' }}
-                          >
+                          <p className="text-[11px] font-normal text-[#667085] mt-0.5">
                             {res.type} • {res.size}
                           </p>
                         </div>
@@ -275,21 +254,16 @@ export function MaterialTabs({
                             type="button"
                             onClick={() => setPreviewResource(res)}
                             aria-label={`View ${res.label}`}
-                            className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold border border-border hover:bg-muted transition-colors"
-                            style={{ color: 'var(--text-primary)' }}
+                            className="h-8 px-2.5 rounded-lg text-xs font-semibold border border-[#E7ECF3] bg-white hover:bg-[#F3F6FB] text-[#171C2B] inline-flex items-center gap-1 transition-colors"
                           >
-                            <Eye className="w-3.5 h-3.5 text-primary" />
+                            <Eye className="w-3.5 h-3.5 text-[#1677F9]" />
                             View
                           </button>
                           <button
                             type="button"
                             onClick={() => triggerResourceDownload(res, material)}
                             aria-label={`Unduh ${res.label}`}
-                            className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-bold transition-opacity hover:opacity-90"
-                            style={{
-                              backgroundColor: 'var(--primary)',
-                              color: 'var(--primary-foreground)',
-                            }}
+                            className="h-8 px-2.5 rounded-lg text-xs font-semibold bg-[#1677F9] hover:bg-[#1262D4] text-white inline-flex items-center gap-1 transition-colors"
                           >
                             <Download className="w-3.5 h-3.5" />
                             Unduh
@@ -307,23 +281,14 @@ export function MaterialTabs({
             <div className="space-y-4">
               <div className="flex items-center justify-between gap-3">
                 <div>
-                  <h3
-                    className="text-base font-bold"
-                    style={{ color: 'var(--text-primary)' }}
-                  >
+                  <h3 className={DASHBOARD_TOKENS.cardTitle}>
                     Catatan Belajar Pribadi
                   </h3>
-                  <p
-                    className="text-xs"
-                    style={{ color: 'var(--text-secondary)' }}
-                  >
+                  <p className="text-xs font-normal text-[#667085]">
                     Catatan tersimpan otomatis per materi di browser Anda.
                   </p>
                 </div>
-                <span
-                  className="text-xs font-medium"
-                  style={{ color: 'var(--text-secondary)' }}
-                >
+                <span className="text-xs font-medium text-[#667085] tabular-nums">
                   {draftNote.length} karakter
                 </span>
               </div>
@@ -333,15 +298,11 @@ export function MaterialTabs({
                 value={draftNote}
                 onChange={(e) => setDraftNote(e.target.value)}
                 placeholder={`Tulis rangkuman atau poin penting untuk "${material.name}"...`}
-                className="w-full p-4 rounded-xl border border-border bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary/40"
-                style={{ color: 'var(--text-primary)' }}
+                className={DASHBOARD_TOKENS.input}
               />
 
               <div className="flex items-center justify-between">
-                <span
-                  className="text-xs"
-                  style={{ color: 'var(--text-secondary)' }}
-                >
+                <span className="text-xs font-normal text-[#667085]">
                   {draftNote === noteValue && noteValue.length > 0
                     ? 'Semua perubahan tersimpan'
                     : 'Klik simpan untuk menyimpan catatan'}
@@ -349,13 +310,9 @@ export function MaterialTabs({
                 <button
                   type="button"
                   onClick={handleSaveNote}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold transition-opacity hover:opacity-90"
-                  style={{
-                    backgroundColor: 'var(--primary)',
-                    color: 'var(--primary-foreground)',
-                  }}
+                  className={DASHBOARD_TOKENS.btnPrimary}
                 >
-                  <Save className="w-4 h-4" />
+                  <Save className="w-3.5 h-3.5" />
                   Simpan Catatan
                 </button>
               </div>
@@ -364,43 +321,32 @@ export function MaterialTabs({
 
           {activeTab === 'discussion' && (
             <div className="space-y-5">
-              <form onSubmit={handlePostComment} className="space-y-3">
-                <label
-                  className="block text-sm font-bold"
-                  style={{ color: 'var(--text-primary)' }}
-                >
+              <form onSubmit={handlePostComment} className="space-y-2.5">
+                <label className="block text-sm font-semibold text-[#171C2B]">
                   Tanya Instruktur atau Diskusi Materi
                 </label>
-                <div className="flex flex-col sm:flex-row gap-3">
+                <div className="flex flex-col sm:flex-row gap-2.5">
                   <input
                     type="text"
                     value={commentText}
                     onChange={(e) => setCommentText(e.target.value)}
                     placeholder="Tulis pertanyaan atau tanggapan mengenai materi ini..."
-                    className="flex-1 px-4 py-2.5 rounded-xl border border-border bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary/40"
-                    style={{ color: 'var(--text-primary)' }}
+                    className={`${DASHBOARD_TOKENS.input} flex-1 h-9`}
                   />
                   <button
                     type="submit"
                     disabled={!commentText.trim()}
-                    className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold transition-opacity hover:opacity-90 disabled:opacity-50 whitespace-nowrap"
-                    style={{
-                      backgroundColor: 'var(--primary)',
-                      color: 'var(--primary-foreground)',
-                    }}
+                    className={`${DASHBOARD_TOKENS.btnPrimary} whitespace-nowrap`}
                   >
-                    <Send className="w-4 h-4" />
+                    <Send className="w-3.5 h-3.5" />
                     Kirim
                   </button>
                 </div>
               </form>
 
-              <div className="space-y-3 pt-2 border-t border-border">
+              <div className="space-y-3 pt-3 border-t border-[#E7ECF3]">
                 {discussions.length === 0 ? (
-                  <p
-                    className="text-sm text-center py-6"
-                    style={{ color: 'var(--text-secondary)' }}
-                  >
+                  <p className="text-sm font-normal text-[#667085] text-center py-6">
                     Belum ada diskusi pada materi ini. Jadilah yang pertama
                     bertanya!
                   </p>
@@ -408,42 +354,33 @@ export function MaterialTabs({
                   discussions.map((item) => (
                     <div
                       key={item.id}
-                      className="p-4 rounded-xl border border-border bg-muted/30 space-y-2"
+                      className={`${DASHBOARD_TOKENS.subcard} p-4 space-y-2`}
                     >
                       <div className="flex items-center justify-between gap-2">
                         <div className="flex items-center gap-2">
-                          <div className="w-7 h-7 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+                          <div className="w-7 h-7 rounded-full bg-[#EAF3FF] text-[#1677F9] flex items-center justify-center">
                             <User className="w-3.5 h-3.5" />
                           </div>
-                          <span
-                            className="text-sm font-semibold"
-                            style={{ color: 'var(--text-primary)' }}
-                          >
+                          <span className="text-sm font-semibold text-[#171C2B]">
                             {item.author}
                           </span>
                           <span
-                            className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${
+                            className={
                               item.role === 'instructor'
-                                ? 'bg-primary/10 text-primary'
-                                : 'bg-slate-200 text-slate-700'
-                            }`}
+                                ? DASHBOARD_TOKENS.badgeBlue
+                                : DASHBOARD_TOKENS.badgeNeutral
+                            }
                           >
                             {item.role === 'instructor'
                               ? 'Instruktur'
                               : 'Peserta'}
                           </span>
                         </div>
-                        <span
-                          className="text-xs"
-                          style={{ color: 'var(--text-secondary)' }}
-                        >
+                        <span className="text-xs font-normal text-[#667085]">
                           {item.createdAt}
                         </span>
                       </div>
-                      <p
-                        className="text-sm leading-relaxed"
-                        style={{ color: 'var(--text-secondary)' }}
-                      >
+                      <p className="text-xs sm:text-sm font-normal text-[#667085] leading-relaxed">
                         {item.message}
                       </p>
                     </div>
@@ -458,26 +395,22 @@ export function MaterialTabs({
       {/* Resource Preview Modal */}
       {previewResource && (
         <div
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+          className="fixed inset-0 bg-[#171C2B]/45 backdrop-blur-xs flex items-center justify-center z-50 p-4"
           onClick={(e) => {
             if (e.target === e.currentTarget) setPreviewResource(null);
           }}
         >
-          <div className="bg-white text-slate-900 rounded-2xl border border-border max-w-2xl w-full max-h-[85vh] overflow-hidden shadow-2xl flex flex-col">
-            <div className="px-6 py-4 border-b border-border flex items-center justify-between gap-4">
+          <div className="bg-white text-[#171C2B] rounded-2xl border border-[#E7ECF3] max-w-2xl w-full max-h-[85vh] overflow-hidden shadow-xl flex flex-col">
+            <div className="px-5 py-4 border-b border-[#E7ECF3] flex items-center justify-between gap-4">
               <div className="flex items-center gap-2.5 min-w-0">
-                <FileText className="w-5 h-5 text-primary shrink-0" />
+                <div className={DASHBOARD_TOKENS.iconBoxSm}>
+                  <FileText className="w-4 h-4" />
+                </div>
                 <div className="min-w-0">
-                  <h3
-                    className="font-bold text-base truncate"
-                    style={{ color: 'var(--text-primary)' }}
-                  >
+                  <h3 className="font-semibold text-base text-[#171C2B] truncate">
                     {previewResource.label}
                   </h3>
-                  <p
-                    className="text-xs"
-                    style={{ color: 'var(--text-secondary)' }}
-                  >
+                  <p className="text-xs font-normal text-[#667085]">
                     {previewResource.type} • {previewResource.size}
                   </p>
                 </div>
@@ -487,11 +420,7 @@ export function MaterialTabs({
                 <button
                   type="button"
                   onClick={() => triggerResourceDownload(previewResource, material)}
-                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold transition-opacity hover:opacity-90"
-                  style={{
-                    backgroundColor: 'var(--primary)',
-                    color: 'var(--primary-foreground)',
-                  }}
+                  className={DASHBOARD_TOKENS.btnPrimary}
                 >
                   <Download className="w-3.5 h-3.5" />
                   Unduh
@@ -500,16 +429,15 @@ export function MaterialTabs({
                   type="button"
                   aria-label="Tutup pratinjau materi pendukung"
                   onClick={() => setPreviewResource(null)}
-                  className="p-2 rounded-xl hover:bg-muted transition-colors"
-                  style={{ color: 'var(--text-secondary)' }}
+                  className="p-2 rounded-xl text-[#667085] hover:bg-[#F3F6FB] transition-colors"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
             </div>
 
-            <div className="p-6 overflow-y-auto bg-slate-50">
-              <pre className="whitespace-pre-wrap font-mono text-xs sm:text-sm leading-relaxed text-slate-700 bg-white p-5 rounded-xl border border-border">
+            <div className="p-5 overflow-y-auto bg-[#F3F6FB]">
+              <pre className="whitespace-pre-wrap font-mono text-xs sm:text-sm leading-relaxed text-[#475467] bg-white p-5 rounded-xl border border-[#E7ECF3]">
                 {buildResourceContent(previewResource, material)}
               </pre>
             </div>

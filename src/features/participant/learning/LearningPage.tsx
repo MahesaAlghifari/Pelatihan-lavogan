@@ -24,6 +24,7 @@ import {
 } from './hooks/useLearningProgress';
 import { useAuth } from '@/features/auth/hooks/useAuth';
 import { useParticipantProfile } from '@/features/participant/profile/profileStorage';
+import { DASHBOARD_TOKENS } from '@/features/participant/shared/dashboardTokens';
 import { useSchemeEnrollment } from '@/features/participant/schemes/schemeEnrollmentStorage';
 import {
   learningPathModules,
@@ -271,15 +272,12 @@ export function LearningPage() {
       <div className="flex-1 w-full min-w-0 p-4 sm:p-6 space-y-4">
         {/* Bar Ringkas saat Daftar Modul disembunyikan */}
         {!showModuleList && (
-          <div className="flex flex-wrap items-center justify-between gap-3 bg-card rounded-xl border border-border px-4 py-2.5">
+          <div className={`${DASHBOARD_TOKENS.card} flex flex-wrap items-center justify-between gap-3 px-4 py-2.5`}>
             <div className="min-w-0 flex items-center gap-2.5">
-              <h1
-                className="text-sm sm:text-base font-bold truncate"
-                style={{ color: 'var(--text-primary)' }}
-              >
+              <h1 className="text-sm sm:text-base font-semibold text-[#171C2B] tracking-tight truncate">
                 {activeMaterial?.name || 'Materi Pembelajaran'}
               </h1>
-              <span className="px-2 py-0.5 bg-primary/10 text-primary rounded-md text-xs font-bold shrink-0">
+              <span className={DASHBOARD_TOKENS.badgeBlue}>
                 {progressPercentage}%
               </span>
             </div>
@@ -288,10 +286,9 @@ export function LearningPage() {
               type="button"
               onClick={() => setShowModuleList(true)}
               aria-expanded={false}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border border-border bg-white hover:bg-muted transition-colors whitespace-nowrap"
-              style={{ color: 'var(--text-primary)' }}
+              className={DASHBOARD_TOKENS.btnOutline}
             >
-              <PanelRightOpen className="w-4 h-4 text-primary" />
+              <PanelRightOpen className="w-3.5 h-3.5 text-[#1677F9]" />
               Tampilkan Daftar Modul
             </button>
           </div>
@@ -310,7 +307,7 @@ export function LearningPage() {
           )}
 
           {/* Action Bar: Prev/Next + Tandai Selesai + Quiz (khusus video, terkunci sebelum selesai) */}
-          <div className="bg-card rounded-2xl border border-border p-4 space-y-3">
+          <div className={`${DASHBOARD_TOKENS.card} p-4 space-y-3`}>
             <div className="flex flex-wrap items-center justify-between gap-2.5">
               <div className="flex flex-wrap items-center gap-2 min-w-0">
                 <button
@@ -319,10 +316,9 @@ export function LearningPage() {
                     prevMaterial && setActiveMaterialId(prevMaterial.id)
                   }
                   disabled={!prevMaterial}
-                  className="inline-flex items-center gap-1.5 py-2.5 px-3.5 rounded-xl text-sm font-semibold border border-border bg-white hover:bg-muted transition-colors disabled:opacity-40 disabled:cursor-not-allowed whitespace-nowrap"
-                  style={{ color: 'var(--text-primary)' }}
+                  className={DASHBOARD_TOKENS.btnOutline}
                 >
-                  <ArrowLeft className="w-4 h-4" /> Sebelumnya
+                  <ArrowLeft className="w-3.5 h-3.5" /> Sebelumnya
                 </button>
                 <button
                   type="button"
@@ -330,10 +326,9 @@ export function LearningPage() {
                     nextMaterial && setActiveMaterialId(nextMaterial.id)
                   }
                   disabled={!nextMaterial}
-                  className="inline-flex items-center gap-1.5 py-2.5 px-3.5 rounded-xl text-sm font-semibold border border-border bg-white hover:bg-muted transition-colors disabled:opacity-40 disabled:cursor-not-allowed whitespace-nowrap"
-                  style={{ color: 'var(--text-primary)' }}
+                  className={DASHBOARD_TOKENS.btnOutline}
                 >
-                  Selanjutnya <ArrowRight className="w-4 h-4" />
+                  Selanjutnya <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
 
@@ -343,18 +338,13 @@ export function LearningPage() {
                     type="button"
                     onClick={handleMarkCompleted}
                     disabled={!activeMaterial || isCompleted}
-                    className="inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-sm font-bold transition-colors border border-border bg-white hover:bg-muted disabled:opacity-80 whitespace-nowrap"
-                    style={
+                    className={
                       isCompleted
-                        ? {
-                            backgroundColor: 'var(--success-light)',
-                            color: 'var(--success)',
-                            borderColor: 'var(--success)',
-                          }
-                        : { color: 'var(--text-primary)' }
+                        ? `${DASHBOARD_TOKENS.btnSuccessPill} disabled:opacity-90`
+                        : DASHBOARD_TOKENS.btnOutline
                     }
                   >
-                    <CheckCircle className="w-4 h-4 shrink-0" />
+                    <CheckCircle className="w-3.5 h-3.5 shrink-0" />
                     {isCompleted ? 'Sudah Selesai' : 'Tandai Selesai'}
                   </button>
 
@@ -377,20 +367,16 @@ export function LearningPage() {
                                   : 'menonton video'
                               } terlebih dahulu untuk membuka quiz`
                         }
-                        className="inline-flex items-center justify-center gap-2 py-2.5 px-5 rounded-xl text-sm font-bold transition-opacity hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
-                        style={{
-                          backgroundColor: isCompleted
-                            ? 'var(--primary)'
-                            : 'var(--muted)',
-                          color: isCompleted
-                            ? 'var(--primary-foreground)'
-                            : 'var(--text-secondary)',
-                        }}
+                        className={
+                          isCompleted
+                            ? DASHBOARD_TOKENS.btnPrimary
+                            : 'h-9 px-4 rounded-xl bg-[#F3F6FB] text-[#667085] text-xs font-semibold inline-flex items-center justify-center gap-1.5 border border-[#E7ECF3] disabled:opacity-70 disabled:cursor-not-allowed whitespace-nowrap'
+                        }
                       >
                         {isCompleted ? (
-                          <ClipboardCheck className="w-4 h-4 shrink-0" />
+                          <ClipboardCheck className="w-3.5 h-3.5 shrink-0" />
                         ) : (
-                          <Lock className="w-4 h-4 shrink-0" />
+                          <Lock className="w-3.5 h-3.5 shrink-0" />
                         )}
                         {activeVideoQuizResult?.passed
                           ? `Ulangi Quiz (Lulus ${activeVideoQuizResult.score}/${activeVideoQuizResult.total})`
@@ -406,13 +392,10 @@ export function LearningPage() {
             {(activeMaterial?.type === 'video' ||
               activeMaterial?.type === 'pdf') &&
               !isCompleted && (
-                <p
-                  className="text-xs flex items-start sm:items-center gap-1.5 pt-2 border-t border-border/60"
-                  style={{ color: 'var(--text-secondary)' }}
-                >
-                  <Lock className="w-3.5 h-3.5 text-warning shrink-0 mt-0.5 sm:mt-0" />
+                <p className="text-xs font-normal text-[#667085] flex items-start sm:items-center gap-1.5 pt-2.5 border-t border-[#E7ECF3]">
+                  <Lock className="w-3.5 h-3.5 text-[#B45309] shrink-0 mt-0.5 sm:mt-0" />
                   <span>
-                    Quiz terkunci. Klik <strong>Tandai Selesai</strong> setelah{' '}
+                    Quiz terkunci. Klik <strong className="font-semibold text-[#171C2B]">Tandai Selesai</strong> setelah{' '}
                     {activeMaterial.type === 'pdf'
                       ? 'membaca dokumen'
                       : 'selesai menonton video'}{' '}
@@ -443,20 +426,17 @@ export function LearningPage() {
 
       {/* Sidebar Kanan: Info Materi + Daftar Modul Simpel (Split Sidebar, Dapat Disembunyikan) */}
       {showModuleList && (
-        <aside className="w-full lg:w-80 2xl:w-96 shrink-0 border-t lg:border-t-0 lg:border-l border-border bg-white lg:sticky lg:top-14 lg:h-[calc(100vh-3.5rem)] flex flex-col">
-          <div className="p-4 border-b border-border space-y-2.5 shrink-0 bg-white">
+        <aside className="w-full lg:w-80 2xl:w-96 shrink-0 border-t lg:border-t-0 lg:border-l border-[#E7ECF3] bg-white lg:sticky lg:top-14 lg:h-[calc(100vh-3.5rem)] flex flex-col">
+          <div className="p-4 border-b border-[#E7ECF3] space-y-2.5 shrink-0 bg-white">
             <div className="flex items-start justify-between gap-2">
               <div className="min-w-0">
-                <p className="text-[11px] font-semibold uppercase tracking-wider text-primary truncate">
+                <p className={`${DASHBOARD_TOKENS.sectionLabel} truncate`}>
                   {activeSchemeInfo?.name ?? 'Full Stack Web Development'} •{' '}
                   {activeSchemeId === 'data-science'
                     ? 'Kurikulum Data Science'
                     : 'HTML & CSS Fundamentals'}
                 </p>
-                <h1
-                  className="text-base font-bold mt-0.5 leading-snug"
-                  style={{ color: 'var(--text-primary)' }}
-                >
+                <h1 className="text-base font-semibold text-[#171C2B] tracking-tight mt-0.5 leading-snug">
                   {activeMaterial?.name || 'Materi Pembelajaran'}
                 </h1>
               </div>
@@ -467,32 +447,32 @@ export function LearningPage() {
                 aria-expanded={true}
                 aria-label="Sembunyikan Daftar Modul"
                 title="Sembunyikan Daftar Modul"
-                className="shrink-0 p-1.5 rounded-lg border border-border bg-white text-slate-600 hover:bg-muted transition-colors"
+                className="shrink-0 w-7 h-7 rounded-lg border border-[#E7ECF3] bg-white text-[#667085] hover:bg-[#F3F6FB] flex items-center justify-center transition-colors"
               >
-                <PanelRightClose className="w-4 h-4 text-primary" />
+                <PanelRightClose className="w-4 h-4 text-[#1677F9]" />
               </button>
             </div>
 
             <div className="space-y-1.5">
               <div className="flex items-center justify-between text-xs gap-2">
-                <span className="font-semibold text-slate-500">
+                <span className="font-semibold text-[#667085]">
                   Daftar Modul
                 </span>
-                <span className="text-slate-600 font-medium">
+                <span className="text-[#667085] font-normal tabular-nums">
                   {completedCount} dari {totalMaterials} selesai •{' '}
-                  <strong className="text-primary">{progressPercentage}%</strong>
+                  <strong className="font-semibold text-[#1677F9]">{progressPercentage}%</strong>
                 </span>
               </div>
-              <div className="w-full h-1.5 bg-muted rounded-full overflow-hidden">
+              <div className="w-full h-1.5 bg-[#E7ECF3] rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-primary rounded-full transition-all duration-300"
+                  className={DASHBOARD_TOKENS.progressFillBlue}
                   style={{ width: `${progressPercentage}%` }}
                 />
               </div>
             </div>
           </div>
 
-          <div className="flex-1 overflow-y-auto divide-y divide-border/70">
+          <div className="flex-1 overflow-y-auto divide-y divide-[#E7ECF3]">
             {learningPath.map((section, index) => {
               const sectionDoneCount = section.modules.filter((m) =>
                 isItemCompleted(m.id)
@@ -510,22 +490,19 @@ export function LearningPage() {
                       }))
                     }
                     aria-expanded={isSectionOpen}
-                    className="w-full px-4 py-2.5 bg-slate-50/90 hover:bg-slate-100/80 flex items-center justify-between gap-2 text-left transition-colors"
+                    className="w-full px-4 py-2.5 bg-[#F9FBFE] hover:bg-[#F3F6FB] flex items-center justify-between gap-2 text-left transition-colors"
                   >
-                    <span
-                      className="text-xs font-bold truncate"
-                      style={{ color: 'var(--text-primary)' }}
-                    >
+                    <span className="text-xs font-semibold text-[#171C2B] truncate">
                       {index + 1}. {section.title}
                     </span>
                     <span className="inline-flex items-center gap-1.5 shrink-0">
                       {section.modules.length > 0 && (
-                        <span className="text-[11px] font-semibold text-primary">
+                        <span className="text-[11px] font-semibold text-[#1677F9] tabular-nums">
                           {sectionDoneCount}/{section.modules.length}
                         </span>
                       )}
                       <ChevronDown
-                        className={`w-3.5 h-3.5 text-slate-400 transition-transform ${
+                        className={`w-3.5 h-3.5 text-[#98A2B3] transition-transform ${
                           isSectionOpen ? 'rotate-180' : ''
                         }`}
                       />
@@ -534,14 +511,11 @@ export function LearningPage() {
 
                   {isSectionOpen && (
                     section.modules.length === 0 ? (
-                      <div
-                        className="px-4 py-3 text-xs"
-                        style={{ color: 'var(--text-secondary)' }}
-                      >
+                      <div className="px-4 py-3 text-xs font-normal text-[#667085]">
                         Belum ada materi pada modul ini.
                       </div>
                     ) : (
-                      <div className="divide-y divide-slate-100">
+                      <div className="divide-y divide-[#EFF3F8]">
                         {section.modules.map((material) => {
                           const isActive = activeMaterial?.id === material.id;
                           const materialDone =
@@ -557,23 +531,23 @@ export function LearningPage() {
                               type="button"
                               key={material.id}
                               onClick={() => setActiveMaterialId(material.id)}
-                              className={`w-full text-left px-4 py-2.5 flex items-start gap-2.5 transition-colors hover:bg-slate-50 ${
+                              className={`w-full text-left px-4 py-2.5 flex items-start gap-2.5 transition-colors hover:bg-[#F9FBFE] ${
                                 isActive
-                                  ? 'bg-primary/10 border-l-[3px] border-primary'
+                                  ? 'bg-[#EAF3FF]/70 border-l-[3px] border-[#1677F9]'
                                   : ''
                               }`}
                             >
                               <div className="mt-0.5 shrink-0">
                                 {materialDone ? (
-                                  <CheckCircle className="w-4 h-4 text-success" />
+                                  <CheckCircle className="w-4 h-4 text-[#16A34A]" />
                                 ) : material.status === 'locked' ? (
-                                  <Lock className="w-4 h-4 text-muted-foreground" />
+                                  <Lock className="w-4 h-4 text-[#98A2B3]" />
                                 ) : material.type === 'task' ? (
-                                  <FileCheck2 className="w-4 h-4 text-primary" />
+                                  <FileCheck2 className="w-4 h-4 text-[#1677F9]" />
                                 ) : material.type === 'pdf' ? (
-                                  <FileText className="w-4 h-4 text-primary" />
+                                  <FileText className="w-4 h-4 text-[#1677F9]" />
                                 ) : (
-                                  <PlayCircle className="w-4 h-4 text-primary" />
+                                  <PlayCircle className="w-4 h-4 text-[#1677F9]" />
                                 )}
                               </div>
 
@@ -581,22 +555,15 @@ export function LearningPage() {
                                 <p
                                   className={`text-[13px] leading-snug ${
                                     isActive
-                                      ? 'text-primary font-semibold'
-                                      : 'font-medium'
+                                      ? 'text-[#1677F9] font-semibold'
+                                      : 'text-[#171C2B] font-medium'
                                   }`}
-                                  style={
-                                    isActive
-                                      ? undefined
-                                      : { color: 'var(--text-primary)' }
-                                  }
                                 >
                                   {material.name}
                                 </p>
 
                                 <div className="flex flex-wrap items-center gap-1.5 mt-0.5 text-[11px]">
-                                  <span
-                                    style={{ color: 'var(--text-secondary)' }}
-                                  >
+                                  <span className="font-normal text-[#667085]">
                                     {material.type === 'task'
                                       ? `Tugas • ${material.duration ?? '45 min'}`
                                       : `${material.type.toUpperCase()} • ${
@@ -610,19 +577,18 @@ export function LearningPage() {
                                   {(material.type === 'video' ||
                                     material.type === 'pdf') &&
                                     !quizInfo && (
-                                      <span className="text-slate-500">
+                                      <span className="text-[#667085]">
                                         • Ada Quiz
                                       </span>
                                     )}
 
                                   {quizInfo && (
                                     <span
-                                      className="font-semibold"
-                                      style={{
-                                        color: quizInfo.passed
-                                          ? 'var(--success)'
-                                          : 'var(--warning)',
-                                      }}
+                                      className={`font-semibold ${
+                                        quizInfo.passed
+                                          ? 'text-[#16A34A]'
+                                          : 'text-[#B45309]'
+                                      }`}
                                     >
                                       •{' '}
                                       {quizInfo.passed
@@ -632,7 +598,7 @@ export function LearningPage() {
                                   )}
 
                                   {hasTask && (
-                                    <span className="font-semibold text-primary">
+                                    <span className="font-semibold text-[#1677F9]">
                                       • Terkumpul
                                     </span>
                                   )}

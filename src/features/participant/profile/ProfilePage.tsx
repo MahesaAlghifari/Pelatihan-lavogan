@@ -22,6 +22,7 @@ import { toast } from 'sonner';
 import { schemes } from '@/data/datadummy';
 import { useAuth } from '@/features/auth/hooks/useAuth';
 import { useSchemeEnrollment } from '@/features/participant/schemes/schemeEnrollmentStorage';
+import { DASHBOARD_TOKENS } from '@/features/participant/shared/dashboardTokens';
 import {
   KeahlianSection,
   PekerjaanSection,
@@ -251,11 +252,20 @@ export function ProfilePage() {
     activeTab === 'all' || activeTab === section;
 
   return (
-    <div className="w-full space-y-5">
+    <div className="w-full space-y-4">
       {/* Header Profil & Tombol Khusus Edit */}
-      <div className="bg-card rounded-2xl border border-border overflow-hidden">
-        <div className="h-24 bg-gradient-to-r from-blue-600 to-teal-500" />
-        <div className="px-5 sm:px-7 pb-6">
+      <div className={`${DASHBOARD_TOKENS.card} overflow-hidden`}>
+        <div className="h-24 bg-gradient-to-br from-[#156EF5] via-[#2180FA] to-[#4CA3F7] relative overflow-hidden">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute -right-8 -top-8 w-40 h-40 rounded-full bg-white/[0.08]"
+          />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute right-20 -bottom-10 w-28 h-28 rounded-full bg-white/[0.06]"
+          />
+        </div>
+        <div className="px-5 sm:px-6 pb-5 sm:pb-6">
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
             <div className="flex flex-col sm:flex-row sm:items-end gap-4 min-w-0">
               <div className="relative -mt-12 shrink-0 self-start">
@@ -263,10 +273,10 @@ export function ProfilePage() {
                   <img
                     src={displayData.avatarUrl}
                     alt={displayData.name || 'Foto profil'}
-                    className="w-24 h-24 rounded-full border-4 border-card object-cover bg-muted shadow-xs"
+                    className="w-24 h-24 rounded-full border-4 border-white object-cover bg-[#F3F6FB] shadow-xs"
                   />
                 ) : (
-                  <div className="w-24 h-24 rounded-full border-4 border-card flex items-center justify-center text-2xl font-bold bg-primary/10 text-primary shadow-xs">
+                  <div className="w-24 h-24 rounded-full border-4 border-white flex items-center justify-center text-2xl font-bold bg-[#EAF3FF] text-[#1677F9] shadow-xs">
                     {initials}
                   </div>
                 )}
@@ -286,7 +296,7 @@ export function ProfilePage() {
                       aria-label="Ubah foto profil"
                       title="Ubah foto profil"
                       onClick={() => fileInputRef.current?.click()}
-                      className="absolute bottom-0.5 right-0.5 p-2 rounded-full bg-primary text-white shadow-md hover:opacity-90 transition-opacity"
+                      className="absolute bottom-0.5 right-0.5 p-2 rounded-full bg-[#1677F9] hover:bg-[#1262D4] text-white shadow-sm transition-colors"
                     >
                       <Camera className="w-3.5 h-3.5" />
                     </button>
@@ -296,40 +306,31 @@ export function ProfilePage() {
 
               <div className="space-y-1 min-w-0">
                 <div className="flex flex-wrap items-center gap-2">
-                  <h1
-                    className="text-xl sm:text-2xl font-bold truncate"
-                    style={{ color: 'var(--text-primary)' }}
-                  >
+                  <h1 className={`${DASHBOARD_TOKENS.pageTitle} truncate`}>
                     {displayData.name}
                   </h1>
                   {isEditing && (
-                    <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-50 text-amber-700 border border-amber-200">
+                    <span className={DASHBOARD_TOKENS.badgeWarning}>
                       Mode Edit
                     </span>
                   )}
                 </div>
 
-                <p
-                  className="text-xs sm:text-sm font-medium"
-                  style={{ color: 'var(--text-secondary)' }}
-                >
+                <p className="text-xs sm:text-sm font-medium text-[#667085]">
                   Peserta • {activeSchemeName}
                 </p>
 
-                <div
-                  className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs pt-0.5"
-                  style={{ color: 'var(--text-secondary)' }}
-                >
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs font-normal text-[#667085] pt-0.5">
                   <span className="inline-flex items-center gap-1">
-                    <Mail className="w-3.5 h-3.5 text-primary" />
+                    <Mail className="w-3.5 h-3.5 text-[#1677F9]" />
                     {displayData.email}
                   </span>
                   <span className="inline-flex items-center gap-1">
-                    <Phone className="w-3.5 h-3.5 text-primary" />
+                    <Phone className="w-3.5 h-3.5 text-[#1677F9]" />
                     {displayData.nomor_telepon || displayData.phone || '-'}
                   </span>
                   <span className="inline-flex items-center gap-1">
-                    <MapPin className="w-3.5 h-3.5 text-primary" />
+                    <MapPin className="w-3.5 h-3.5 text-[#1677F9]" />
                     {displayData.domisili || '-'}
                   </span>
                 </div>
@@ -343,7 +344,7 @@ export function ProfilePage() {
                   onClick={() =>
                     setFormData((prev) => ({ ...prev, avatarUrl: undefined }))
                   }
-                  className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold text-red-600 border border-red-200 bg-white hover:bg-red-50 transition-colors"
+                  className="h-9 px-3.5 rounded-xl text-xs font-semibold text-[#DC2626] border border-[#FECACA] bg-white hover:bg-[#FEF2F2] inline-flex items-center gap-1.5 transition-colors"
                 >
                   <Trash2 className="w-3.5 h-3.5" /> Hapus Foto
                 </button>
@@ -353,13 +354,9 @@ export function ProfilePage() {
                 <button
                   type="button"
                   onClick={handleEnterEdit}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold transition-opacity hover:opacity-90"
-                  style={{
-                    backgroundColor: 'var(--primary)',
-                    color: 'var(--primary-foreground)',
-                  }}
+                  className={DASHBOARD_TOKENS.btnPrimary}
                 >
-                  <Pencil className="w-4 h-4" />
+                  <Pencil className="w-3.5 h-3.5" />
                   Edit Profil
                 </button>
               ) : (
@@ -367,23 +364,18 @@ export function ProfilePage() {
                   <button
                     type="button"
                     onClick={handleCancelEdit}
-                    className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-semibold border border-border bg-white hover:bg-muted transition-colors"
-                    style={{ color: 'var(--text-primary)' }}
+                    className={DASHBOARD_TOKENS.btnOutline}
                   >
-                    <RotateCcw className="w-4 h-4" />
+                    <RotateCcw className="w-3.5 h-3.5" />
                     Batal
                   </button>
                   <button
                     type="submit"
                     form="participant-profile-form"
                     disabled={isSaving}
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold transition-opacity hover:opacity-90 disabled:opacity-50"
-                    style={{
-                      backgroundColor: 'var(--primary)',
-                      color: 'var(--primary-foreground)',
-                    }}
+                    className={DASHBOARD_TOKENS.btnPrimary}
                   >
-                    <Save className="w-4 h-4" />
+                    <Save className="w-3.5 h-3.5" />
                     {isSaving ? 'Menyimpan...' : 'Simpan Perubahan'}
                   </button>
                 </>
@@ -409,20 +401,20 @@ export function ProfilePage() {
               role="tab"
               aria-selected={isActive}
               onClick={() => setActiveTab(tab.key)}
-              className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold border transition-colors ${
+              className={`h-9 inline-flex items-center gap-1.5 px-3.5 rounded-xl text-xs font-semibold border transition-colors ${
                 isActive
-                  ? 'bg-primary text-white border-primary shadow-xs'
-                  : 'bg-white text-slate-600 border-border hover:bg-muted/60 hover:text-slate-900'
+                  ? 'bg-[#1677F9] text-white border-[#1677F9] shadow-xs'
+                  : 'bg-white text-[#667085] border-[#E7ECF3] hover:bg-[#F3F6FB] hover:text-[#171C2B]'
               }`}
             >
               <Icon className="w-3.5 h-3.5" />
               <span>{tab.label}</span>
               {tab.count !== undefined && (
                 <span
-                  className={`px-1.5 py-0.2 rounded-full text-[11px] font-bold ${
+                  className={`px-1.5 py-0.2 rounded-full text-[11px] font-semibold tabular-nums ${
                     isActive
                       ? 'bg-white/20 text-white'
-                      : 'bg-muted text-slate-600'
+                      : 'bg-[#F3F6FB] text-[#667085]'
                   }`}
                 >
                   {tab.count}
@@ -437,27 +429,21 @@ export function ProfilePage() {
         id="participant-profile-form"
         onSubmit={handleSubmit}
         noValidate
-        className="space-y-5"
+        className="space-y-4"
       >
         {/* 1. Informasi Dasar */}
         {showSection('basic') && (
-          <section className="bg-card rounded-2xl border border-border p-5 sm:p-6 space-y-5">
-            <div className="flex items-center justify-between gap-3 border-b border-border/80 pb-4">
+          <section className={`${DASHBOARD_TOKENS.card} p-5 sm:p-6 space-y-5`}>
+            <div className="flex items-center justify-between gap-3 border-b border-[#E7ECF3] pb-4">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                <div className={DASHBOARD_TOKENS.iconBox}>
                   <User className="w-4 h-4" />
                 </div>
                 <div>
-                  <h2
-                    className="text-base font-bold"
-                    style={{ color: 'var(--text-primary)' }}
-                  >
+                  <h2 className={DASHBOARD_TOKENS.cardTitle}>
                     Informasi Dasar
                   </h2>
-                  <p
-                    className="text-xs"
-                    style={{ color: 'var(--text-secondary)' }}
-                  >
+                  <p className="text-xs font-normal text-[#667085]">
                     Identitas pribadi, kontak utama, dan data domisili peserta.
                   </p>
                 </div>
@@ -467,66 +453,66 @@ export function ProfilePage() {
             {!isEditing ? (
               <dl className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-4">
                 <div>
-                  <dt className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+                  <dt className={DASHBOARD_TOKENS.mutedMetaLabel}>
                     Nama Lengkap
                   </dt>
-                  <dd className="text-sm font-semibold text-slate-900 mt-0.5">
+                  <dd className="text-sm font-semibold text-[#171C2B] mt-0.5">
                     {displayData.name || '-'}
                   </dd>
                 </div>
                 <div>
-                  <dt className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+                  <dt className={DASHBOARD_TOKENS.mutedMetaLabel}>
                     Alamat Email
                   </dt>
-                  <dd className="text-sm font-semibold text-slate-900 mt-0.5 break-all">
+                  <dd className="text-sm font-semibold text-[#171C2B] mt-0.5 break-all">
                     {displayData.email || '-'}
                   </dd>
                 </div>
                 <div>
-                  <dt className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+                  <dt className={DASHBOARD_TOKENS.mutedMetaLabel}>
                     Nomor Telepon
                   </dt>
-                  <dd className="text-sm font-semibold text-slate-900 mt-0.5">
+                  <dd className="text-sm font-semibold text-[#171C2B] mt-0.5">
                     {displayData.nomor_telepon || displayData.phone || '-'}
                   </dd>
                 </div>
                 <div>
-                  <dt className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+                  <dt className={DASHBOARD_TOKENS.mutedMetaLabel}>
                     Jenis Kelamin
                   </dt>
-                  <dd className="text-sm font-semibold text-slate-900 mt-0.5">
+                  <dd className="text-sm font-semibold text-[#171C2B] mt-0.5">
                     {displayData.jenis_kelamin || '-'}
                   </dd>
                 </div>
                 <div>
-                  <dt className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+                  <dt className={DASHBOARD_TOKENS.mutedMetaLabel}>
                     Tempat Lahir
                   </dt>
-                  <dd className="text-sm font-semibold text-slate-900 mt-0.5">
+                  <dd className="text-sm font-semibold text-[#171C2B] mt-0.5">
                     {displayData.tempat_lahir || '-'}
                   </dd>
                 </div>
                 <div>
-                  <dt className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+                  <dt className={DASHBOARD_TOKENS.mutedMetaLabel}>
                     Tanggal Lahir
                   </dt>
-                  <dd className="text-sm font-semibold text-slate-900 mt-0.5">
+                  <dd className="text-sm font-semibold text-[#171C2B] mt-0.5">
                     {formatBirthDate(displayData.tanggal_lahir)}
                   </dd>
                 </div>
                 <div>
-                  <dt className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+                  <dt className={DASHBOARD_TOKENS.mutedMetaLabel}>
                     Domisili
                   </dt>
-                  <dd className="text-sm font-semibold text-slate-900 mt-0.5">
+                  <dd className="text-sm font-semibold text-[#171C2B] mt-0.5">
                     {displayData.domisili || '-'}
                   </dd>
                 </div>
                 <div>
-                  <dt className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+                  <dt className={DASHBOARD_TOKENS.mutedMetaLabel}>
                     Program Pelatihan Aktif
                   </dt>
-                  <dd className="text-sm font-semibold text-primary mt-0.5">
+                  <dd className="text-sm font-semibold text-[#1677F9] mt-0.5">
                     {activeSchemeName}
                   </dd>
                 </div>
@@ -536,13 +522,12 @@ export function ProfilePage() {
                 <div>
                   <label
                     htmlFor="profile-name"
-                    className="block text-sm font-medium mb-1.5"
-                    style={{ color: 'var(--text-primary)' }}
+                    className="block text-xs font-semibold text-[#171C2B] mb-1.5"
                   >
                     Nama Lengkap
                   </label>
                   <div className="relative">
-                    <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                    <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#98A2B3]" />
                     <input
                       id="profile-name"
                       name="name"
@@ -555,14 +540,13 @@ export function ProfilePage() {
                         if (errors.name)
                           setErrors((prev) => ({ ...prev, name: undefined }));
                       }}
-                      className={`w-full pl-10 pr-4 py-2.5 rounded-xl border bg-white text-sm focus:ring-2 focus:ring-primary/40 focus:outline-none ${
-                        errors.name ? 'border-red-500' : 'border-border'
+                      className={`${DASHBOARD_TOKENS.inputWithIcon} ${
+                        errors.name ? 'border-[#DC2626] focus:border-[#DC2626] focus:ring-[#DC2626]/20' : ''
                       }`}
-                      style={{ color: 'var(--text-primary)' }}
                     />
                   </div>
                   {errors.name && (
-                    <p className="mt-1.5 text-xs font-medium text-red-600">
+                    <p className="mt-1.5 text-xs font-medium text-[#DC2626]">
                       {errors.name}
                     </p>
                   )}
@@ -571,13 +555,12 @@ export function ProfilePage() {
                 <div>
                   <label
                     htmlFor="profile-email"
-                    className="block text-sm font-medium mb-1.5"
-                    style={{ color: 'var(--text-primary)' }}
+                    className="block text-xs font-semibold text-[#171C2B] mb-1.5"
                   >
                     Alamat Email
                   </label>
                   <div className="relative">
-                    <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                    <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#98A2B3]" />
                     <input
                       id="profile-email"
                       name="email"
@@ -590,14 +573,13 @@ export function ProfilePage() {
                         if (errors.email)
                           setErrors((prev) => ({ ...prev, email: undefined }));
                       }}
-                      className={`w-full pl-10 pr-4 py-2.5 rounded-xl border bg-white text-sm focus:ring-2 focus:ring-primary/40 focus:outline-none ${
-                        errors.email ? 'border-red-500' : 'border-border'
+                      className={`${DASHBOARD_TOKENS.inputWithIcon} ${
+                        errors.email ? 'border-[#DC2626] focus:border-[#DC2626] focus:ring-[#DC2626]/20' : ''
                       }`}
-                      style={{ color: 'var(--text-primary)' }}
                     />
                   </div>
                   {errors.email && (
-                    <p className="mt-1.5 text-xs font-medium text-red-600">
+                    <p className="mt-1.5 text-xs font-medium text-[#DC2626]">
                       {errors.email}
                     </p>
                   )}
@@ -606,13 +588,12 @@ export function ProfilePage() {
                 <div>
                   <label
                     htmlFor="profile-nomor-telepon"
-                    className="block text-sm font-medium mb-1.5"
-                    style={{ color: 'var(--text-primary)' }}
+                    className="block text-xs font-semibold text-[#171C2B] mb-1.5"
                   >
                     Nomor Telepon
                   </label>
                   <div className="relative">
-                    <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                    <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#98A2B3]" />
                     <input
                       id="profile-nomor-telepon"
                       name="nomor_telepon"
@@ -632,14 +613,13 @@ export function ProfilePage() {
                             nomor_telepon: undefined,
                           }));
                       }}
-                      className={`w-full pl-10 pr-4 py-2.5 rounded-xl border bg-white text-sm focus:ring-2 focus:ring-primary/40 focus:outline-none ${
-                        errors.nomor_telepon ? 'border-red-500' : 'border-border'
+                      className={`${DASHBOARD_TOKENS.inputWithIcon} ${
+                        errors.nomor_telepon ? 'border-[#DC2626] focus:border-[#DC2626] focus:ring-[#DC2626]/20' : ''
                       }`}
-                      style={{ color: 'var(--text-primary)' }}
                     />
                   </div>
                   {errors.nomor_telepon && (
-                    <p className="mt-1.5 text-xs font-medium text-red-600">
+                    <p className="mt-1.5 text-xs font-medium text-[#DC2626]">
                       {errors.nomor_telepon}
                     </p>
                   )}
@@ -648,13 +628,12 @@ export function ProfilePage() {
                 <div>
                   <label
                     htmlFor="profile-tempat-lahir"
-                    className="block text-sm font-medium mb-1.5"
-                    style={{ color: 'var(--text-primary)' }}
+                    className="block text-xs font-semibold text-[#171C2B] mb-1.5"
                   >
                     Tempat Lahir
                   </label>
                   <div className="relative">
-                    <MapPin className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                    <MapPin className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#98A2B3]" />
                     <input
                       id="profile-tempat-lahir"
                       name="tempat_lahir"
@@ -664,8 +643,7 @@ export function ProfilePage() {
                         setFormData({ ...formData, tempat_lahir: e.target.value })
                       }
                       placeholder="Kota kelahiran"
-                      className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-border bg-white text-sm focus:ring-2 focus:ring-primary/40 focus:outline-none"
-                      style={{ color: 'var(--text-primary)' }}
+                      className={DASHBOARD_TOKENS.inputWithIcon}
                     />
                   </div>
                 </div>
@@ -673,13 +651,12 @@ export function ProfilePage() {
                 <div>
                   <label
                     htmlFor="profile-tanggal-lahir"
-                    className="block text-sm font-medium mb-1.5"
-                    style={{ color: 'var(--text-primary)' }}
+                    className="block text-xs font-semibold text-[#171C2B] mb-1.5"
                   >
                     Tanggal Lahir
                   </label>
                   <div className="relative">
-                    <Calendar className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                    <Calendar className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#98A2B3]" />
                     <input
                       id="profile-tanggal-lahir"
                       name="tanggal_lahir"
@@ -691,8 +668,7 @@ export function ProfilePage() {
                           tanggal_lahir: e.target.value,
                         })
                       }
-                      className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-border bg-white text-sm focus:ring-2 focus:ring-primary/40 focus:outline-none"
-                      style={{ color: 'var(--text-primary)' }}
+                      className={DASHBOARD_TOKENS.inputWithIcon}
                     />
                   </div>
                 </div>
@@ -700,13 +676,12 @@ export function ProfilePage() {
                 <div>
                   <label
                     htmlFor="profile-jenis-kelamin"
-                    className="block text-sm font-medium mb-1.5"
-                    style={{ color: 'var(--text-primary)' }}
+                    className="block text-xs font-semibold text-[#171C2B] mb-1.5"
                   >
                     Jenis Kelamin
                   </label>
                   <div className="relative">
-                    <Users className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                    <Users className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#98A2B3]" />
                     <select
                       id="profile-jenis-kelamin"
                       name="jenis_kelamin"
@@ -717,8 +692,7 @@ export function ProfilePage() {
                           jenis_kelamin: e.target.value,
                         })
                       }
-                      className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-border bg-white text-sm focus:ring-2 focus:ring-primary/40 focus:outline-none"
-                      style={{ color: 'var(--text-primary)' }}
+                      className={DASHBOARD_TOKENS.inputWithIcon}
                     >
                       <option value="">Pilih jenis kelamin</option>
                       <option value="Laki-laki">Laki-laki</option>
@@ -730,13 +704,12 @@ export function ProfilePage() {
                 <div className="md:col-span-2">
                   <label
                     htmlFor="profile-domisili"
-                    className="block text-sm font-medium mb-1.5"
-                    style={{ color: 'var(--text-primary)' }}
+                    className="block text-xs font-semibold text-[#171C2B] mb-1.5"
                   >
                     Domisili
                   </label>
                   <div className="relative">
-                    <MapPin className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                    <MapPin className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#98A2B3]" />
                     <input
                       id="profile-domisili"
                       name="domisili"
@@ -746,8 +719,7 @@ export function ProfilePage() {
                         setFormData({ ...formData, domisili: e.target.value })
                       }
                       placeholder="Contoh: Jakarta Selatan, DKI Jakarta"
-                      className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-border bg-white text-sm focus:ring-2 focus:ring-primary/40 focus:outline-none"
-                      style={{ color: 'var(--text-primary)' }}
+                      className={DASHBOARD_TOKENS.inputWithIcon}
                     />
                   </div>
                 </div>
@@ -755,21 +727,19 @@ export function ProfilePage() {
                 <div>
                   <label
                     htmlFor="profile-scheme"
-                    className="block text-sm font-medium mb-1.5"
-                    style={{ color: 'var(--text-primary)' }}
+                    className="block text-xs font-semibold text-[#171C2B] mb-1.5"
                   >
                     Program Pelatihan Aktif
                   </label>
                   <div className="relative">
-                    <GraduationCap className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                    <GraduationCap className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#98A2B3]" />
                     <input
                       id="profile-scheme"
                       name="scheme"
                       type="text"
                       readOnly
                       value={activeSchemeName}
-                      className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-border bg-muted/60 text-sm cursor-not-allowed"
-                      style={{ color: 'var(--text-secondary)' }}
+                      className="w-full pl-10 pr-4 py-2 rounded-xl border border-[#E7ECF3] bg-[#F3F6FB] text-sm text-[#667085] cursor-not-allowed"
                     />
                   </div>
                 </div>
@@ -835,32 +805,27 @@ export function ProfilePage() {
 
         {/* Footer Simpan Perubahan (hanya tampil saat Mode Edit aktif) */}
         {isEditing && (
-          <div className="bg-card rounded-2xl border border-border p-4 sm:p-5 flex flex-wrap items-center justify-between gap-3">
-            <p className="text-xs sm:text-sm" style={{ color: 'var(--text-secondary)' }}>
+          <div className={`${DASHBOARD_TOKENS.card} p-4 sm:p-5 flex flex-wrap items-center justify-between gap-3`}>
+            <p className="text-xs sm:text-sm font-normal text-[#667085]">
               Klik Simpan Perubahan untuk menerapkan pembaruan profil Anda.
             </p>
 
-            <div className="flex flex-wrap items-center gap-3 ml-auto">
+            <div className="flex flex-wrap items-center gap-2.5 ml-auto">
               <button
                 type="button"
                 onClick={handleCancelEdit}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm border border-border bg-white hover:bg-muted transition-colors"
-                style={{ color: 'var(--text-primary)' }}
+                className={DASHBOARD_TOKENS.btnOutline}
               >
-                <RotateCcw className="w-4 h-4" />
+                <RotateCcw className="w-3.5 h-3.5" />
                 Batal
               </button>
 
               <button
                 type="submit"
                 disabled={isSaving}
-                className="flex items-center gap-2 px-6 py-2.5 rounded-xl font-bold text-sm transition-opacity hover:opacity-90 disabled:opacity-50"
-                style={{
-                  backgroundColor: 'var(--primary)',
-                  color: 'var(--primary-foreground)',
-                }}
+                className={DASHBOARD_TOKENS.btnPrimary}
               >
-                <Save className="w-4 h-4" />
+                <Save className="w-3.5 h-3.5" />
                 {isSaving ? 'Menyimpan...' : 'Simpan Perubahan'}
               </button>
             </div>
