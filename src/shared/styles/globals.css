@@ -1,0 +1,79 @@
+@import "./fonts.css";
+@import "./theme.css";
+
+/* =====================================================
+   LAVOGAN LMS DESIGN SYSTEM
+   ===================================================== */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family:
+      "Plus Jakarta Sans",
+      "Inter",
+      system-ui,
+      -apple-system,
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    color: var(--foreground);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  p {
+    color: var(--muted-foreground);
+  }
+}
+
+/* =====================================================
+   Scrollbar
+   ===================================================== */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(203 213 225);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(148 163 184);
+}
+
+/* =====================================================
+   Utility Custom Classes
+   ===================================================== */
+
+.lms-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 1.5rem;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+}
+
+.lms-shadow {
+  box-shadow: 0 10px 40px rgba(15, 23, 42, 0.06);
+}
+
+.lms-gradient {
+  background: linear-gradient(135deg, #2563eb, #60a5fa);
+}

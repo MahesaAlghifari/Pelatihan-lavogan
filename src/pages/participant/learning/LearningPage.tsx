@@ -1,0 +1,1 @@
+export { LearningPage, LearningPage as default } from "@/features/participant/learning/LearningPage";

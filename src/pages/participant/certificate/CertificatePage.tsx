@@ -1,0 +1,1 @@
+export { CertificatePage, CertificatePage as default } from "@/features/participant/certificates/CertificatePage";

@@ -1,0 +1,72 @@
+{
+  "compilerOptions": {
+    /* ==========================================================
+     * Language
+     * ========================================================== */
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "useDefineForClassFields": true,
+
+    /* ==========================================================
+     * Module
+     * ========================================================== */
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "moduleDetection": "force",
+    "allowImportingTsExtensions": false,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+
+    /* ==========================================================
+     * React
+     * ========================================================== */
+    "jsx": "react-jsx",
+
+    /* ==========================================================
+     * Type Checking
+     * ========================================================== */
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noUncheckedIndexedAccess": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+
+    /* ==========================================================
+     * Alias
+     * ========================================================== */
+    "paths": {
+      "@/*": ["./src/*"],
+      "@/app/*": ["./src/app/*"],
+      "@/shared/*": ["./src/shared/*"],
+      "@/entities/*": ["./src/entities/*"],
+      "@/features/*": ["./src/features/*"],
+      "@/widgets/*": ["./src/widgets/*"],
+      "@/pages/*": ["./src/pages/*"]
+    },
+
+    /* ==========================================================
+     * Global Types
+     * ========================================================== */
+    "types": [
+      "vite/client",
+      "vitest/globals",
+      "@testing-library/jest-dom"
+    ]
+  },
+
+  "include": [
+    "src",
+    "vite.config.ts",
+    "vitest.config.ts",
+    "eslint.config.js"
+  ],
+
+  "exclude": [
+    "node_modules",
+    "dist",
+    "coverage"
+  ]
+}

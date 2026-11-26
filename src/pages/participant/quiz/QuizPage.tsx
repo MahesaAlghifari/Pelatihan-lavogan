@@ -1,0 +1,1 @@
+export { QuizPage, QuizPage as default } from "@/features/participant/learning/QuizPage";

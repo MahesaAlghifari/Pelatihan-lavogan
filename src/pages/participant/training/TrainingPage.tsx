@@ -1,0 +1,1 @@
+export { TrainingInfoPage as TrainingPage, TrainingInfoPage as default } from "@/features/participant/training/TrainingInfoPage";

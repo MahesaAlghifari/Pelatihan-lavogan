@@ -1,0 +1,301 @@
+import { useEffect } from 'react';
+import { Award, CheckCircle2, Copy, Printer, ShieldCheck, X } from 'lucide-react';
+import { toast } from 'sonner';
+
+export interface CertificateItem {
+  id: string | number;
+  participantName: string;
+  scheme: string;
+  issueDate: string;
+  certificateNumber: string;
+  status: 'issued' | 'pending';
+  verificationCode?: string;
+}
+
+interface CertificatePreviewModalProps {
+  certificate: CertificateItem;
+  onClose: () => void;
+}
+
+export function printCertificatePdf(cert: CertificateItem) {
+  const verificationCode =
+    cert.verificationCode || `LVG-${cert.certificateNumber.replace(/[^A-Z0-9]/gi, '').slice(-8)}`;
+  const html = `<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sertifikat - ${cert.certificateNumber}</title>
+  <style>
+    @page { size: A4 landscape; margin: 12mm; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', 'Segoe UI', Arial, sans-serif;
+      background: #f8fafc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      color: #1f2937;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .cert {
+      width: 100%;
+      max-width: 1020px;
+      background: linear-gradient(135deg, #f0fdfa 0%, #ffffff 50%, #eff6ff 100%);
+      border: 6px solid #0ea5a4;
+      border-radius: 20px;
+      padding: 48px 56px;
+      position: relative;
+      text-align: center;
+    }
+    .inner-border {
+      border: 2px dashed rgba(14, 165, 164, 0.35);
+      border-radius: 12px;
+      padding: 36px 40px;
+    }
+    .brand { font-size: 14px; font-weight: 700; letter-spacing: 0.16em; color: #0ea5a4; text-transform: uppercase; }
+    h1 { font-size: 36px; margin-top: 10px; color: #0f172a; letter-spacing: -0.02em; }
+    .subtitle { font-size: 14px; color: #64748b; margin-top: 6px; }
+    .given { font-size: 13px; color: #64748b; margin-top: 28px; text-transform: uppercase; letter-spacing: 0.1em; }
+    .recipient { font-size: 40px; font-weight: 800; color: #0ea5a4; margin: 12px 0; }
+    .desc { font-size: 15px; color: #475569; max-width: 640px; margin: 0 auto; line-height: 1.6; }
+    .scheme { font-size: 22px; font-weight: 700; color: #0f172a; margin-top: 12px; }
+    .footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid #cbd5e1;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      text-align: left;
+      font-size: 12px;
+      color: #475569;
+    }
+    .sig { text-align: center; min-width: 180px; }
+    .sig-line { border-top: 1px solid #64748b; margin-top: 38px; padding-top: 6px; font-weight: 700; color: #0f172a; }
+    .meta strong { color: #0f172a; display: block; font-size: 13px; margin-top: 2px; }
+    @media print {
+      body { background: #fff; }
+      .cert { box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="cert">
+    <div class="inner-border">
+      <div class="brand">MagangHub • Portal Pelatihan Resmi</div>
+      <h1>SERTIFIKAT PELATIHAN</h1>
+      <p class="subtitle">Diterbitkan sebagai bukti kelulusan program pelatihan terstruktur</p>
+      <div class="given">Diberikan Kepada</div>
+      <div class="recipient">${cert.participantName}</div>
+      <p class="desc">Telah menyelesaikan seluruh materi pembelajaran, tugas praktik, serta lulus evaluasi akhir pada program pelatihan:</p>
+      <div class="scheme">${cert.scheme}</div>
+      <div class="footer">
+        <div class="meta">
+          <div>Nomor Sertifikat<strong>${cert.certificateNumber}</strong></div>
+          <div style="margin-top:8px;">Tanggal Terbit<strong>${cert.issueDate}</strong></div>
+        </div>
+        <div class="sig">
+          <div class="sig-line">Direktur Program MagangHub</div>
+          <div style="color:#64748b;margin-top:2px;">Portal Pelatihan Resmi</div>
+        </div>
+        <div class="meta" style="text-align:right;">
+          <div>Kode Verifikasi<strong>${verificationCode}</strong></div>
+          <div style="margin-top:8px;color:#059669;font-weight:700;">Status: Terverifikasi</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>window.onload = function() { window.print(); };</script>
+</body>
+</html>`;
+
+  const printWindow = window.open('', '_blank', 'width=1100,height=780');
+  if (!printWindow) {
+    toast.error('Pop-up diblokir browser. Izinkan pop-up untuk mengunduh/mencetak PDF.');
+    return;
+  }
+  printWindow.document.open();
+  printWindow.document.write(html);
+  printWindow.document.close();
+}
+
+export function CertificatePreviewModal({
+  certificate,
+  onClose,
+}: CertificatePreviewModalProps) {
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
+
+  const verificationCode =
+    certificate.verificationCode ||
+    `LVG-${certificate.certificateNumber.replace(/[^A-Z0-9]/gi, '').slice(-8)}`;
+
+  const handleCopyNumber = async () => {
+    try {
+      await navigator.clipboard.writeText(certificate.certificateNumber);
+      toast.success('Nomor sertifikat berhasil disalin.');
+    } catch {
+      toast.info(`Nomor sertifikat: ${certificate.certificateNumber}`);
+    }
+  };
+
+  return (
+    <div
+      className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
+      <div className="bg-white text-slate-900 rounded-2xl border border-border max-w-4xl w-full max-h-[92vh] overflow-y-auto shadow-2xl">
+        {/* Modal Header */}
+        <div className="sticky top-0 bg-white z-10 px-6 py-4 border-b border-border flex items-center justify-between gap-4">
+          <div className="flex items-center gap-2.5">
+            <ShieldCheck className="w-5 h-5 text-primary" />
+            <div>
+              <h3 className="font-bold text-base" style={{ color: 'var(--text-primary)' }}>
+                Pratinjau Sertifikat Pelatihan
+              </h3>
+              <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
+                No. {certificate.certificateNumber}
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={handleCopyNumber}
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold border border-border hover:bg-muted transition-colors"
+              style={{ color: 'var(--text-primary)' }}
+            >
+              <Copy className="w-3.5 h-3.5" /> Salin Nomor
+            </button>
+            <button
+              type="button"
+              onClick={() => printCertificatePdf(certificate)}
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold transition-opacity hover:opacity-90"
+              style={{
+                backgroundColor: 'var(--primary)',
+                color: 'var(--primary-foreground)',
+              }}
+            >
+              <Printer className="w-3.5 h-3.5" /> Cetak / Unduh PDF
+            </button>
+            <button
+              type="button"
+              aria-label="Tutup pratinjau"
+              onClick={onClose}
+              className="p-2 rounded-xl hover:bg-muted transition-colors"
+              style={{ color: 'var(--text-secondary)' }}
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+
+        {/* Certificate Canvas */}
+        <div className="p-6">
+          <div
+            className="bg-gradient-to-br from-teal-50 via-white to-blue-50 rounded-2xl border-4 p-8 sm:p-10 relative overflow-hidden"
+            style={{ borderColor: 'var(--primary)' }}
+          >
+            {/* Corner ornaments */}
+            <div className="absolute top-3 left-3 w-12 h-12 border-t-4 border-l-4 rounded-tl-xl" style={{ borderColor: 'var(--primary)' }} />
+            <div className="absolute top-3 right-3 w-12 h-12 border-t-4 border-r-4 rounded-tr-xl" style={{ borderColor: 'var(--primary)' }} />
+            <div className="absolute bottom-3 left-3 w-12 h-12 border-b-4 border-l-4 rounded-bl-xl" style={{ borderColor: 'var(--primary)' }} />
+            <div className="absolute bottom-3 right-3 w-12 h-12 border-b-4 border-r-4 rounded-br-xl" style={{ borderColor: 'var(--primary)' }} />
+
+            <div className="border border-dashed border-primary/30 rounded-xl p-6 sm:p-8 text-center space-y-5">
+              <div className="flex justify-center">
+                <div
+                  className="w-16 h-16 rounded-full flex items-center justify-center shadow-md"
+                  style={{ backgroundColor: 'var(--primary)' }}
+                >
+                  <Award className="w-9 h-9 text-white" />
+                </div>
+              </div>
+
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary">
+                  MagangHub • Portal Pelatihan Resmi
+                </p>
+                <h2 className="text-2xl sm:text-3xl font-extrabold mt-1" style={{ color: 'var(--text-primary)' }}>
+                  SERTIFIKAT PELATIHAN
+                </h2>
+                <p className="text-xs mt-1" style={{ color: 'var(--text-secondary)' }}>
+                  Diterbitkan sebagai bukti kelulusan program pelatihan terstruktur
+                </p>
+              </div>
+
+              <div className="py-3 space-y-2">
+                <p className="text-xs uppercase tracking-widest" style={{ color: 'var(--text-secondary)' }}>
+                  Diberikan Kepada
+                </p>
+                <p className="text-3xl sm:text-4xl font-extrabold text-primary">
+                  {certificate.participantName}
+                </p>
+                <p className="text-sm max-w-xl mx-auto pt-1" style={{ color: 'var(--text-secondary)' }}>
+                  Telah menyelesaikan seluruh materi pembelajaran, tugas praktik, dan lulus evaluasi akhir pada program:
+                </p>
+                <h3 className="text-lg sm:text-xl font-bold pt-1" style={{ color: 'var(--text-primary)' }}>
+                  {certificate.scheme}
+                </h3>
+              </div>
+
+              <div className="pt-5 border-t border-border grid grid-cols-1 sm:grid-cols-3 gap-6 text-left items-end">
+                <div className="text-xs space-y-2">
+                  <div>
+                    <span style={{ color: 'var(--text-secondary)' }}>Nomor Sertifikat</span>
+                    <p className="font-bold text-sm" style={{ color: 'var(--text-primary)' }}>
+                      {certificate.certificateNumber}
+                    </p>
+                  </div>
+                  <div>
+                    <span style={{ color: 'var(--text-secondary)' }}>Tanggal Terbit</span>
+                    <p className="font-semibold" style={{ color: 'var(--text-primary)' }}>
+                      {certificate.issueDate}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="text-center">
+                  <div className="h-10 flex items-center justify-center italic font-semibold text-primary/70 text-sm">
+                    MagangHub Official
+                  </div>
+                  <div className="border-t border-slate-400 pt-1.5">
+                    <p className="text-xs font-bold" style={{ color: 'var(--text-primary)' }}>
+                      Direktur Program MagangHub
+                    </p>
+                    <p className="text-[11px]" style={{ color: 'var(--text-secondary)' }}>
+                      Portal Pelatihan Resmi
+                    </p>
+                  </div>
+                </div>
+
+                <div className="text-xs sm:text-right space-y-2">
+                  <div>
+                    <span style={{ color: 'var(--text-secondary)' }}>Kode Verifikasi</span>
+                    <p className="font-mono font-bold text-sm" style={{ color: 'var(--text-primary)' }}>
+                      {verificationCode}
+                    </p>
+                  </div>
+                  <div className="inline-flex items-center gap-1 font-semibold text-success">
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    Terverifikasi Resmi
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
